@@ -50,13 +50,13 @@ export const metadata = {
   ],
   authors: [
     {
-      name: "saasfly",
+      name: "lazybrain80",
     },
   ],
-  creator: "Saasfly",
+  creator: "Lazybrain80",
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "ko_KR",
     url: siteConfig.url,
     title: siteConfig.name,
     description: siteConfig.description,

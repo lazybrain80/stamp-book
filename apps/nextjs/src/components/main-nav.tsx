@@ -39,7 +39,7 @@ export function MainNav({ items, children, params: { lang } }: MainNavProps) {
             alt=""
           />
         </div>
-        <div className="text-2xl font-semibold">Saasfly</div>
+        <div className="text-2xl font-semibold">SecureStamp</div>
       </Link>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
