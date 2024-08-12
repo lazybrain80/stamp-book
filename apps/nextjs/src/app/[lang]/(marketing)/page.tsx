@@ -9,8 +9,12 @@ import { WobbleCardShow } from "~/components/wobble";
 import { WordReveal } from "~/components/word-reveal";
 import type { Locale } from "~/config/i18n-config";
 import { getDictionary } from "~/lib/get-dictionary";
-import { Marketing1stShow } from "~/components/marketing/row-1st";
-import { Marketing2ndShow } from "~/components/marketing/row-2nd";
+import { 
+  Marketing1stShow, 
+  Marketing2ndShow,
+  Marketing3thShow,
+  Marketing4thShow
+} from "~/components/marketing";
 
 
 export default async function IndexPage({
@@ -25,7 +29,7 @@ export default async function IndexPage({
   return (
     <>
       <section className="w-full px-8 sm:px-48 md:px-48 xl:px-48">
-        <div className="grid grid-cols-1 gap-10 pb-10 xl:grid-cols-2">
+        <div className="grid grid-cols-1 gap-10 pb-20 xl:grid-cols-2">
           <div className="flex flex-col items-start">
             <div className="flex flex-col pt-4 md:pt-28 lg:pt-28 xl:pt-28">
               <Link href="https://document.saasfly.io" target="_blank">
@@ -83,6 +87,22 @@ export default async function IndexPage({
         <div className="flex h-full w-full justify-between">
           <div className="flex w-[100%] flex-col pb-20">
             <Marketing2ndShow />
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full px-8 sm:px-48 md:px-48 xl:px-48">
+        <div className="flex h-full w-full justify-between">
+          <div className="flex w-[100%] flex-col pb-20">
+            <Marketing3thShow />
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full px-8 sm:px-48 md:px-48 xl:px-48">
+        <div className="flex h-full w-full justify-between">
+          <div className="flex w-[100%] flex-col pb-20">
+            <Marketing4thShow />
           </div>
         </div>
       </section>

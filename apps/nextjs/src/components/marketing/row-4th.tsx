@@ -7,7 +7,7 @@ import { WobbleCard } from "@saasfly/ui/wobble-card";
 export default function MarketingShow() {
   return (
     <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-4 lg:grid-cols-3">
-      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-pink-800 min-h-[500px] lg:min-h-[600px] xl:min-h-[300px]">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-fuchsia-600 min-h-[500px] lg:min-h-[600px] xl:min-h-[300px]">
         <div className="absolute bottom-20 right-10 rounded-2xl object-contain max-w-sm">
           <h2 className="max-w-sm text-balance  text-right text-base font-semibold tracking-[-0.015em] text-white md:max-w-lg md:text-xl lg:text-3xl">
           디지털 워터마크
