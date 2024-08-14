@@ -28,12 +28,6 @@ export default async function IndexPage({
         <div className="grid grid-cols-1 gap-10 pb-20 xl:grid-cols-2">
           <div className="flex flex-col items-start">
             <div className="flex flex-col pt-4 md:pt-28 lg:pt-28 xl:pt-28">
-              <Link href="https://document.saasfly.io" target="_blank">
-                <DocumentGuide>
-                  {dict.marketing.introducing || "Introducing SecureStamp"}
-                </DocumentGuide>
-              </Link>
-
               <div className="mt-6">
                 <h1 className="relative mb-6 max-w-4xl text-left text-4xl font-bold dark:text-zinc-100 sm:text-7xl md:text-7xl xl:text-7xl">
                   {dict.marketing.title ||
