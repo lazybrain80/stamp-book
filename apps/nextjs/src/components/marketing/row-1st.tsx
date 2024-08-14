@@ -6,7 +6,7 @@ import { WobbleCard } from "@saasfly/ui/wobble-card";
 
 export default function MarketingShow() {
   return (
-    <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-4 lg:grid-cols-3">
+    <div className="mx-auto grid w-full grid-cols-1 gap-4 lg:grid-cols-3">
       <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-blue-900 min-h-[500px] lg:min-h-[600px] xl:min-h-[300px]">
         <div className="max-w-sm">
           <h2 className="max-w-sm text-balance  text-left text-base font-semibold tracking-[-0.015em] text-white md:max-w-lg md:text-xl lg:text-3xl">
