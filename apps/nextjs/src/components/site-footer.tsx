@@ -3,8 +3,6 @@ import Image from "next/image";
 
 import { cn } from "@saasfly/ui";
 
-import { ModeToggle } from "~/components/mode-toggle";
-
 function getCopyrightText(
   dict: Record<string, string | Record<string, string>>,
 ) {
