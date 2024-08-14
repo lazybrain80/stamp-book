@@ -1,12 +1,8 @@
 import Link from "next/link";
 import { XBlogArticle } from "~/components/blog-card";
-import { Comments } from "~/components/comments";
 import { DocumentGuide } from "~/components/document-guide";
-import { Questions } from "~/components/questions";
 import ShimmerButton from "~/components/shimmer-button";
 import { TypewriterEffectSmooths } from "~/components/typewriterEffectSmooth";
-import { WobbleCardShow } from "~/components/wobble";
-import { WordReveal } from "~/components/word-reveal";
 import type { Locale } from "~/config/i18n-config";
 import { getDictionary } from "~/lib/get-dictionary";
 import { 
