@@ -53,6 +53,10 @@
     "": ""
   },
   "common": {
+    "dragndrop": {
+      "title": "Drag and drop your files here",
+      "desc": "(or click to select)"
+    },
     "copyright": "版权所有 © ${currentYear} Nextify公司。保留所有权利。",
     "dashboard": {
       "main_nav_documentation": "文档",
@@ -61,8 +65,8 @@
       "sidebar_nav_clusters": "集群",
       "sidebar_nav_billing": "账单",
       "sidebar_nav_settings": "设置",
-      "title_text": "创建和管理集群。",
-      "": ""
+      "title": "Create Watermark",
+      "desc": "Put an invisible watermark on your images"
     }
   },
   "business": {

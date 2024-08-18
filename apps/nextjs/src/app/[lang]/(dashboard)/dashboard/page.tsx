@@ -1,7 +1,7 @@
 import { authOptions, getCurrentUser } from "@saasfly/auth";
 import { redirect } from "next/navigation";
 
-import { EmptyPlaceholder } from "~/components/empty-placeholder";
+import { DragAndDropBox } from "~/components/drag-n-drop-box";
 import { DashboardHeader } from "~/components/header";
 import { DashboardShell } from "~/components/shell";
 import type { Locale } from "~/config/i18n-config";
@@ -29,20 +29,20 @@ export default async function DashboardPage({
     return (
       <DashboardShell>
         <DashboardHeader
-          heading="kubernetes"
-          text={dict.common.dashboard.title_text}
+          heading={dict.common.dashboard.title}
+          text={dict.common.dashboard.desc}
         >
         </DashboardHeader>
-        <div>
-          <EmptyPlaceholder>
-            {/*<EmptyPlaceholder.Icon />*/}
-            <EmptyPlaceholder.Title>
-              {dict.business.billing.billing}
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              {dict.business.billing.billing}
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
+        <div className="flex justify-center mt-5">
+          <DragAndDropBox>
+            <DragAndDropBox.Icon name={"Add"}/>
+            <DragAndDropBox.Title>
+              {dict.common.dragndrop.title}
+            </DragAndDropBox.Title>
+            <DragAndDropBox.Description>
+              {dict.common.dragndrop.desc}
+            </DragAndDropBox.Description>
+          </DragAndDropBox>
         </div>
       </DashboardShell>
     );

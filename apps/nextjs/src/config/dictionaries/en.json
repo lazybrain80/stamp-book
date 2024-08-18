@@ -54,6 +54,10 @@
     "": ""
   },
   "common": {
+    "dragndrop": {
+      "title": "Drag and drop your files here",
+      "desc": "(or click to select)"
+    },
     "copyright": "Copyright © ${currentYear} Nextify Limited. All rights reserved.",
     "dashboard": {
       "main_nav_documentation": "Documentation",
@@ -62,7 +66,8 @@
       "sidebar_nav_clusters": "Clusters",
       "sidebar_nav_billing": "Billing",
       "sidebar_nav_settings": "Settings",
-      "title_text": "Create and manage clusters."
+      "title": "Create Watermark",
+      "desc": "Put an invisible watermark on your images"
     },
     "": ""
   },

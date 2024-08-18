@@ -53,6 +53,10 @@
     "": ""
   },
   "common": {
+    "dragndrop": {
+      "title": "이미지를 여기로 끌어다 놓으세요.",
+      "desc": "(또는 이미지를 선택하세요.)"
+    },
     "copyright": "저작권 © ${currentYear} Nextify 주식회사. 모든 권리 보유.",
     "dashboard": {
       "main_nav_documentation": "문서",
@@ -61,8 +65,8 @@
       "sidebar_nav_clusters": "클러스터",
       "sidebar_nav_billing": "청구",
       "sidebar_nav_settings": "설정",
-      "title_text": "클러스터 생성 및 관리。",
-      "": ""
+      "title": "워터마크 만들기",
+      "desc": "이미지에 보이지 않는 워터마크를 넣어보세요"
     },
     "": ""
   },

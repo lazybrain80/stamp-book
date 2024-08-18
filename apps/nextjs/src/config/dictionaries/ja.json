@@ -53,6 +53,10 @@
     "": ""
   },
   "common": {
+    "dragndrop": {
+      "title": "Drag and drop your files here",
+      "desc": "(or click to select)"
+    },
     "copyright": "著作権 © ${currentYear} Nextify株式会社。全ての権利を保有。",
     "dashboard": {
       "main_nav_documentation": "ドキュメンテーション",
@@ -61,8 +65,8 @@
       "sidebar_nav_clusters": "クラスター",
       "sidebar_nav_billing": "請求",
       "sidebar_nav_settings": "設定",
-      "title_text": "クラスターの作成と管理。",
-      "": ""
+      "title": "Create Watermark",
+      "desc": "Put an invisible watermark on your images"
     },
     "": ""
   },
