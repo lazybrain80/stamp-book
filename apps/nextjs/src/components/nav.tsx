@@ -16,6 +16,7 @@ interface DashboardNavProps {
 }
 
 const iconMapObj = new Map([
+  ["wm_maker", Icons.Add ],
   ["clusters", Icons.Cluster],
   ["billing", Icons.Billing],
   ["settings", Icons.Settings],

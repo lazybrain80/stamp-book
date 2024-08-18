@@ -16,17 +16,13 @@ export const getDashboardConfig = async ({
       {
         title: dict.common.dashboard.main_nav_documentation,
         href: "/docs",
-      },
-      {
-        title: dict.common.dashboard.main_nav_support,
-        href: "/support",
-        disabled: true,
+        auth: false
       },
     ],
     sidebarNav: [
       {
-        id: "clusters",
-        title: dict.common.dashboard.sidebar_nav_clusters,
+        id: "wm_maker",
+        title: dict.common.dashboard.sidebar_nav_wm_maker,
         href: "/dashboard/",
       },
       {

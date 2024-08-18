@@ -27,7 +27,6 @@
     "explore_product": "探索产品",
     "features": "特色",
     "sub_features": "云原生：为初创公司简化技术、降低成本而生。",
-    "k8s_features": "开发快速、简单",
     "devops_features": "应用轻松部署",
     "price_features": "经济高效为生产环境打造。",
     "main_nav_features": "特色",
@@ -58,6 +57,7 @@
     "dashboard": {
       "main_nav_documentation": "文档",
       "main_nav_support": "支持",
+      "sidebar_nav_wm_maker": "Creating Watermark",
       "sidebar_nav_clusters": "集群",
       "sidebar_nav_billing": "账单",
       "sidebar_nav_settings": "设置",
@@ -66,12 +66,6 @@
     }
   },
   "business": {
-    "k8s": {
-      "new_cluster": "创建新的集群",
-      "no_cluster_title": "没有创建集群",
-      "no_cluster_content": "您还没有任何集群。开始创建集群吧。",
-      "": ""
-    },
     "billing": {
       "billing": "账单",
       "content": "管理您的订阅和账单详情",

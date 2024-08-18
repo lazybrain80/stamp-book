@@ -27,7 +27,7 @@
     "explore_product": "Explore Product",
     "features": "Features",
     "sub_features": "Cloud-native: Simplifying technology and reducing costs for startups.",
-    "k8s_features": "Fast, simple development",
+
     "devops_features": "Easy application deployment",
     "price_features": "Economically efficient for production environments.",
     "main_nav_features": "Features",
@@ -58,6 +58,7 @@
     "dashboard": {
       "main_nav_documentation": "Documentation",
       "main_nav_support": "Support",
+      "sidebar_nav_wm_maker": "Creating Watermark",
       "sidebar_nav_clusters": "Clusters",
       "sidebar_nav_billing": "Billing",
       "sidebar_nav_settings": "Settings",
@@ -66,12 +67,6 @@
     "": ""
   },
   "business": {
-    "k8s": {
-      "new_cluster": "New Cluster",
-      "no_cluster_title": "No clusters created",
-      "no_cluster_content": "You don&apos;t have any clusters yet. Start creating cluster. ",
-      "": ""
-    },
     "billing": {
       "billing": "Billing",
       "content": "Manage your subscription and billing details",
