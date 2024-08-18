@@ -6,6 +6,7 @@ export interface NavItem {
   title: string;
   href: string;
   disabled?: boolean;
+  auth?: boolean;
 }
 
 export type MainNavItem = NavItem;

@@ -15,6 +15,12 @@ export const getMarketingConfig = async ({
       {
         title: dict.marketing.main_nav_documentation,
         href: `/docs`,
+        auth: false,
+      },
+      {
+        title: dict.marketing.main_nav_dashboard,
+        href: `/dashboard`,
+        auth: true,
       },
     ],
   };

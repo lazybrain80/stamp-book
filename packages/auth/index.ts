@@ -1,9 +1,9 @@
+import { KyselyAdapter } from "@auth/kysely-adapter";
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse,
 } from "next";
-import { KyselyAdapter } from "@auth/kysely-adapter";
 import { getServerSession, type NextAuthOptions, type User } from "next-auth";
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -67,7 +67,6 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      console.log("------------------------------1")
       const email = token?.email ?? "";
       const dbUser = await db
         .selectFrom("User")

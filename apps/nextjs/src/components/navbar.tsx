@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import type { User } from "next-auth";
+import Link from "next/link";
 
 import { cn } from "@saasfly/ui";
 import { Button, buttonVariants } from "@saasfly/ui/button";
@@ -47,7 +47,7 @@ export function NavBar({
       }`}
     >
       <div className="container flex h-16 items-center justify-between py-4">
-        <MainNav items={items} params={{ lang: `${lang}` }}>
+        <MainNav user={user} items={items} params={{ lang: `${lang}` }}>
           {children}
         </MainNav>
 
