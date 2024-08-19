@@ -1,9 +1,9 @@
 import { authOptions, getCurrentUser } from "@saasfly/auth";
 import { redirect } from "next/navigation";
 
-import { DragAndDropBox } from "~/components/drag-n-drop-box";
 import { DashboardHeader } from "~/components/header";
 import { DashboardShell } from "~/components/shell";
+import { CreateWatermark } from "~/components/watermark";
 import type { Locale } from "~/config/i18n-config";
 import { getDictionary } from "~/lib/get-dictionary";
 
@@ -18,7 +18,6 @@ export default async function DashboardPage({
     lang: Locale;
   };
 }) {
-  //don't need to check auth here, because we have a global auth check in _app.tsx
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn ?? "/login");
@@ -34,15 +33,10 @@ export default async function DashboardPage({
         >
         </DashboardHeader>
         <div className="flex justify-center mt-5">
-          <DragAndDropBox>
-            <DragAndDropBox.Icon name={"Add"}/>
-            <DragAndDropBox.Title>
-              {dict.common.dragndrop.title}
-            </DragAndDropBox.Title>
-            <DragAndDropBox.Description>
-              {dict.common.dragndrop.desc}
-            </DragAndDropBox.Description>
-          </DragAndDropBox>
+          <CreateWatermark
+            title={dict.common.dragndrop.title}
+            desc={dict.common.dragndrop.desc}
+          />
         </div>
       </DashboardShell>
     );

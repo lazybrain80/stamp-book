@@ -1,15 +1,26 @@
-import * as React from "react";
+"use client";
 
 import { cn } from "@saasfly/ui";
 import * as Icons from "@saasfly/ui/icons";
 
-type DragAndDropBoxProps = React.HTMLAttributes<HTMLDivElement>;
+type DragAndDropBoxProps = React.HTMLAttributes<HTMLDivElement> & {
+  handleFileChange?: (file: File) => void;
+};
 
 export function DragAndDropBox({
   className,
   children,
+  handleFileChange,
   ...props
 }: DragAndDropBoxProps) {
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0] && handleFileChange) {
+      const file = e.target.files[0];
+      handleFileChange(file);
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -23,7 +34,14 @@ export function DragAndDropBox({
           {children}
         </div>
       </label>
-      <input type="file" id="fileInput" className="hidden" multiple />
+      <input
+        type="file"
+        id="fileInput"
+        className="hidden"
+        multiple
+        accept="image/png, image/jpeg, image/jpg"
+        onChange={onFileChange}
+        />
     </div>
   );
 }
@@ -33,7 +51,7 @@ interface DragAndDropBoxIconProps
   name: keyof typeof Icons;
 }
 
-DragAndDropBox.Icon = function DragAndDropBoxIcon({
+export function DragAndDropBoxIcon({
   name,
   className, // ...props
 }: DragAndDropBoxIconProps) {
@@ -52,7 +70,7 @@ DragAndDropBox.Icon = function DragAndDropBoxIcon({
 
 type DragAndDropBoxTitleProps = React.HTMLAttributes<HTMLHeadingElement>;
 
-DragAndDropBox.Title = function DragAndDropBoxTitle({
+export function DragAndDropBoxTitle({
   className,
   ...props
 }: DragAndDropBoxTitleProps) {
@@ -65,7 +83,7 @@ DragAndDropBox.Title = function DragAndDropBoxTitle({
 type DragAndDropBoxDescriptionProps =
   React.HTMLAttributes<HTMLParagraphElement>;
 
-DragAndDropBox.Description = function DragAndDropBoxDescription({
+export function DragAndDropBoxDescription({
   className,
   ...props
 }: DragAndDropBoxDescriptionProps) {
