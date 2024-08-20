@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import React from "react";
 
 import { cn } from "@saasfly/ui";
 import { CardBody, CardContainer, CardItem } from "@saasfly/ui/3d-card";
@@ -69,7 +69,7 @@ export default function LoginPage() {
                 setIsGitHubLoading(true);
                 signIn("github", {
                   redirect: true,
-                  callbackUrl: "http://localhost:3000/admin/dashboard",
+                  callbackUrl: "http://localhost:4444/admin/dashboard",
                 }).catch((error) => {
                   console.error("GitHub signIn error:", error);
                 });

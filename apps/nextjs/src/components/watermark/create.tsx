@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@saasfly/ui/button";
+import axios from "axios";
 import { useState } from "react";
 import {
     DragAndDropBox,
@@ -13,6 +15,11 @@ interface CreateWatermarkProps {
     desc: string;
 }
 
+interface WmResult {
+    wm: string
+    filename: string
+}
+
 export default function CreateWatermark(
     {
         title,
@@ -20,20 +27,60 @@ export default function CreateWatermark(
     }: CreateWatermarkProps
 ) {
     const [originalImg, setOriginalImg] = useState<null | File>(null);
+    const [customWmText, setCustomWmText] = useState('');
+
+    const [createdWmFile, setCreatedWmFile] = useState("");
+    const [createdWmText, setCreatedWmText] = useState("");
+
     const hOriginalImgChange = (file: File) => {
         setOriginalImg(file);
     };
+    const hOriginalImgSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (originalImg) {
+            const formData = new FormData();
+            formData.append("file", originalImg);
+            formData.append("watermark", customWmText);
+            try {
+                const res = await axios.post('http://127.0.0.1:8000/v1/filigrana', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                const wmResult: WmResult = res.data
+                setCreatedWmText(wmResult.wm)
+                setCreatedWmFile(wmResult.filename)
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    console.error("Error response:", error.response.data);
+                } else {
+                    console.error("Error uploading file:", error);
+                }
+            }
+        }
+    }
     return(
-        <DragAndDropBox
-            handleFileChange={hOriginalImgChange}
-        >
-            <DragAndDropBoxIcon name={"Add"}/>
-            <DragAndDropBoxTitle>
-                {title}
-            </DragAndDropBoxTitle>
-            <DragAndDropBoxDescription>
-                {desc}
-            </DragAndDropBoxDescription>
-        </DragAndDropBox>
+        <div className="container mx-auto p-4 flex flex-col items-center justify-center">
+            <DragAndDropBox
+                handleFileChange={hOriginalImgChange}
+            >
+                <DragAndDropBoxIcon name={"Add"}/>
+                <DragAndDropBoxTitle>
+                    {title}
+                </DragAndDropBoxTitle>
+                <DragAndDropBoxDescription>
+                    {desc}
+                </DragAndDropBoxDescription>
+            </DragAndDropBox>
+            {originalImg
+                ?<Button
+                    variant="secondary"
+                    className="rounded-full w-11/12 mt-4"
+                    onClick={hOriginalImgSubmit}
+                >
+                    제출
+                </Button>
+            :<></>}
+        </div>
     )
 }

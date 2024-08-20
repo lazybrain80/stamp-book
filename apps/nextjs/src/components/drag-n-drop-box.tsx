@@ -2,6 +2,8 @@
 
 import { cn } from "@saasfly/ui";
 import * as Icons from "@saasfly/ui/icons";
+import Image from "next/image";
+import { useState } from "react";
 
 type DragAndDropBoxProps = React.HTMLAttributes<HTMLDivElement> & {
   handleFileChange?: (file: File) => void;
@@ -13,10 +15,12 @@ export function DragAndDropBox({
   handleFileChange,
   ...props
 }: DragAndDropBoxProps) {
+  const [image, setImage] = useState<null | File>(null);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0] && handleFileChange) {
       const file = e.target.files[0];
+      setImage(file);
       handleFileChange(file);
     }
   };
@@ -30,9 +34,18 @@ export function DragAndDropBox({
       {...props}
     >
       <label htmlFor="fileInput" className="cursor-pointer flex flex-col items-center space-y-2">
-        <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
-          {children}
-        </div>
+        {image?
+          <Image
+            className="preview-image"
+              src={URL.createObjectURL(image)} 
+              alt="Uploaded Preview"
+              layout="responsive"
+              width={256}
+              height={128} />
+          :<div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
+            {children}
+          </div>
+      }
       </label>
       <input
         type="file"
