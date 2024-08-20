@@ -28,8 +28,8 @@ export function TypewriterEffectSmooths() {
     },
   ];
   return (
-    <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+    <span className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
       <TextGenerateEffect words={words} />
-    </p>
+    </span>
   );
 }

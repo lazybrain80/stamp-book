@@ -74,7 +74,7 @@ export function MainNav({user, items, children, params: { lang } }: MainNavProps
               >
                 {item.title}
               </Link>
-              : <></>
+              : <div key={index}></div>
           ))}
         </nav>
       ) : null}
