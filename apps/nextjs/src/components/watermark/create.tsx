@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@saasfly/ui/button";
+import * as Icons from "@saasfly/ui/icons";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -41,6 +42,9 @@ export default function CreateWatermark(
     const hOriginalImgSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (originalImg) {
+            setCreatedWmText("")
+            setCreatedWmFile("")
+
             const formData = new FormData();
             formData.append("file", originalImg);
             formData.append("watermark", customWmText);
@@ -65,6 +69,35 @@ export default function CreateWatermark(
             }
         }
     }
+    const hWmImgDownload = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const account = session?.user.account;
+            const response = await axios.get(`http://127.0.0.1:8000/v1/filigrana/file?filename=${createdWmFile}`, {
+                responseType: 'blob', // Important for handling binary data
+                headers: {
+                    'Auth-Provider': account?.provider,
+                    'Authorization': `Bearer ${account?.access_token}`,
+                    'Cache-Control': 'no-cache', // Prevent caching
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                },
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${createdWmFile}`); // Set the file name
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                console.error("Error response:", error.response.data);
+            } else {
+                console.error("Error downloading file:", error);
+            }
+        }
+    }
     return(
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
             <DragAndDropBox
@@ -86,6 +119,21 @@ export default function CreateWatermark(
                 >
                     제출
                 </Button>
+            :<></>}
+            {createdWmText
+                ?<div className="flex items-center" >
+                    <Button
+                        variant="default"
+                        className="rounded-full mt-4 mr-4"
+                        onClick={hWmImgDownload}
+                    >
+                        <Icons.Check className="h-6 w-6 mr-2"/>
+                        {createdWmFile}
+                    </Button>
+                    <h2 className="mt-4 text-left">
+                        Watermark: {createdWmText}
+                    </h2>
+                </div>
             :<></>}
         </div>
     )
