@@ -2,6 +2,7 @@
 
 import { Button } from "@saasfly/ui/button";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import {
     DragAndDropBox,
@@ -32,6 +33,8 @@ export default function CreateWatermark(
     const [createdWmFile, setCreatedWmFile] = useState("");
     const [createdWmText, setCreatedWmText] = useState("");
 
+    const { data: session } = useSession()
+
     const hOriginalImgChange = (file: File) => {
         setOriginalImg(file);
     };
@@ -41,9 +44,12 @@ export default function CreateWatermark(
             const formData = new FormData();
             formData.append("file", originalImg);
             formData.append("watermark", customWmText);
+            const account = session?.user.account;
             try {
                 const res = await axios.post('http://127.0.0.1:8000/v1/filigrana', formData, {
                     headers: {
+                        'Auth-Provider': account?.provider,
+                        'Authorization': `Bearer ${account?.access_token}`,
                         'Content-Type': 'multipart/form-data',
                     },
                 });

@@ -3,15 +3,15 @@ import localFont from "next/font/local";
 
 import "~/styles/globals.css";
 
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cn } from "@saasfly/ui";
 import { Toaster } from "@saasfly/ui/toaster";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TailwindIndicator } from "~/components/tailwind-indicator";
 import { ThemeProvider } from "~/components/theme-provider";
 import { i18n } from "~/config/i18n-config";
 import { siteConfig } from "~/config/site";
-
+import AuthSession from "./authSession";
 // import { Suspense } from "react";
 // import { PostHogPageview } from "~/config/providers";
 
@@ -91,7 +91,9 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem={false}
         >
+          <AuthSession>
           {children}
+          </AuthSession>
           <Analytics />
           <SpeedInsights />
           <Toaster />
