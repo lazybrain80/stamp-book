@@ -63,11 +63,10 @@
       "main_nav_documentation": "Documentation",
       "main_nav_support": "Support",
       "sidebar_nav_wm_maker": "Creating Watermark",
+      "sidebar_nav_wm_validater": "Validating Watermark",
       "sidebar_nav_clusters": "Clusters",
       "sidebar_nav_billing": "Billing",
-      "sidebar_nav_settings": "Settings",
-      "title": "Create Watermark",
-      "desc": "Put an invisible watermark on your images"
+      "sidebar_nav_settings": "Settings"
     },
     "": ""
   },
@@ -88,5 +87,15 @@
     "settings": "Settings",
     "sign_out": "Sign out",
     "": ""
+  },
+  "watermark": {
+    "creating": {
+      "title": "Creating Watermark",
+      "desc": "Put an invisible watermark on your images"
+    },
+    "validating": {
+      "title": "Validating Watermark",
+      "desc": "Check if the watermark is valid"
+    }
   }
 }

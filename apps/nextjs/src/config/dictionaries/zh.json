@@ -62,11 +62,10 @@
       "main_nav_documentation": "文档",
       "main_nav_support": "支持",
       "sidebar_nav_wm_maker": "Creating Watermark",
+      "sidebar_nav_wm_validater": "Validating Watermark",
       "sidebar_nav_clusters": "集群",
       "sidebar_nav_billing": "账单",
-      "sidebar_nav_settings": "设置",
-      "title": "Create Watermark",
-      "desc": "Put an invisible watermark on your images"
+      "sidebar_nav_settings": "设置"
     }
   },
   "business": {
@@ -86,5 +85,15 @@
     "settings": "设置",
     "sign_out": "登出",
     "": ""
+  },
+  "watermark": {
+    "creating": {
+      "title": "Creating Watermark",
+      "desc": "Put an invisible watermark on your images"
+    },
+    "validating": {
+      "title": "Validating Watermark",
+      "desc": "Check if the watermark is valid"
+    }
   }
 }

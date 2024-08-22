@@ -62,11 +62,10 @@
       "main_nav_documentation": "문서",
       "main_nav_support": "지원",
       "sidebar_nav_wm_maker": "워터마크 만들기",
+      "sidebar_nav_wm_validater": "워터마크 검증하기",
       "sidebar_nav_clusters": "클러스터",
       "sidebar_nav_billing": "청구",
-      "sidebar_nav_settings": "설정",
-      "title": "워터마크 만들기",
-      "desc": "이미지에 보이지 않는 워터마크를 넣어보세요"
+      "sidebar_nav_settings": "설정"
     },
     "": ""
   },
@@ -88,5 +87,15 @@
     "settings": "설정",
     "sign_out": "로그아웃",
     "": ""
+  },
+  "watermark": {
+    "creating": {
+      "title": "워터마크 만들기",
+      "desc": "이미지에 보이지 않는 워터마크를 넣어보세요"
+    },
+    "validating": {
+      "title": "워터마크 검증하기",
+      "desc": "이미지에 들어가 있는 워터마크 확인해보세요"
+    }
   }
 }

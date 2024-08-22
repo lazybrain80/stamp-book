@@ -26,9 +26,9 @@ export const getDashboardConfig = async ({
         href: "/dashboard/",
       },
       {
-        id: "billing",
-        title: dict.common.dashboard.sidebar_nav_billing,
-        href: "/dashboard/billing",
+        id: "wm_maker_validate",
+        title: dict.common.dashboard.sidebar_nav_wm_validater,
+        href: "/dashboard/validate",
       },
       {
         id: "settings",

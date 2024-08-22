@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { DashboardHeader } from "~/components/header";
 import { DashboardShell } from "~/components/shell";
-import { CreateWatermark } from "~/components/watermark";
+import { ValidateWatermark } from "~/components/watermark";
 import type { Locale } from "~/config/i18n-config";
 import { getDictionary } from "~/lib/get-dictionary";
 
@@ -28,12 +28,12 @@ export default async function DashboardPage({
     return (
       <DashboardShell>
         <DashboardHeader
-          heading={dict.watermark.creating.title}
-          text={dict.watermark.creating.desc}
+          heading={dict.watermark.validating.title}
+          text={dict.watermark.validating.desc}
         >
         </DashboardHeader>
         <div className="flex justify-center mt-5">
-          <CreateWatermark
+          <ValidateWatermark
             title={dict.common.dragndrop.title}
             desc={dict.common.dragndrop.desc}
           />
