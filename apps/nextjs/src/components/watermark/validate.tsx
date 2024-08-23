@@ -1,26 +1,26 @@
-"use client";
+"use client"
 
-import { Button } from "@saasfly/ui/button";
-import { Input } from "@saasfly/ui/input";
-import { toast } from "@saasfly/ui/use-toast";
-import * as Icons from "@saasfly/ui/icons";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { Button } from "@saasfly/ui/button"
+import { Input } from "@saasfly/ui/input"
+import { toast } from "@saasfly/ui/use-toast"
+import * as Icons from "@saasfly/ui/icons"
+import axios from "axios"
+import { useSession } from "next-auth/react"
+import { useState } from "react"
 import {
     DragAndDropBox,
     DragAndDropBoxDescription,
     DragAndDropBoxIcon,
     DragAndDropBoxTitle
-} from "~/components/drag-n-drop-box";
+} from "~/components/drag-n-drop-box"
 
 interface ValidateWatermarkProps {
-    dragndrop_title: string;
-    dragndrop_desc: string;
-    submit: string;
-    input_wm_warning: string;
-    correct_wm: string;
-    incorrect_wm: string;
+    dragndrop_title: string
+    dragndrop_desc: string
+    submit: string
+    input_wm_warning: string
+    correct_wm: string
+    incorrect_wm: string
 }
 
 interface ValidResult {
@@ -37,26 +37,28 @@ export default function ValidateWatermark(
         incorrect_wm
     }: ValidateWatermarkProps
 ) {
-    const [wmImg, setWmImg] = useState<null | File>(null);
-    const [validWmText, setValidWmText] = useState('');
-    const [isValidate, setIsValidate] = useState(false);
-    const [reqValid, setReqValid] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [wmImg, setWmImg] = useState<null | File>(null)
+    const [validWmText, setValidWmText] = useState('')
+    const [isValidate, setIsValidate] = useState(false)
+    const [showValid, setShowValid] = useState(false)
 
     const { data: session } = useSession()
 
     const hWmImgChange = (file: File) => {
-        setWmImg(file);
-    };
+        setWmImg(file)
+    }
     const hWmImgSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+        e.preventDefault()
         if (wmImg) {
-            setReqValid(false)
+            setIsLoading(true)
+            setShowValid(false)
             setIsValidate(false)
 
-            const formData = new FormData();
-            formData.append("file", wmImg);
-            formData.append("watermark", validWmText);
-            const account = session?.user.account;
+            const formData = new FormData()
+            formData.append("file", wmImg)
+            formData.append("watermark", validWmText)
+            const account = session?.user.account
             try {
                 const res = await axios.post('http://127.0.0.1:8000/v1/filigrana/corda', formData, {
                     headers: {
@@ -64,26 +66,27 @@ export default function ValidateWatermark(
                         'Authorization': `Bearer ${account?.access_token}`,
                         'Content-Type': 'multipart/form-data',
                     },
-                });
+                })
                 const validResult: ValidResult = res.data
-                setReqValid(true)
+                setShowValid(true)
                 setIsValidate(validResult.wm_validation)
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
                     const { detail } = error.response.data
-                    console.error("Error response:", error.response.data);
+                    console.error("Error response:", error.response.data)
                     toast({
                         title: "error",
                         description: detail,
-                    });
+                    })
                 } else {
-                    console.error("Error uploading file:", error);
+                    console.error("Error uploading file:", error)
                 }
             }
         }
+        setIsLoading(false)
     }
     const hInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
+        const value = e.target.value
         const regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]*$/ // 허용할 문자들
         if (regex.test(value) || value === '') {
             setValidWmText(value)
@@ -123,12 +126,16 @@ export default function ValidateWatermark(
                         variant="secondary"
                         className="rounded-full w-11/12 mt-4"
                         onClick={hWmImgSubmit}
+                        disabled={isLoading}
                     >
+                        {isLoading && (
+                            <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+                        )}
                         {submit}
                     </Button>
                 </div>)
             :<></>}
-            {reqValid
+            {showValid
                 ?(<div className="mt-4">
                     {isValidate
                         ?(<div className="flex items-center space-x-2">
