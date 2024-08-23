@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@saasfly/ui/button";
+import { Switch } from "@saasfly/ui/switch";
+import { Input } from "@saasfly/ui/input";
 import * as Icons from "@saasfly/ui/icons";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -35,6 +37,8 @@ export default function CreateWatermark(
     const [createdWmText, setCreatedWmText] = useState("");
 
     const { data: session } = useSession()
+
+    const [isCustomWm, setIsCustomWm] = useState(false);
 
     const hOriginalImgChange = (file: File) => {
         setOriginalImg(file);
@@ -98,6 +102,13 @@ export default function CreateWatermark(
             }
         }
     }
+    const hInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]*$/ // 허용할 문자들
+        if (regex.test(value) || value === '') {
+            setCustomWmText(value)
+        }
+    }
     return(
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
             <DragAndDropBox
@@ -112,13 +123,37 @@ export default function CreateWatermark(
                 </DragAndDropBoxDescription>
             </DragAndDropBox>
             {originalImg
-                ?<Button
-                    variant="secondary"
-                    className="rounded-full w-11/12 mt-4"
-                    onClick={hOriginalImgSubmit}
-                >
-                    제출
-                </Button>
+                ?(<div className="flex flex-col w-full items-center">
+                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                        <Switch
+                            checked={isCustomWm}
+                            onCheckedChange={setIsCustomWm}
+                            role="switch"
+                            aria-label="is-custom-wm"
+                        />
+                        <Input
+                            className="w-6/12"
+                            disabled={!isCustomWm}
+                            placeholder="Custom watermark"
+                            maxLength={27}
+                            value={customWmText}
+                            onChange={hInputChange}
+                        />
+                        <span>{customWmText.length}/27</span>
+                    </div>
+                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                        <span className="text-sm text-gray-500 ml-14">
+                            [ 허용된 문자: 영어 대소문자, 숫자, 특수 문자 (!@#$%^&*()+=._-) ]
+                        </span>
+                    </div>
+                    <Button
+                        variant="secondary"
+                        className="rounded-full w-11/12 mt-4"
+                        onClick={hOriginalImgSubmit}
+                    >
+                        제출
+                    </Button>
+                </div>)
             :<></>}
             {createdWmText
                 ?<div className="flex items-center" >
