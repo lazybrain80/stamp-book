@@ -66,6 +66,9 @@
       "sidebar_nav_clusters": "集群",
       "sidebar_nav_billing": "账单",
       "sidebar_nav_settings": "设置"
+    },
+    "watermark": {
+      "input_wm_warning": "Allowed characters: English letters, numbers, special characters (!@#$%^&*()+=._-)"
     }
   },
   "business": {
@@ -89,11 +92,15 @@
   "watermark": {
     "creating": {
       "title": "Creating Watermark",
-      "desc": "Put an invisible watermark on your images"
+      "desc": "Put an invisible watermark on your images",
+      "submit": "Create Watermark"
     },
     "validating": {
       "title": "Validating Watermark",
-      "desc": "Check if the watermark is valid"
+      "desc": "Check if the watermark is valid",
+      "submit": "Validate Watermark",
+      "correct_wm": "Watermark is correct",
+      "incorrect_wm": "Watermark is incorrect"
     }
   }
 }

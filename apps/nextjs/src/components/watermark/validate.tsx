@@ -6,7 +6,6 @@ import * as Icons from "@saasfly/ui/icons";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { set } from "zod";
 import {
     DragAndDropBox,
     DragAndDropBoxDescription,
@@ -15,8 +14,12 @@ import {
 } from "~/components/drag-n-drop-box";
 
 interface ValidateWatermarkProps {
-    title: string;
-    desc: string;
+    dragndrop_title: string;
+    dragndrop_desc: string;
+    submit: string;
+    input_wm_warning: string;
+    correct_wm: string;
+    incorrect_wm: string;
 }
 
 interface ValidResult {
@@ -25,14 +28,17 @@ interface ValidResult {
 
 export default function ValidateWatermark(
     {
-        title,
-        desc
+        dragndrop_title,
+        dragndrop_desc,
+        submit,
+        input_wm_warning,
+        correct_wm,
+        incorrect_wm
     }: ValidateWatermarkProps
 ) {
     const [wmImg, setWmImg] = useState<null | File>(null);
     const [validWmText, setValidWmText] = useState('');
     const [isValidate, setIsValidate] = useState(false);
-    const [oriWatermark, setOriWatermark] = useState('');
     const [reqValid, setReqValid] = useState(false);
 
     const { data: session } = useSession()
@@ -45,7 +51,6 @@ export default function ValidateWatermark(
         if (wmImg) {
             setReqValid(false)
             setIsValidate(false)
-            setOriWatermark("")
 
             const formData = new FormData();
             formData.append("file", wmImg);
@@ -85,10 +90,10 @@ export default function ValidateWatermark(
             >
                 <DragAndDropBoxIcon name={"Add"}/>
                 <DragAndDropBoxTitle>
-                    {title}
+                    {dragndrop_title}
                 </DragAndDropBoxTitle>
                 <DragAndDropBoxDescription>
-                    {desc}
+                    {dragndrop_desc}
                 </DragAndDropBoxDescription>
             </DragAndDropBox>
             {wmImg
@@ -105,7 +110,7 @@ export default function ValidateWatermark(
                     </div>
                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                         <span className="text-sm text-gray-500">
-                            [ 허용된 문자: 영어 대소문자, 숫자, 특수 문자 (!@#$%^&*()+=._-) ]
+                            {input_wm_warning}
                         </span>
                     </div>
                     <Button
@@ -113,7 +118,7 @@ export default function ValidateWatermark(
                         className="rounded-full w-11/12 mt-4"
                         onClick={hWmImgSubmit}
                     >
-                        제출
+                        {submit}
                     </Button>
                 </div>)
             :<></>}
@@ -122,11 +127,11 @@ export default function ValidateWatermark(
                     {isValidate
                         ?(<div className="flex items-center space-x-2">
                             <Icons.Sun className="w-6 h-6 text-green-500"/>
-                            <span>워터마크 맞습니다.</span>
+                            <span>{correct_wm}</span>
                         </div>)
                         :(<div className="flex items-center space-x-2">
                             <Icons.Moon className="w-6 h-6 text-red-500"/>
-                            <span>워터마크가 맞지 않습니다.</span>
+                            <span>{incorrect_wm}</span>
                         </div>)
                     }
                 </div>)

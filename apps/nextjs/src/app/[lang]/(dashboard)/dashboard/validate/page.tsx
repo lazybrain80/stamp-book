@@ -34,8 +34,12 @@ export default async function DashboardPage({
         </DashboardHeader>
         <div className="flex justify-center mt-5">
           <ValidateWatermark
-            title={dict.common.dragndrop.title}
-            desc={dict.common.dragndrop.desc}
+            dragndrop_title={dict.common.dragndrop.title}
+            dragndrop_desc={dict.common.dragndrop.desc}
+            submit={dict.watermark.validating.submit}
+            input_wm_warning={dict.common.watermark.input_wm_warning}
+            correct_wm={dict.watermark.validating.correct_wm}
+            incorrect_wm={dict.watermark.validating.incorrect_wm}
           />
         </div>
       </DashboardShell>

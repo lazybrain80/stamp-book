@@ -15,8 +15,10 @@ import {
 } from "~/components/drag-n-drop-box";
 
 interface CreateWatermarkProps {
-    title: string;
-    desc: string;
+    dragndrop_title: string;
+    dragndrop_desc: string;
+    input_wm_warning: string;
+    submit: string;
 }
 
 interface WmResult {
@@ -26,8 +28,10 @@ interface WmResult {
 
 export default function CreateWatermark(
     {
-        title,
-        desc
+        dragndrop_title,
+        dragndrop_desc,
+        input_wm_warning,
+        submit
     }: CreateWatermarkProps
 ) {
     const [originalImg, setOriginalImg] = useState<null | File>(null);
@@ -116,10 +120,10 @@ export default function CreateWatermark(
             >
                 <DragAndDropBoxIcon name={"Add"}/>
                 <DragAndDropBoxTitle>
-                    {title}
+                    {dragndrop_title}
                 </DragAndDropBoxTitle>
                 <DragAndDropBoxDescription>
-                    {desc}
+                    {dragndrop_desc}
                 </DragAndDropBoxDescription>
             </DragAndDropBox>
             {originalImg
@@ -143,7 +147,7 @@ export default function CreateWatermark(
                     </div>
                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                         <span className="text-sm text-gray-500 ml-14">
-                            [ 허용된 문자: 영어 대소문자, 숫자, 특수 문자 (!@#$%^&*()+=._-) ]
+                            {input_wm_warning}
                         </span>
                     </div>
                     <Button
@@ -151,7 +155,7 @@ export default function CreateWatermark(
                         className="rounded-full w-11/12 mt-4"
                         onClick={hOriginalImgSubmit}
                     >
-                        제출
+                        {submit}
                     </Button>
                 </div>)
             :<></>}

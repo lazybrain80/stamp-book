@@ -67,7 +67,9 @@
       "sidebar_nav_billing": "청구",
       "sidebar_nav_settings": "설정"
     },
-    "": ""
+    "watermark": {
+      "input_wm_warning": "허용된 문자: 영어 대소문자, 숫자, 특수 문자(!@#$%^&*()+=._-)"
+    }
   },
   "business": {
     "billing": {
@@ -91,11 +93,15 @@
   "watermark": {
     "creating": {
       "title": "워터마크 만들기",
-      "desc": "이미지에 보이지 않는 워터마크를 넣어보세요"
+      "desc": "이미지에 보이지 않는 워터마크를 넣어보세요",
+      "submit": "워터마크 만들기"
     },
     "validating": {
       "title": "워터마크 검증하기",
-      "desc": "이미지에 들어가 있는 워터마크 확인해보세요"
+      "desc": "이미지에 들어가 있는 워터마크 확인해보세요",
+      "submit": "검증하기",
+      "correct_wm": "워터마크 맞습니다.",
+      "incorrect_wm": "워터마크가 맞지 않습니다."
     }
   }
 }
