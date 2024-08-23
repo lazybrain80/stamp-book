@@ -3,6 +3,7 @@
 import { Button } from "@saasfly/ui/button";
 import { Switch } from "@saasfly/ui/switch";
 import { Input } from "@saasfly/ui/input";
+import { toast } from "@saasfly/ui/use-toast";
 import * as Icons from "@saasfly/ui/icons";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -68,9 +69,20 @@ export default function CreateWatermark(
                 const wmResult: WmResult = res.data
                 setCreatedWmText(wmResult.wm)
                 setCreatedWmFile(wmResult.filename)
+
+                toast({
+                    title: "success",
+                    description: "watermark created",
+                });
+
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    console.error("Error response:", error.response.data);
+                    const { detail } = error.response.data
+                    console.error("Error response22222:", error.response.data);
+                    toast({
+                        title: "error",
+                        description: detail,
+                    });
                 } else {
                     console.error("Error uploading file:", error);
                 }

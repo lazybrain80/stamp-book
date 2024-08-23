@@ -2,6 +2,7 @@
 
 import { Button } from "@saasfly/ui/button";
 import { Input } from "@saasfly/ui/input";
+import { toast } from "@saasfly/ui/use-toast";
 import * as Icons from "@saasfly/ui/icons";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -69,7 +70,12 @@ export default function ValidateWatermark(
                 setIsValidate(validResult.wm_validation)
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
+                    const { detail } = error.response.data
                     console.error("Error response:", error.response.data);
+                    toast({
+                        title: "error",
+                        description: detail,
+                    });
                 } else {
                     console.error("Error uploading file:", error);
                 }
