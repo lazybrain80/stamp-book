@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@saasfly/ui/button";
+import { Input } from "@saasfly/ui/input";
 import * as Icons from "@saasfly/ui/icons";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -19,8 +20,7 @@ interface ValidateWatermarkProps {
 }
 
 interface ValidResult {
-    result: boolean
-    watermark: string
+    wm_validation: boolean
 }
 
 export default function ValidateWatermark(
@@ -61,8 +61,7 @@ export default function ValidateWatermark(
                 });
                 const validResult: ValidResult = res.data
                 setReqValid(true)
-                setIsValidate(validResult.result)
-                setOriWatermark(validResult.watermark)
+                setIsValidate(validResult.wm_validation)
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
                     console.error("Error response:", error.response.data);
@@ -70,6 +69,13 @@ export default function ValidateWatermark(
                     console.error("Error uploading file:", error);
                 }
             }
+        }
+    }
+    const hInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]*$/ // 허용할 문자들
+        if (regex.test(value) || value === '') {
+            setValidWmText(value)
         }
     }
     return(
@@ -86,29 +92,43 @@ export default function ValidateWatermark(
                 </DragAndDropBoxDescription>
             </DragAndDropBox>
             {wmImg
-                ?<Button
-                    variant="secondary"
-                    className="rounded-full w-11/12 mt-4"
-                    onClick={hWmImgSubmit}
-                >
-                    제출
-                </Button>
+                ?(<div className="flex flex-col w-full items-center">
+                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                        <Input
+                            className="w-6/12"
+                            placeholder="Please input your watermark Text"
+                            maxLength={27}
+                            value={validWmText}
+                            onChange={hInputChange}
+                        />
+                        <span>{validWmText.length}/27</span>
+                    </div>
+                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                        <span className="text-sm text-gray-500">
+                            [ 허용된 문자: 영어 대소문자, 숫자, 특수 문자 (!@#$%^&*()+=._-) ]
+                        </span>
+                    </div>
+                    <Button
+                        variant="secondary"
+                        className="rounded-full w-11/12 mt-4"
+                        onClick={hWmImgSubmit}
+                    >
+                        제출
+                    </Button>
+                </div>)
             :<></>}
             {reqValid
                 ?(<div className="mt-4">
                     {isValidate
                         ?(<div className="flex items-center space-x-2">
                             <Icons.Sun className="w-6 h-6 text-green-500"/>
-                            <span>유효한 워터마크입니다.</span>
+                            <span>워터마크 맞습니다.</span>
                         </div>)
                         :(<div className="flex items-center space-x-2">
                             <Icons.Moon className="w-6 h-6 text-red-500"/>
-                            <span>유효하지 않은 워터마크입니다.</span>
+                            <span>워터마크가 맞지 않습니다.</span>
                         </div>)
                     }
-                    <div className="mt-2">
-                        <span>원본 워터마크: {oriWatermark}</span>
-                    </div>
                 </div>)
                 :<></>
             }
