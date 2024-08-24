@@ -1,5 +1,6 @@
 "use client"
 
+import { toast } from "@saasfly/ui/use-toast"
 import { cn } from "@saasfly/ui"
 import * as Icons from "@saasfly/ui/icons"
 import Image from "next/image"
@@ -8,6 +9,8 @@ import { useRef, useEffect, useState } from "react"
 type DragAndDropBoxProps = React.HTMLAttributes<HTMLDivElement> & {
   handleFileChange?: (file: File) => void
 }
+const allowedFileTypes = ["jpg", "jpeg", "png"]
+const fileAccepts = allowedFileTypes.map(t => "image/"+t).join(", ")
 
 export function DragAndDropBox({
   className,
@@ -50,7 +53,21 @@ export function DragAndDropBox({
       e.stopPropagation()
 
       const files = e.dataTransfer?.files ? [...e.dataTransfer.files] : []
-      if (files && files[0] && handleFileChange) {
+
+      const allFilesValid = files.every((file) => {
+        return allowedFileTypes.some((f) => file.type.endsWith(`/${f}`));
+      });
+      
+      if (!allFilesValid) {
+        console.log("Invalid file type")
+        toast({
+          title: "error",
+          description: "invalid file type",
+        })
+        return
+      }
+
+      if (handleFileChange && files[0]) {
         const file = files[0]
         setImage(file)
         handleFileChange(file)
@@ -71,9 +88,9 @@ export function DragAndDropBox({
       className={cn(
         `${
           dragging
-            ? "border border-[#2B92EC] bg-[#EDF2FF]"
-            : "border-dashed border-[#e0e0e0]"
-        } flex bg-gray-600 w-11/12 min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center animate-in fade-in-50 hover:border-blue-500 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-md`,
+            ? "bg-gray-400 border-blue-500 scale-105 shadow-md"
+            : "bg-gray-600"
+        } flex w-11/12 min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center animate-in fade-in-50 hover:border-blue-500 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-md`,
         className,
       )}
       ref={dropContainer}
@@ -98,7 +115,7 @@ export function DragAndDropBox({
         id="fileInput"
         className="hidden"
         multiple
-        accept="image/png, image/jpeg, image/jpg"
+        accept={fileAccepts}
         onChange={onFileChange}
         />
     </div>
