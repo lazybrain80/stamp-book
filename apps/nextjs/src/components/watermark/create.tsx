@@ -78,17 +78,20 @@ export default function CreateWatermark(
                     description: "watermark created",
                 })
 
-            } catch (error) {
+            } catch (error: any) {
+                let error_message: string = ""
                 if (axios.isAxiosError(error) && error.response) {
                     const { detail } = error.response.data
-                    console.error("Error response22222:", error.response.data)
-                    toast({
-                        title: "error",
-                        description: detail,
-                    })
+                    error_message = detail
                 } else {
                     console.error("Error uploading file:", error)
+                    error_message = error.message as string
                 }
+
+                toast({
+                    title: "error",
+                    description: error_message,
+                })
             }
         }
         setIsLoading(false)

@@ -70,17 +70,20 @@ export default function ValidateWatermark(
                 const validResult: ValidResult = res.data
                 setShowValid(true)
                 setIsValidate(validResult.wm_validation)
-            } catch (error) {
+            } catch (error: any) {
+                let error_message: string = ""
                 if (axios.isAxiosError(error) && error.response) {
                     const { detail } = error.response.data
-                    console.error("Error response:", error.response.data)
-                    toast({
-                        title: "error",
-                        description: detail,
-                    })
+                    error_message = detail
                 } else {
                     console.error("Error uploading file:", error)
+                    error_message = error.message as string
                 }
+
+                toast({
+                    title: "error",
+                    description: error_message,
+                })
             }
         }
         setIsLoading(false)
