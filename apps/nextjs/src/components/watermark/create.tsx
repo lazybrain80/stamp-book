@@ -64,8 +64,7 @@ export default function CreateWatermark(
             try {
                 const res = await axios.post('http://127.0.0.1:8000/v1/filigrana', formData, {
                     headers: {
-                        'Auth-Provider': account?.provider,
-                        'Authorization': `Bearer ${account?.access_token}`,
+                        'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
                         'Content-Type': 'multipart/form-data',
                     },
                 })
@@ -104,8 +103,7 @@ export default function CreateWatermark(
             const response = await axios.get(`http://127.0.0.1:8000/v1/filigrana/file?filename=${createdWmFile}`, {
                 responseType: 'blob', // Important for handling binary data
                 headers: {
-                    'Auth-Provider': account?.provider,
-                    'Authorization': `Bearer ${account?.access_token}`,
+                    'Authorization': `${account?.provider}:Bearer:${account?.access_token}`,
                     'Cache-Control': 'no-cache', // Prevent caching
                     'Pragma': 'no-cache',
                     'Expires': '0',

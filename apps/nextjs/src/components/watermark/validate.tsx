@@ -62,8 +62,7 @@ export default function ValidateWatermark(
             try {
                 const res = await axios.post('http://127.0.0.1:8000/v1/filigrana/corda', formData, {
                     headers: {
-                        'Auth-Provider': account?.provider,
-                        'Authorization': `Bearer ${account?.access_token}`,
+                        'Authorization': `${account?.provider}:Bearer:${account?.access_token}`,
                         'Content-Type': 'multipart/form-data',
                     },
                 })
