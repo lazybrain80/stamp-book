@@ -103,7 +103,7 @@ export default function CreateWatermark(
             const response = await axios.get(`http://127.0.0.1:8000/v1/filigrana/file?filename=${createdWmFile}`, {
                 responseType: 'blob', // Important for handling binary data
                 headers: {
-                    'Authorization': `${account?.provider}:Bearer:${account?.access_token}`,
+                    'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
                     'Cache-Control': 'no-cache', // Prevent caching
                     'Pragma': 'no-cache',
                     'Expires': '0',
