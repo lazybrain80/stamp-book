@@ -162,7 +162,7 @@ export default function CreateWatermark(
                             value={customWmText}
                             onChange={hInputChange}
                         />
-                        <span>{customWmText.length}/50</span>
+                        <span>{customWmText.length}/20</span>
                     </div>
                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                         <span className="text-sm text-gray-500 ml-14">

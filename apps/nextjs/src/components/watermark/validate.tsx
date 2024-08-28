@@ -117,7 +117,6 @@ export default function ValidateWatermark(
                             value={validWmText}
                             onChange={hInputChange}
                         />
-                        <span>{validWmText.length}</span>
                     </div>
                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                         <span className="text-sm text-gray-500">
