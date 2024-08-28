@@ -113,11 +113,11 @@ export default function ValidateWatermark(
                         <Input
                             className="w-6/12"
                             placeholder="Please input your watermark Text"
-                            maxLength={27}
+                            maxLength={100}
                             value={validWmText}
                             onChange={hInputChange}
                         />
-                        <span>{validWmText.length}/27</span>
+                        <span>{validWmText.length}</span>
                     </div>
                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                         <span className="text-sm text-gray-500">

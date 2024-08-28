@@ -158,11 +158,11 @@ export default function CreateWatermark(
                             className="w-6/12"
                             disabled={!isCustomWm}
                             placeholder="Custom watermark"
-                            maxLength={27}
+                            maxLength={20}
                             value={customWmText}
                             onChange={hInputChange}
                         />
-                        <span>{customWmText.length}/27</span>
+                        <span>{customWmText.length}/50</span>
                     </div>
                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                         <span className="text-sm text-gray-500 ml-14">
