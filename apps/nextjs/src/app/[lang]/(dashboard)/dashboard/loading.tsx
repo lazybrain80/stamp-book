@@ -6,8 +6,8 @@ export default function DashboardLoading() {
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="kubernetes"
-        text="Create and manage clusters."
+        heading="Loading pages..."
+        text="Now loading the water creating pages."
       ></DashboardHeader>
       <div className="divide-border-200 divide-y rounded-md border">
         <BasicItemSkeleton />

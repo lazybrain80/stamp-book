@@ -6,8 +6,8 @@ export default function DashboardSettingsLoading() {
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="Settings"
-        text="Manage account and website settings."
+        heading="Loading pages..."
+        text="Now loading the watermark validation pages."
       />
       <div className="grid gap-10">
         <CardSkeleton />
