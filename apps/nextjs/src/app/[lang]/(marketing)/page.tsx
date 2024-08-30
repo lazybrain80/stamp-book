@@ -27,18 +27,16 @@ export default async function IndexPage({
       <section className="w-full px-8 sm:px-48 md:px-48 xl:px-48">
         <div className="grid grid-cols-1 gap-10 pb-20 xl:grid-cols-2">
           <div className="flex flex-col items-start">
-            <div className="flex flex-col pt-4 md:pt-28 lg:pt-28 xl:pt-28">
+            <div className="flex flex-col pt-4 md:pt-10 lg:pt-10 xl:pt-10">
               <div className="mt-6">
                 <h1 className="relative mb-6 max-w-4xl text-left text-4xl font-bold dark:text-zinc-100 sm:text-7xl md:text-7xl xl:text-7xl">
-                  {dict.marketing.title ||
-                    "Saasfly: A new SaaS player? Make things easier."}
+                  {dict.marketing.title}
                 </h1>
               </div>
 
               <div>
                 <span className="text-zinc-500 sm:text-xl">
-                  {dict.marketing.sub_title ||
-                    "Your complete All-in-One solution for building SaaS services."}
+                  {dict.marketing.sub_title}
                 </span>
                 <TypewriterEffectSmooths />
               </div>
@@ -56,7 +54,7 @@ export default async function IndexPage({
           </div>
 
           <div className="hidden h-full w-full xl:block">
-            <div className="flex flex-col pt-28">
+            <div className="flex flex-col pt-10">
               <div className="mt-4 flex w-full justify-between">
                 <XBlogArticle />
               </div>
