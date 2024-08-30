@@ -100,6 +100,7 @@ export default function ValidateWatermark(
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
             <DragAndDropBox
                 handleFileChange={hWmImgChange}
+                className="w-full"
             >
                 <DragAndDropBoxIcon name={"Add"}/>
                 <DragAndDropBoxTitle>
