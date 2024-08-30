@@ -18,6 +18,7 @@ import {
 interface CreateWatermarkProps {
     dragndrop_title: string
     dragndrop_desc: string
+    dragndrop_warn: string
     input_wm_warning: string
     submit: string
 }
@@ -31,6 +32,7 @@ export default function CreateWatermark(
     {
         dragndrop_title,
         dragndrop_desc,
+        dragndrop_warn,
         input_wm_warning,
         submit
     }: CreateWatermarkProps
@@ -136,6 +138,7 @@ export default function CreateWatermark(
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
             <DragAndDropBox
                 handleFileChange={hOriginalImgChange}
+                className="w-full"
             >
                 <DragAndDropBoxIcon name={"Add"}/>
                 <DragAndDropBoxTitle>
@@ -145,6 +148,7 @@ export default function CreateWatermark(
                     {dragndrop_desc}
                 </DragAndDropBoxDescription>
             </DragAndDropBox>
+            <p className="underline hover:decoration-1 ...">{dragndrop_warn}</p>
             {originalImg
                 ?(<div className="flex flex-col w-full items-center">
                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">

@@ -55,7 +55,8 @@
   "common": {
     "dragndrop": {
       "title": "Drag and drop your files here",
-      "desc": "(or click to select)"
+      "desc": "(or click to select)",
+      "waring": "support types: jpg, jpeg, png"
     },
     "copyright": "著作権 © ${currentYear} Nextify株式会社。全ての権利を保有。",
     "dashboard": {

@@ -36,6 +36,7 @@ export default async function DashboardPage({
           <CreateWatermark
             dragndrop_title={dict.common.dragndrop.title}
             dragndrop_desc={dict.common.dragndrop.desc}
+            dragndrop_warn={dict.common.dragndrop.waring}
             input_wm_warning={dict.common.watermark.input_wm_warning}
             submit={dict.watermark.creating.submit}
           />

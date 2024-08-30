@@ -17,6 +17,7 @@ import {
 interface ValidateWatermarkProps {
     dragndrop_title: string
     dragndrop_desc: string
+    dragndrop_warn: string
     submit: string
     input_wm_warning: string
     correct_wm: string
@@ -31,6 +32,7 @@ export default function ValidateWatermark(
     {
         dragndrop_title,
         dragndrop_desc,
+        dragndrop_warn,
         submit,
         input_wm_warning,
         correct_wm,
@@ -107,6 +109,7 @@ export default function ValidateWatermark(
                     {dragndrop_desc}
                 </DragAndDropBoxDescription>
             </DragAndDropBox>
+            <p className="underline hover:decoration-1 ...">{dragndrop_warn}</p>
             {wmImg
                 ?(<div className="flex flex-col w-full items-center">
                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
