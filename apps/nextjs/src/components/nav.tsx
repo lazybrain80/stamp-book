@@ -18,8 +18,8 @@ interface DashboardNavProps {
 const iconMapObj = new Map([
   ["wm_maker", Icons.Add ],
   ["wm_maker_validate", Icons.Check],
-  ["billing", Icons.Billing],
-  ["settings", Icons.Settings],
+  ["create_history", Icons.FileStack],
+  ["validate_history", Icons.FileStack],
 ]);
 
 export function DashboardNav({ items, params: { lang } }: DashboardNavProps) {

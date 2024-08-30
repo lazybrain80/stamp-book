@@ -31,9 +31,14 @@ export const getDashboardConfig = async ({
         href: "/dashboard/validate",
       },
       {
-        id: "settings",
-        title: dict.common.dashboard.sidebar_nav_settings,
-        href: "/dashboard/settings",
+        id: "create_history",
+        title: dict.common.dashboard.sidebar_nav_wm_c_history,
+        href: "/dashboard/createHistory",
+      },
+      {
+        id: "validate_history",
+        title: dict.common.dashboard.sidebar_nav_wm_v_history,
+        href: "/dashboard/validateHistory",
       },
     ],
   };

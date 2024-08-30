@@ -64,9 +64,8 @@
       "main_nav_support": "支持",
       "sidebar_nav_wm_maker": "Creating Watermark",
       "sidebar_nav_wm_validater": "Validating Watermark",
-      "sidebar_nav_clusters": "集群",
-      "sidebar_nav_billing": "账单",
-      "sidebar_nav_settings": "设置"
+      "sidebar_nav_wm_c_history": "Creating History",
+      "sidebar_nav_wm_v_history": "Validating History"
     },
     "watermark": {
       "input_wm_warning": "Allowed characters: English letters, numbers, special characters (!@#$%^&*()+=._-)"
