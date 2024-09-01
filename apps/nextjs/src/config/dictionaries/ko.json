@@ -91,6 +91,14 @@
     "": ""
   },
   "watermark": {
+    "createHistory": {
+      "title": "워터마크 생성 이력",
+      "desc": "워터마크를 생성한 이력을 확인해보세요"
+    },
+    "validateHistory": {
+      "title": "워터마크 검증 이력",
+      "desc": "워터마크를 검증한 이력을 확인해보세요"
+    },
     "creating": {
       "title": "워터마크 만들기",
       "desc": "이미지에 보이지 않는 워터마크를 넣어보세요",

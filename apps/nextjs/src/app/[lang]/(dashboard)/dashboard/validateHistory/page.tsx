@@ -4,22 +4,27 @@ import { authOptions, getCurrentUser } from "@saasfly/auth";
 
 import { DashboardHeader } from "~/components/header";
 import { DashboardShell } from "~/components/shell";
+import type { Locale } from "~/config/i18n-config";
+import { getDictionary } from "~/lib/get-dictionary";
 
-export const metadata = {
-  title: "Settings",
-  description: "Manage account and website settings.",
-};
 
-export default async function SettingsPage() {
+export default async function ValidationHistoryPage({
+  params: { lang },
+}: {
+  params: {
+    lang: Locale;
+  };
+}) {
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn ?? "/login");
   }
+  const dict = await getDictionary(lang);
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="Settings"
-        text="Manage account and website settings."
+        heading={dict.watermark.validateHistory.title}
+        text={dict.watermark.validateHistory.desc}
       />
       <div className="grid gap-10">
         <></>

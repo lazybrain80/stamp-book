@@ -90,6 +90,14 @@
     "": ""
   },
   "watermark": {
+    "createHistory": {
+      "title": "Watermark Creation History",
+      "desc": "Check the history of watermark creation"
+    },
+    "validateHistory": {
+      "title": "Watermark Validation History",
+      "desc": "Check the history of watermark validation"
+    },
     "creating": {
       "title": "Creating Watermark",
       "desc": "Put an invisible watermark on your images",
