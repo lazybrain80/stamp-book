@@ -10,6 +10,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import { Account } from "@saasfly/db";
 import { db } from "./db";
 import { env } from "./env.mjs";
+import axios from "axios";
 
 type UserId = string;
 type IsAdmin = boolean;
@@ -66,7 +67,6 @@ export const authOptions: NextAuthOptions = {
           session.user.email = token.email;
           session.user.image = token.picture;
           session.user.isAdmin = token.isAdmin as boolean;
-          console.log("session.user", session.user);
         }
       }
       return session;
@@ -74,36 +74,34 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, account, user }) {
           if (account) {
             token.account = account;
+            console.log("JWT-account", account)
           }
+          
           const tokenAccount = token.account as Account;
-          if (token.account && tokenAccount.expires_at && Date.now() >= (tokenAccount.expires_at ?? 0) * 1000) {
-            const response = await fetch("https://oauth2.googleapis.com/token", {
-              method: "POST",
-              body: new URLSearchParams({
-                client_id: process.env.GOOGLE_CLIENT_ID!,
-                client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+          const shouldRefreshTime = (tokenAccount.expires_at ?? 0) * 1000 - 5 * 60 * 1000; // 만료 5분 전
+          if (token.account && tokenAccount.expires_at && Date.now() >= shouldRefreshTime) {
+            console.log("Refreshing token")
+            try {
+              const response = await axios.post("https://oauth2.googleapis.com/token", {
+                client_id: process.env.GOOGLE_CLIENT_ID,
+                client_secret: process.env.GOOGLE_CLIENT_SECRET,
+                refresh_token: tokenAccount.refresh_token,
                 grant_type: "refresh_token",
-                refresh_token: tokenAccount.refresh_token as string,
-              }),
-            })
+              });
     
-            const tokensOrError = await response.json()
-    
-            if (!response.ok) throw tokensOrError
-    
-            const newTokens = tokensOrError as {
-              access_token: string
-              expires_in: number
-              refresh_token?: string
+              const refreshedTokens = response.data;
+              console.log("Refreshed tokens", refreshedTokens);
+              tokenAccount.id_token = refreshedTokens.id_token;
+              tokenAccount.access_token = refreshedTokens.access_token;
+              tokenAccount.expires_at = Date.now() + refreshedTokens.expires_in * 1000;
+              tokenAccount.refresh_token = refreshedTokens.refresh_token ?? tokenAccount.refresh_token;
+
+              token.account = tokenAccount;
+            } catch (error) {
+              console.error("Error refreshing token", error);
+              // 토큰 갱신 실패 시 기존 토큰을 무효화
+              token.error = "RefreshAccessTokenError";
             }
-    
-            tokenAccount.access_token = newTokens.access_token
-            tokenAccount.expires_at = Math.floor(
-              Date.now() / 1000 + newTokens.expires_in
-            )
-            // Some providers only issue refresh tokens once, so preserve if we did not get a new one
-            if (newTokens.refresh_token)
-              tokenAccount.refresh_token = newTokens.refresh_token
           }
     
           const email = token?.email ?? "";
