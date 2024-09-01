@@ -6,7 +6,7 @@ import { DashboardHeader } from "~/components/header";
 import { DashboardShell } from "~/components/shell";
 import type { Locale } from "~/config/i18n-config";
 import { getDictionary } from "~/lib/get-dictionary";
-
+import { ValidationHistory } from "~/components/watermark";
 
 export default async function ValidationHistoryPage({
   params: { lang },
@@ -27,7 +27,7 @@ export default async function ValidationHistoryPage({
         text={dict.watermark.validateHistory.desc}
       />
       <div className="grid gap-10">
-        <></>
+        <ValidationHistory />
       </div>
     </DashboardShell>
   );

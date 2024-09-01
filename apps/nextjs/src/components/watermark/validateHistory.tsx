@@ -22,12 +22,12 @@ import { set } from "zod";
 interface History {
     _id: string
     email: string
-    filename: string
-    watermark: string
+    try_watermark: string
+    matched: boolean
     createdAt: string
 }
 
-export default function CreationHistory() {
+export default function ValidationHistory() {
     const { data: session } = useSession()
     const [history, setHistory] = useState<History[]>([])
     const [page, setPage] = useState(1)
@@ -35,14 +35,14 @@ export default function CreationHistory() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     // fetch history
     useEffect(() => {
-        loadCreationHistory()
+        loadHistory()
     }, [])
 
-    const loadCreationHistory = async () => {
+    const loadHistory = async () => {
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await axios.get("http://127.0.0.1:8000/v1/filigrana/history",
+            const res = await axios.get("http://127.0.0.1:8000/v1/filigrana/corda/history",
             {
                 params: {
                     page: page,
@@ -77,7 +77,7 @@ export default function CreationHistory() {
 
     const filterHistory = async () => {
         setPage(1)
-        loadCreationHistory()
+        loadHistory()
     }
 
     const loadMoreHistory = async () => {
@@ -85,7 +85,7 @@ export default function CreationHistory() {
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await axios.get("http://127.0.0.1:8000/v1/filigrana/history",
+            const res = await axios.get("http://127.0.0.1:8000/v1/filigrana/corda/history",
             {
                 params: {
                     page: loadNextPage,
@@ -152,15 +152,15 @@ export default function CreationHistory() {
                             </TableCaption>
                             <TableHeader>
                                 <TableRow className="hover:bg-gray-50">
-                                    <TableHead>filename</TableHead>
-                                    <TableHead>watermark</TableHead>
+                                    <TableHead>validation</TableHead>
+                                    <TableHead>matched</TableHead>
                                     <TableHead>created at</TableHead>
                                 </TableRow>
                             </TableHeader>
                             {history.map((h: History) => (
                                 <TableRow key={h._id} className="hover:bg-gray-50">
-                                    <TableCell>{h.filename}</TableCell>
-                                    <TableCell>{h.watermark}</TableCell>
+                                    <TableCell>{h.try_watermark}</TableCell>
+                                    <TableCell>{h.matched}</TableCell>
                                     <TableCell>{h.createdAt}</TableCell>
                                 </TableRow>
                             ))}
@@ -184,7 +184,7 @@ export default function CreationHistory() {
                         "No history found"
                     </EmptyPlaceholder.Title>
                     <EmptyPlaceholder.Description>
-                        "No history found. Please create a watermark first."
+                        "No history found, Please validate a watermark first."
                     </EmptyPlaceholder.Description>
                 </EmptyPlaceholder>
             )}
