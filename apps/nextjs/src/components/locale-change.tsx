@@ -26,7 +26,7 @@ export function LocaleChange({ url }: { url: string }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="h-8 w-8 px-0">
-          <Icons.Languages />
+          <Icons.Globe />
           <span className="sr-only"></span>
         </Button>
       </DropdownMenuTrigger>
