@@ -33,6 +33,8 @@ export const Languages = Lucide.Languages;
 export const Cluster = Lucide.CloudCog;
 export const Search = Lucide.Search;
 export const FileStack = Lucide.FileStack
+export const ListFilter = Lucide.ListFilter
+export const ArrowDownFromLine = Lucide.LucideArrowDownFromLine
 
 export const System: Icon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
