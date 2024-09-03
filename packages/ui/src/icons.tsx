@@ -36,6 +36,9 @@ export const FileStack = Lucide.FileStack
 export const ListFilter = Lucide.ListFilter
 export const ArrowDownFromLine = Lucide.LucideArrowDownFromLine
 export const Globe = Lucide.Globe
+export const DownloadCloud = Lucide.DownloadCloud
+export const Smile = Lucide.Smile
+export const Frown = Lucide.Frown
 
 export const System: Icon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>

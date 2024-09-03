@@ -175,7 +175,7 @@ export default function CreateWatermark(
                     </div>
                     <Button
                         variant="secondary"
-                        className="rounded-full w-11/12 mt-4"
+                        className="rounded-full w-full mt-4"
                         onClick={hOriginalImgSubmit}
                         disabled={isLoading}
                     >
@@ -188,21 +188,21 @@ export default function CreateWatermark(
             :<></>}
             {createdWmText
                 ?<div className="flex items-center" >
+                    <h2 className="flex-initial mt-4 text-left  mr-4">
+                        Watermark: {createdWmText}
+                    </h2>
                     <Button
                         variant="default"
-                        className="rounded-full mt-4 mr-4"
+                        className="flex-auto rounded-full mt-4"
                         onClick={hWmImgDownload}
                         disabled={isLoading}
                     >
                         {isLoading
                             ?(<Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />)
-                            :<Icons.Check className="h-6 w-6 mr-2"/>
+                            :<Icons.DownloadCloud className="h-6 w-6 mr-2"/>
                         }
                         {createdWmFile}
                     </Button>
-                    <h2 className="mt-4 text-left">
-                        Watermark: {createdWmText}
-                    </h2>
                 </div>
             :<></>}
         </div>

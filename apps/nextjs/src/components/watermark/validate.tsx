@@ -144,11 +144,11 @@ export default function ValidateWatermark(
                 ?(<div className="mt-4">
                     {isValidate
                         ?(<div className="flex items-center space-x-2">
-                            <Icons.Sun className="w-6 h-6 text-green-500"/>
+                            <Icons.Smile className="w-6 h-6 text-green-500"/>
                             <span>{correct_wm}</span>
                         </div>)
                         :(<div className="flex items-center space-x-2">
-                            <Icons.Moon className="w-6 h-6 text-red-500"/>
+                            <Icons.Frown className="w-6 h-6 text-red-500"/>
                             <span>{incorrect_wm}</span>
                         </div>)
                     }
