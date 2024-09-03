@@ -11,6 +11,7 @@ import { Account } from "@saasfly/db";
 import { db } from "./db";
 import { env } from "./env.mjs";
 import axios from "axios";
+import { boolean } from "zod";
 
 type UserId = string;
 type IsAdmin = boolean;
@@ -76,11 +77,9 @@ export const authOptions: NextAuthOptions = {
             token.account = account;
             console.log("JWT-account", account)
           }
-          
           const tokenAccount = token.account as Account;
-          const shouldRefreshTime = (tokenAccount.expires_at ?? 0) * 1000 - 5 * 60 * 1000; // 만료 5분 전
-          if (token.account && tokenAccount.expires_at && Date.now() >= shouldRefreshTime) {
-            console.log("Refreshing token")
+          const shouldRefreshTime = (tokenAccount.expires_at ?? 0) - 5 * 60; // 만료 5분 전
+          if (tokenAccount.expires_at && Date.now() >= shouldRefreshTime) {
             try {
               const response = await axios.post("https://oauth2.googleapis.com/token", {
                 client_id: process.env.GOOGLE_CLIENT_ID,
