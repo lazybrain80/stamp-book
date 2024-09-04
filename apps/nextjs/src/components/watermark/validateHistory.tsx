@@ -17,7 +17,6 @@ import { Input } from "@saasfly/ui/input"
 import * as Icons from "@saasfly/ui/icons"
 import { toast } from "@saasfly/ui/use-toast"
 import axios from "axios"
-import { set } from "zod";
 
 interface History {
     _id: string
@@ -26,6 +25,18 @@ interface History {
     matched: boolean
     createdAt: string
 }
+
+const formatDate = (date: Date) => {
+    return date.toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short'
+    });
+};
 
 export default function ValidationHistory() {
     const { data: session } = useSession()
@@ -160,8 +171,15 @@ export default function ValidationHistory() {
                             {history.map((h: History) => (
                                 <TableRow key={h._id} className="hover:bg-gray-50">
                                     <TableCell>{h.try_watermark}</TableCell>
-                                    <TableCell>{h.matched}</TableCell>
-                                    <TableCell>{h.createdAt}</TableCell>
+                                    <TableCell>
+                                        {h.matched? 
+                                            <Icons.Smile className="h-6 w-6 text-green-500" />
+                                            : <Icons.Frown className="h-6 w-6 text-red-500" />
+                                        }
+                                    </TableCell>
+                                    <TableCell>
+                                        {formatDate(new Date(h.createdAt))}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                             <TableFooter>
