@@ -15,85 +15,33 @@ export const getDocsConfig = (_lang: string): DocsConfig => {
     sidebarNav: [
       {
         id: "docs",
-        title: "Getting Started",
+        title: "시작하기",
         items: [
           {
-            title: "Introduction",
+            title: "서비스 소개",
             href: `/docs`,
           },
         ],
       },
       {
-        id: "documentation",
-        title: "Documentation",
+        id: "user-guide",
+        title: "사용자 가이드",
         items: [
           {
-            title: "Introduction",
-            href: `/docs/documentation`,
+            title: "워터마크 생성",
+            href: `/docs/create-watermark`,
           },
           {
-            title: "Contentlayer",
-            href: `/docs/in-progress`,
-            disabled: true,
+            title: "워터마크 검증",
+            href: `/docs/validate-watermark`,
           },
           {
-            title: "Components",
-            href: `/docs/documentation/components`,
+            title: "워터마크 생성이력",
+            href: `/docs/create-history`,
           },
           {
-            title: "Code Blocks",
-            href: `/docs/documentation/code-blocks`,
-          },
-          {
-            title: "Style Guide",
-            href: `/docs/documentation/style-guide`,
-          },
-        ],
-      },
-      {
-        id: "blog",
-        title: "Blog",
-        items: [
-          {
-            title: "Introduction",
-            href: `/docs/in-progress`,
-            disabled: true,
-          },
-        ],
-      },
-      {
-        id: "dashboard",
-        title: "Dashboard",
-        items: [
-          {
-            title: "Introduction",
-            href: "/docs/in-progress",
-            disabled: true,
-          },
-          {
-            title: "Layouts",
-            href: "/docs/in-progress",
-            disabled: true,
-          },
-          {
-            title: "Server Components",
-            href: "/docs/in-progress",
-            disabled: true,
-          },
-          {
-            title: "Authentication",
-            href: "/docs/in-progress",
-            disabled: true,
-          },
-          {
-            title: "Database with Prisma",
-            href: "/docs/in-progress",
-            disabled: true,
-          },
-          {
-            title: "API Routes",
-            href: "/docs/in-progress",
-            disabled: true,
+            title: "워터마크 검증이력",
+            href: `/docs/validate-history`,
           },
         ],
       },
