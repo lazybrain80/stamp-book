@@ -1,60 +1,18 @@
 ---
-title: 워터마트 생성이력
-description: Build your documentation site using Contentlayer and MDX.
+title: 워터마크 생성 이력 화면
+description: 워터마크를 생성했던 이력을 보여주는 화면입니다.
 ---
 
-Taxonomy includes a documentation site built using [Contentlayer](https://contentlayer.dev) and [MDX](http://mdxjs.com).
+## 초기화면 🖥️
+![init](/images/docs/c-history/init.png)
 
-## Features
+최근에 생성된 워터마크 이력을 확인할 수 있습니다. 각 항목에는 생성된 날짜와 시간, 생성된 워터마크의 내용 등이 표시됩니다.
 
-It comes with the following features out of the box:
+## 이력데이터 추가 불러오기 🔄
+![loadmore](/images/docs/c-history/tail.png)
 
-1. Write content using MDX.
-2. Transform and validate content using Contentlayer.
-3. MDX components such as `<Callout />` and `<Card />`.
-4. Support for table of contents.
-5. Custom navigation with prev and next pager.
-6. Beautiful code blocks using `rehype-pretty-code`.
-7. Syntax highlighting using `shiki`.
-8. Built-in search (_in progress_).
-9. Dark mode (_in progress_).
+이력 데이터가 많을 경우, **"더 불러오기"** 버튼을 클릭하여 추가 데이터를 불러올 수 있습니다. 이 버튼을 클릭하면 더 많은 생성 이력을 확인할 수 있습니다.
 
-## How is it built
-
-Click on a section below to learn how the documentation site built.
-
-<div className="grid gap-4 mt-6">
-
-    <Card href="/docs/documentation">
-
-        ### Contentlayer
-
-        Learn how to use MDX with Contentlayer.
-
-    </Card>
-
-    <Card href="/docs/documentation/components">
-
-        ### Components
-
-        Using React components in Mardown.
-
-    </Card>
-
-    <Card href="/docs/documentation/components">
-
-        ### Code Blocks
-
-        Beautiful code blocks with syntax highlighting.
-
-    </Card>
-
-    <Card href="/docs/documentation/components">
-
-        ### Style Guide
-
-        View a sample page with all the styles.
-
-    </Card>
-
-</div>
+<Callout>
+📢 **주의:** 워터마크 생성 이력 기능이 현재 개발 중이므로 가끔 데이터가 정상적으로 표시되지 않을 때가 있습니다. 문제가 발생하면 관리자에게 문의해 주세요.
+</Callout>

@@ -1,60 +1,20 @@
 ---
 title: 워터마크 검증 사용법
-description: Build your documentation site using Contentlayer and MDX.
+description: 이미지에 들어있는 워터마크를 검증하는 방법을 설명합니다.
 ---
 
-Taxonomy includes a documentation site built using [Contentlayer](https://contentlayer.dev) and [MDX](http://mdxjs.com).
+## 초기화면 🖥️
+![init](/images/docs/validation/init.png)
 
-## Features
+## 이미지 선택 🖼️
+![selection](/images/docs/validation/image_selection.png)
 
-It comes with the following features out of the box:
+여기서는 ** 워터마크가 적용된 이미지 **를 선택합니다. 이미지를 선택하면 미리보기 화면에 선택한 이미지가 표시됩니다.
+추가로 아래에 입력창에 확인하고자 하는 ** 워터마크 **를 입력합니다.
+입력 후 ** "검증하기" ** 버튼을 클릭하여 워터마크를 검증합니다.
 
-1. Write content using MDX.
-2. Transform and validate content using Contentlayer.
-3. MDX components such as `<Callout />` and `<Card />`.
-4. Support for table of contents.
-5. Custom navigation with prev and next pager.
-6. Beautiful code blocks using `rehype-pretty-code`.
-7. Syntax highlighting using `shiki`.
-8. Built-in search (_in progress_).
-9. Dark mode (_in progress_).
+## 정상적인 워터마크 검증 ✅
+![init](/images/docs/validation/watermark_good.png)
 
-## How is it built
-
-Click on a section below to learn how the documentation site built.
-
-<div className="grid gap-4 mt-6">
-
-    <Card href="/docs/documentation">
-
-        ### Contentlayer
-
-        Learn how to use MDX with Contentlayer.
-
-    </Card>
-
-    <Card href="/docs/documentation/components">
-
-        ### Components
-
-        Using React components in Mardown.
-
-    </Card>
-
-    <Card href="/docs/documentation/components">
-
-        ### Code Blocks
-
-        Beautiful code blocks with syntax highlighting.
-
-    </Card>
-
-    <Card href="/docs/documentation/components">
-
-        ### Style Guide
-
-        View a sample page with all the styles.
-
-    </Card>
-
-</div>
+## 워터마크가 검증 실패한 경우 ❌
+![init](/images/docs/validation/watermark_bad.png)
