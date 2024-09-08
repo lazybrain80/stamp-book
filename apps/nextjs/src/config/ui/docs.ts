@@ -14,7 +14,7 @@ export const getDocsConfig = (_lang: string): DocsConfig => {
     ],
     sidebarNav: [
       {
-        id: "docs",
+        id: "getting-started",
         title: "시작하기",
         items: [
           {
