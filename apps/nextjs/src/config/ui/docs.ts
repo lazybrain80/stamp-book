@@ -1,47 +1,96 @@
 import type { DocsConfig } from "~/types";
 
 export const getDocsConfig = (_lang: string): DocsConfig => {
+  if (_lang === "ko") {
+    return {
+      mainNav: [
+        {
+          title: "문서",
+          href: `/ko/docs`,
+        },
+        {
+          title: "가이드",
+          href: `/ko/guides`,
+        },
+      ],
+      sidebarNav: [
+        {
+          id: "getting-started",
+          title: "시작하기",
+          items: [
+            {
+              title: "서비스 소개",
+              href: `/ko/docs`,
+            },
+          ],
+        },
+        {
+          id: "user-guide",
+          title: "사용자 가이드",
+          items: [
+            {
+              title: "워터마크 생성",
+              href: `/ko/docs/create-watermark`,
+            },
+            {
+              title: "워터마크 검증",
+              href: `/ko/docs/validate-watermark`,
+            },
+            {
+              title: "워터마크 생성이력",
+              href: `/ko/docs/create-history`,
+            },
+            {
+              title: "워터마크 검증이력",
+              href: `/ko/docs/validate-history`,
+            },
+          ],
+        },
+      ],
+    };
+  }
+
   return {
     mainNav: [
       {
         title: "Documentation",
-        href: `/docs`,
+        href: `/en/docs`,
       },
       {
         title: "Guides",
-        href: `/guides`,
+        href: `/en/guides`,
       },
     ],
     sidebarNav: [
       {
         id: "getting-started",
-        title: "시작하기",
+        title: "Getting Started",
         items: [
           {
-            title: "서비스 소개",
-            href: `/docs`,
+            title: "Introduction",
+            href: `/en/docs`,
           },
         ],
       },
       {
         id: "user-guide",
-        title: "사용자 가이드",
+        title: "User Guide",
         items: [
           {
-            title: "워터마크 생성",
-            href: `/docs/create-watermark`,
+            title: "Create Watermark",
+            href: `/en/docs/create-watermark`,
           },
           {
-            title: "워터마크 검증",
-            href: `/docs/validate-watermark`,
+            title: "Validate Watermark",
+            href: `/en/docs/validate-watermark`,
           },
           {
-            title: "워터마크 생성이력",
-            href: `/docs/create-history`,
+            title: "Creation History",
+            href: `/en/docs/create-history`,
           },
           {
-            title: "워터마크 검증이력",
-            href: `/docs/validate-history`,
+            title: "Validation History",
+            href: `/en/docs/validate-history`,
           },
         ],
       },

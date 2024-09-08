@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
-
+import type { Locale } from "~/config/i18n-config";
 import { notFound } from "next/navigation";
 
 import { Mdx } from "~/components/content/mdx-components";
@@ -18,12 +18,16 @@ import { absoluteUrl } from "~/lib/utils";
 
 interface DocPageProps {
   params: {
+    lang: Locale
     slug: string[];
   };
 }
 
-function getDocFromParams(params: { slug: any }) {
-  const slug = params.slug?.join("/") || "";
+function getDocFromParams(params: { lang: Locale, slug: any }) {
+  let slug = `${params.lang}/docs`
+  if (params.slug) {
+    slug += `/${params.slug.join("/")}`;
+  }
   const doc = allDocs.find((doc) => doc.slugAsParams === slug);
   if (!doc) {
     null;
