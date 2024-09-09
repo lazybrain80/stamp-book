@@ -19,15 +19,14 @@
     "": ""
   },
   "marketing": {
-    "introducing": "Introducing Saasfly",
-    "title": "Saasfly: A new SaaS player? Make things easier.",
-    "sub_title": "Your complete All-in-One solution for building SaaS services.",
+    "introducing": "Introducing SecureStamp",
+    "title": "SecureStamp: Image watermark? Make things easier.",
+    "sub_title": "Add a watermark to protect your copyright and increase brand recognition. You can also secure your content without sacrificing the quality of your images.",
     "get_started": "Get Started",
     "view_on_github": "View on GitHub",
     "explore_product": "Explore Product",
     "features": "Features",
     "sub_features": "Cloud-native: Simplifying technology and reducing costs for startups.",
-
     "devops_features": "Easy application deployment",
     "price_features": "Economically efficient for production environments.",
     "main_nav_features": "Features",
@@ -38,7 +37,14 @@
     "main_nav_documentation": "Documentation",
     "login": "Login",
     "signup": "Sign up",
-    "": ""
+    "first_show_title": "What is an Invisible Watermark? 🌊",
+    "first_show_desc": "An invisible watermark is a technique embedded in images or videos that discreetly hides important information! ✨ It serves various functions, including information embedding, copyright protection, and tracking.",
+    "secode_show_title": "Why You Should Use a Digital Watermark 💪",
+    "secode_show_desc": "Watermarks are essential for copyright protection and preventing unauthorized use! They reduce the risk of theft even when your work is publicly shared, allowing you to create with peace of mind.",
+    "third_show_title": "User-Friendly Interface 🚀",
+    "third_show_desc": "Our service offers an intuitive and easy-to-use interface! With just a few clicks, you can perform your desired tasks without complicated processes, making it accessible for everyone. Designed for both beginners and experts, it ensures an efficient content protection experience.",
+    "fourth_show_title": "Try SecureStamp Today! 🔒",
+    "fourth_show_desc": "SecureStamp is here to keep your content safe! <br />Take the first step to secure content management with us today! 🌟"
   },
   "login": {
     "back": "Back",

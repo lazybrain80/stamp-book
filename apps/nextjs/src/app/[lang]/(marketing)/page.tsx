@@ -38,7 +38,9 @@ export default async function IndexPage({
                 <span className="text-zinc-500 sm:text-xl">
                   {dict.marketing.sub_title}
                 </span>
-                <TypewriterEffectSmooths />
+                <TypewriterEffectSmooths
+                  lang={lang}
+                />
               </div>
 
               <div className="mb-4 mt-6 flex w-full flex-col justify-center space-y-4 sm:flex-row sm:justify-start sm:space-x-8 sm:space-y-0">
@@ -66,7 +68,10 @@ export default async function IndexPage({
       <section className="w-full px-8 sm:px-48 md:px-48 xl:px-48">
         <div className="flex h-full w-full justify-between">
           <div className="flex w-[100%] flex-col pb-20">
-            <Marketing1stShow />
+            <Marketing1stShow
+              title={dict.marketing.first_show_title}
+              description={dict.marketing.first_show_desc}
+            />
           </div>
         </div>
       </section>
@@ -74,7 +79,10 @@ export default async function IndexPage({
       <section className="w-full px-8 sm:px-48 md:px-48 xl:px-48">
         <div className="flex h-full w-full justify-between">
           <div className="flex w-[100%] flex-col pb-20">
-            <Marketing2ndShow />
+            <Marketing2ndShow
+              title={dict.marketing.secode_show_title}
+              description={dict.marketing.secode_show_desc}
+            />
           </div>
         </div>
       </section>
@@ -82,7 +90,10 @@ export default async function IndexPage({
       <section className="w-full px-8 sm:px-48 md:px-48 xl:px-48">
         <div className="flex h-full w-full justify-between">
           <div className="flex w-[100%] flex-col pb-20">
-            <Marketing3thShow />
+            <Marketing3thShow 
+              title={dict.marketing.third_show_title}
+              description={dict.marketing.third_show_desc}
+            />
           </div>
         </div>
       </section>
@@ -90,7 +101,10 @@ export default async function IndexPage({
       <section className="w-full px-8 sm:px-48 md:px-48 xl:px-48">
         <div className="flex h-full w-full justify-between">
           <div className="flex w-[100%] flex-col pb-20">
-            <Marketing4thShow />
+            <Marketing4thShow
+              title={dict.marketing.fourth_show_title}
+              description={dict.marketing.fourth_show_desc}
+            />
           </div>
         </div>
       </section>
