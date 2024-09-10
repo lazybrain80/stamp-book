@@ -32,9 +32,9 @@ export default async function DashboardPage({
           text={dict.watermark.dashboard.desc}
         >
         </DashboardHeader>
-
+        <div className="flex justify-center mt-5">
           <SecureStampDashboard />
-
+        </div>
       </DashboardShell>
     );
 }
