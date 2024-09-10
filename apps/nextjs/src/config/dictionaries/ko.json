@@ -69,6 +69,7 @@
     "dashboard": {
       "main_nav_documentation": "문서",
       "main_nav_support": "지원",
+      "sidebar_nav_wm_dashboard": "대시보드",
       "sidebar_nav_wm_maker": "워터마크 만들기",
       "sidebar_nav_wm_validater": "워터마크 검증하기",
       "sidebar_nav_wm_c_history": "워터마크 생성이력",
@@ -98,6 +99,10 @@
     "": ""
   },
   "watermark": {
+    "dashboard": {
+      "title": "대시보드",
+      "desc": "워터마크 대시보드"
+    },
     "createHistory": {
       "title": "워터마크 생성 이력",
       "desc": "워터마크를 생성한 이력을 확인해보세요"

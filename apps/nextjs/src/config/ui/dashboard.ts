@@ -21,9 +21,14 @@ export const getDashboardConfig = async ({
     ],
     sidebarNav: [
       {
+        id: "wm_dashboard",
+        title: dict.common.dashboard.sidebar_nav_wm_dashboard,
+        href: "/dashboard/",
+      },
+      {
         id: "wm_maker",
         title: dict.common.dashboard.sidebar_nav_wm_maker,
-        href: "/dashboard/",
+        href: "/dashboard/create",
       },
       {
         id: "wm_maker_validate",

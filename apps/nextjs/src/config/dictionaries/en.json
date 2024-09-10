@@ -69,6 +69,7 @@
     "dashboard": {
       "main_nav_documentation": "Documentation",
       "main_nav_support": "Support",
+      "sidebar_nav_wm_dashboard": "Dashboard",
       "sidebar_nav_wm_maker": "Creating Watermark",
       "sidebar_nav_wm_validater": "Validating Watermark",
       "sidebar_nav_wm_c_history": "Creating History",
@@ -97,6 +98,10 @@
     "": ""
   },
   "watermark": {
+    "dashboard": {
+      "title": "Dashboard",
+      "desc": "Watermark dashboard"
+    },
     "createHistory": {
       "title": "Watermark Creation History",
       "desc": "Check the history of watermark creation"

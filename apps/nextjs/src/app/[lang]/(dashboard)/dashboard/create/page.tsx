@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { DashboardHeader } from "~/components/header";
 import { DashboardShell } from "~/components/shell";
-import { SecureStampDashboard } from "~/components/watermark"
+import { CreateWatermark } from "~/components/watermark";
 import type { Locale } from "~/config/i18n-config";
 import { getDictionary } from "~/lib/get-dictionary";
 
@@ -28,13 +28,19 @@ export default async function DashboardPage({
     return (
       <DashboardShell>
         <DashboardHeader
-          heading={dict.watermark.dashboard.title}
-          text={dict.watermark.dashboard.desc}
+          heading={dict.watermark.creating.title}
+          text={dict.watermark.creating.desc}
         >
         </DashboardHeader>
-
-          <SecureStampDashboard />
-
+        <div className="flex justify-center mt-5">
+          <CreateWatermark
+            dragndrop_title={dict.common.dragndrop.title}
+            dragndrop_desc={dict.common.dragndrop.desc}
+            dragndrop_warn={dict.common.dragndrop.waring}
+            input_wm_warning={dict.common.watermark.input_wm_warning}
+            submit={dict.watermark.creating.submit}
+          />
+        </div>
       </DashboardShell>
     );
 }
