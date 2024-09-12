@@ -5,7 +5,7 @@ import { Switch } from "@saasfly/ui/switch"
 import { Input } from "@saasfly/ui/input"
 import { toast } from "@saasfly/ui/use-toast"
 import * as Icons from "@saasfly/ui/icons"
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 import { useSession } from "next-auth/react"
 import { useState } from "react"
 import {
@@ -14,6 +14,7 @@ import {
     DragAndDropBoxIcon,
     DragAndDropBoxTitle
 } from "~/components/drag-n-drop-box"
+import { wmAPI } from "~/utils/watermark-api"
 
 interface CreateWatermarkProps {
     dragndrop_title: string
@@ -64,13 +65,13 @@ export default function CreateWatermark(
             formData.append("watermark", customWmText)
             const account = session?.user.account
             try {
-                const res = await axios.post('http://127.0.0.1:8000/v1/filigrana', formData, {
+                const res = await wmAPI.post('/v1/filigrana', formData, {
                     headers: {
                         'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
                         'Content-Type': 'multipart/form-data',
                     },
                 })
-                const wmResult: WmResult = res.data
+                const wmResult: WmResult = (res as { data: WmResult }).data
                 setCreatedWmText(wmResult.wm)
                 setCreatedWmFile(wmResult.filename)
 
@@ -102,7 +103,7 @@ export default function CreateWatermark(
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const response = await axios.get(`http://127.0.0.1:8000/v1/filigrana/file?filename=${createdWmFile}`, {
+            const response = await wmAPI.get(`/v1/filigrana/file?filename=${createdWmFile}`, {
                 responseType: 'blob', // Important for handling binary data
                 headers: {
                     'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
@@ -111,7 +112,7 @@ export default function CreateWatermark(
                     'Expires': '0',
                 },
             })
-            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const url = window.URL.createObjectURL(new Blob([(response as AxiosResponse<Blob>).data]))
             const link = document.createElement('a')
             link.href = url
             link.setAttribute('download', `${createdWmFile}`) // Set the file name

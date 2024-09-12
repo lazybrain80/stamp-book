@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@saasfly/ui/card";
+import { wmAPI } from "~/utils/watermark-api"
 
 export default function SecureStampDashboard() {
     const { data: session } = useSession()
@@ -39,13 +40,13 @@ export default function SecureStampDashboard() {
         try {
           setIsLoading(true)
           const account = session?.user.account
-          const res = await axios.get("http://127.0.0.1:8000/v1/filigrana/cruscotto",
+          const res = await wmAPI.get("/v1/filigrana/cruscotto",
           {
               headers: {
                   'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
               }
           })
-          const data = res.data
+          const data = (res as { data: DashInfo }).data
           if (!data) {
               setIsLoading(false)
               toast({

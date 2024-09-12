@@ -13,6 +13,7 @@ import {
     DragAndDropBoxIcon,
     DragAndDropBoxTitle
 } from "~/components/drag-n-drop-box"
+import { wmAPI } from "~/utils/watermark-api"
 
 interface ValidateWatermarkProps {
     dragndrop_title: string
@@ -62,13 +63,13 @@ export default function ValidateWatermark(
             formData.append("watermark", validWmText)
             const account = session?.user.account
             try {
-                const res = await axios.post('http://127.0.0.1:8000/v1/filigrana/corda', formData, {
+                const res = await wmAPI.post('/v1/filigrana/corda', formData, {
                     headers: {
                         'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
                         'Content-Type': 'multipart/form-data',
                     },
                 })
-                const validResult: ValidResult = res.data
+                const validResult: ValidResult = (res as { data: ValidResult }).data
                 setShowValid(true)
                 setIsValidate(validResult.wm_validation)
             } catch (error: any) {
