@@ -2,7 +2,7 @@
 // https://apexcharts.com/docs
 import axios from "axios"
 import { useSession } from "next-auth/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "@saasfly/ui/use-toast"
 import Chart from 'react-apexcharts'
 import {
@@ -18,14 +18,57 @@ import {
 } from "@saasfly/ui/card";
 
 export default function SecureStampDashboard() {
+    const { data: session } = useSession()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const [originalImg, setOriginalImg] = useState<null | File>(null)
-    const [customWmText, setCustomWmText] = useState('')
+    interface DashInfo {
+        daily_stamp_count: number;
+        daily_validation_count: number;
+        total_stamp_count: number;
+        total_validation_count: number;
+    }
 
-    const [createdWmFile, setCreatedWmFile] = useState("")
-    const [createdWmText, setCreatedWmText] = useState("")
-    const [isCustomWm, setIsCustomWm] = useState(false)
+    const [dashInfo, setDashInfo] = useState<null | DashInfo>(null)
+
+    // fetch history
+    useEffect(() => {
+      loadDashboardInfo()
+    }, [])
+
+    const loadDashboardInfo = async () => {
+        try {
+          setIsLoading(true)
+          const account = session?.user.account
+          const res = await axios.get("http://127.0.0.1:8000/v1/filigrana/cruscotto",
+          {
+              headers: {
+                  'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
+              }
+          })
+          const data = res.data
+          if (!data) {
+              setIsLoading(false)
+              toast({
+                  title: "info",
+                  description: "No Dashboard info found",
+              })
+              return
+          }
+          console.log(data)
+          setDashInfo(data)
+      } catch (error) {
+          toast({
+              title: "error",
+              description: String(error),
+          })
+      }
+      setIsLoading(false)
+    }
+
+    const { daily_stamp_count,
+      daily_validation_count,
+      total_stamp_count,
+      total_validation_count } = dashInfo ?? {}
 
     return(
         <div className="w-full h-4/5">
@@ -38,7 +81,7 @@ export default function SecureStampDashboard() {
                 <BadgePlus className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">2 / 10</div>
+                <div className="text-2xl font-bold">{daily_stamp_count} / 10</div>
               </CardContent>
             </Card>
             <Card>
@@ -49,7 +92,7 @@ export default function SecureStampDashboard() {
                 <Receipt className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">999</div>
+                <div className="text-2xl font-bold">{total_stamp_count}</div>
               </CardContent>
             </Card>
             <Card>
@@ -60,7 +103,7 @@ export default function SecureStampDashboard() {
                 <BadgeCheck className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">20 / 50</div>
+                <div className="text-2xl font-bold">{daily_validation_count} / 50</div>
               </CardContent>
             </Card>
             <Card>
@@ -71,7 +114,7 @@ export default function SecureStampDashboard() {
                 <Receipt className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">9999</div>
+                <div className="text-2xl font-bold">{total_validation_count}</div>
               </CardContent>
             </Card>
           </div>
