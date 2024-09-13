@@ -122,15 +122,119 @@ export default function SecureStampDashboard() {
           
           <Chart
             className="mt-12"
-            height={500}
+            height={250}
             type="bar"
             series={[{ name: "Example", data: [10, 20, 30, 40, 30 ,20 ,10] }]}
             options={{
+              title: {
+                text: '주간 워터마크 사용량',
+                floating: true,
+                offsetY: -5,
+                align: 'center',
+                style: {
+                  color: '#FFFFFF'
+                }
+              },
               chart: {
-                id: "basic-bar"
+                id: "basic-bar",
+                toolbar: {
+                  show: false
+                }
+              },
+              plotOptions: {
+                bar: {
+                  borderRadius: 10,
+                  dataLabels: {
+                    position: 'top', // top, center, bottom
+                  },
+                }
+              },
+              dataLabels: {
+                enabled: true,
+                style: {
+                  fontSize: '12px',
+                  colors: ["#FFFFFF"]
+                }
+              },
+              tooltip: {
+                enabled: false
               },
               xaxis: {
-                categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+                categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                labels: {
+                  style: {
+                    fontSize: '12px',
+                    colors: "#FFFFFF"
+                  }
+                }
+              },
+              yaxis: {
+                labels: {
+                  style: {
+                    fontSize: '12px',
+                    colors: "#FFFFFF"
+                    }
+                  }
+                }
+              }
+            }
+          />
+          <Chart
+            className="mt-12"
+            height={250}
+            type="bar"
+            series={[{ name: "Example", data: [10, 20, 30, 40, 30 ,20 ,10] }]}
+            options={{
+              title: {
+                text: '주간 워터마크 검증량',
+                floating: true,
+                offsetY: -5,
+                align: 'center',
+                style: {
+                  color: '#FFFFFF'
+                }
+              },
+              chart: {
+                id: "basic-bar",
+                toolbar: {
+                  show: false
+                }
+              },
+              colors: ['#009933'],
+              plotOptions: {
+                bar: {
+                  borderRadius: 10,
+                  dataLabels: {
+                    position: 'top', // top, center, bottom
+                  },
+                }
+              },
+              dataLabels: {
+                enabled: true,
+                style: {
+                  fontSize: '12px',
+                  colors: ["#FFFFFF"]
+                }
+              },
+              tooltip: {
+                enabled: false
+              },
+              xaxis: {
+                categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                labels: {
+                  style: {
+                    fontSize: '12px',
+                    colors: "#FFFFFF"
+                  }
+                }
+              },
+              yaxis: {
+                labels: {
+                  style: {
+                    fontSize: '12px',
+                    colors: "#FFFFFF"
+                  }
+                }
               }
             }}
           />
