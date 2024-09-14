@@ -4,6 +4,7 @@ import { Button } from "@saasfly/ui/button"
 import { Switch } from "@saasfly/ui/switch"
 import { Input } from "@saasfly/ui/input"
 import { toast } from "@saasfly/ui/use-toast"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import * as Icons from "@saasfly/ui/icons"
 import axios, { AxiosResponse } from "axios"
 import { useSession } from "next-auth/react"
@@ -29,6 +30,9 @@ interface WmResult {
     filename: string
 }
 
+const WM_TEXT = "wm_text"
+const WM_IMAGE = "wm_image"
+
 export default function CreateWatermark(
     {
         dragndrop_title,
@@ -38,15 +42,15 @@ export default function CreateWatermark(
         submit
     }: CreateWatermarkProps
 ) {
+    const { data: session } = useSession()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
+    const [watermarkType, setWatermarkType] = useState<typeof WM_TEXT | typeof WM_IMAGE>(WM_TEXT)
     const [originalImg, setOriginalImg] = useState<null | File>(null)
     const [customWmText, setCustomWmText] = useState('')
 
     const [createdWmFile, setCreatedWmFile] = useState("")
     const [createdWmText, setCreatedWmText] = useState("")
-
-    const { data: session } = useSession()
 
     const [isCustomWm, setIsCustomWm] = useState(false)
 
@@ -60,12 +64,19 @@ export default function CreateWatermark(
             setCreatedWmText("")
             setCreatedWmFile("")
 
+            let url = '/v1/filigrana'
+            if(watermarkType === WM_IMAGE) {
+                url += '/image'
+            } else {
+                url += '/text'
+            }
             const formData = new FormData()
+            formData.append("type", watermarkType)
             formData.append("file", originalImg)
             formData.append("watermark", customWmText)
             const account = session?.user.account
             try {
-                const res = await wmAPI.post('/v1/filigrana', formData, {
+                const res = await wmAPI.post(url, formData, {
                     headers: {
                         'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
                         'Content-Type': 'multipart/form-data',
@@ -135,6 +146,10 @@ export default function CreateWatermark(
             setCustomWmText(value)
         }
     }
+
+    const hTabChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setWatermarkType(e.target.value as typeof WM_TEXT | typeof WM_IMAGE)
+    }
     return(
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
             <DragAndDropBox
@@ -151,40 +166,59 @@ export default function CreateWatermark(
             </DragAndDropBox>
             <p className="underline hover:decoration-1 ...">{dragndrop_warn}</p>
             {originalImg
-                ?(<div className="flex flex-col w-full items-center">
-                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
-                        <Switch
-                            checked={isCustomWm}
-                            onCheckedChange={setIsCustomWm}
-                            role="switch"
-                            aria-label="is-custom-wm"
-                        />
-                        <Input
-                            className="w-6/12"
-                            disabled={!isCustomWm}
-                            placeholder="Custom watermark"
-                            maxLength={20}
-                            value={customWmText}
-                            onChange={hInputChange}
-                        />
-                        <span>{customWmText.length}/20</span>
-                    </div>
-                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
-                        <span className="text-sm text-gray-500 ml-14">
-                            {input_wm_warning}
-                        </span>
-                    </div>
-                    <Button
-                        variant="secondary"
-                        className="rounded-full w-full mt-4"
-                        onClick={hOriginalImgSubmit}
-                        disabled={isLoading}
+                ?(<div className="flex flex-col w-full pt-4">
+                    <Tabs
+                        className="w-full"
+                        defaultValue={WM_TEXT}
+                        onChange={hTabChange}
                     >
-                        {isLoading && (
-                            <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
-                        )}
-                        {submit}
-                    </Button>
+                        <TabsList className="w-full">
+                            <TabsTrigger value={WM_TEXT}>Text Watermark</TabsTrigger>
+                            <TabsTrigger value={WM_IMAGE} disabled>Image Watermark</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="wm_text">
+                            <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                                <Switch
+                                    checked={isCustomWm}
+                                    onCheckedChange={setIsCustomWm}
+                                    role="switch"
+                                    aria-label="is-custom-wm"
+                                />
+                                <Input
+                                    className="w-6/12"
+                                    disabled={!isCustomWm}
+                                    placeholder="Custom text"
+                                    maxLength={20}
+                                    value={customWmText}
+                                    onChange={hInputChange}
+                                />
+                                <span>{customWmText.length}/20</span>
+                            </div>
+                            <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                                <span className="text-sm text-gray-500 ml-14">
+                                    {input_wm_warning}
+                                </span>
+                            </div>
+                            <Button
+                                variant="secondary"
+                                className="rounded-full w-full mt-4"
+                                onClick={hOriginalImgSubmit}
+                                disabled={isLoading}
+                            >
+                                {isLoading && (
+                                    <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+                                )}
+                                {submit}
+                            </Button>
+                        </TabsContent>
+                        <TabsContent value="wm_image">
+                            <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                                <span className="text-sm text-gray-500">
+                                    image watermark
+                                </span>
+                            </div>
+                        </TabsContent>
+                    </Tabs>
                 </div>)
             :<></>}
             {createdWmText
