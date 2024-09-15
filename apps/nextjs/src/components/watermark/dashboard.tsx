@@ -18,17 +18,22 @@ import {
 } from "@saasfly/ui/card";
 import { wmAPI } from "~/utils/watermark-api"
 
+interface WeeklyCount {
+  [key: string]: number // 예: { "Mon": 10, "Tue": 20, ... }
+}
+
+interface DashInfo {
+    daily_stamp_count: number
+    daily_validation_count: number
+    total_stamp_count: number
+    total_validation_count: number
+    weekly_stamp_count: WeeklyCount
+    weekly_validation_count: WeeklyCount
+}
+
 export default function SecureStampDashboard() {
     const { data: session } = useSession()
     const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    interface DashInfo {
-        daily_stamp_count: number;
-        daily_validation_count: number;
-        total_stamp_count: number;
-        total_validation_count: number;
-    }
-
     const [dashInfo, setDashInfo] = useState<null | DashInfo>(null)
 
     // fetch history
@@ -46,6 +51,7 @@ export default function SecureStampDashboard() {
                   'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
               }
           })
+          console.log(res)
           const data = (res as { data: DashInfo }).data
           if (!data) {
               setIsLoading(false)
@@ -69,7 +75,13 @@ export default function SecureStampDashboard() {
     const { daily_stamp_count,
       daily_validation_count,
       total_stamp_count,
-      total_validation_count } = dashInfo ?? {}
+      total_validation_count,
+      weekly_stamp_count,
+      weekly_validation_count
+    } = dashInfo ?? {}
+
+    const weeklyStampValues = weekly_stamp_count ? Object.values(weekly_stamp_count) : [];
+    const weeklyValidationValues = weekly_validation_count ? Object.values(weekly_validation_count) : [];
 
     return(
         <div className="w-full h-4/5">
@@ -124,7 +136,7 @@ export default function SecureStampDashboard() {
             className="mt-12"
             height={250}
             type="bar"
-            series={[{ name: "Example", data: [10, 20, 30, 40, 30 ,20 ,10] }]}
+            series={[{ name: "Weekly stamp count", data: weeklyStampValues }]}
             options={{
               title: {
                 text: '주간 워터마크 사용량',
@@ -183,7 +195,7 @@ export default function SecureStampDashboard() {
             className="mt-12"
             height={250}
             type="bar"
-            series={[{ name: "Example", data: [10, 20, 30, 40, 30 ,20 ,10] }]}
+            series={[{ name: "Weeklu Validation", data: weeklyValidationValues }]}
             options={{
               title: {
                 text: '주간 워터마크 검증량',
