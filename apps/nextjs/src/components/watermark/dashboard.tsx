@@ -1,10 +1,9 @@
 "use client"
 // https://apexcharts.com/docs
-import axios from "axios"
-import { useSession } from "next-auth/react"
+
+import { useSession, signIn } from "next-auth/react"
 import { useState, useEffect } from "react"
 import { toast } from "@saasfly/ui/use-toast"
-import Chart from 'react-apexcharts'
 import {
   BadgePlus,
   BadgeCheck,
@@ -17,6 +16,11 @@ import {
   CardTitle,
 } from "@saasfly/ui/card";
 import { wmAPI } from "~/utils/watermark-api"
+import dynamic from 'next/dynamic';
+import LoadingOverlay from "~/components/loading-overlay";
+
+// 동적 로딩을 사용하여 ApexCharts를 클라이언트 사이드에서만 로드
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface WeeklyCount {
   [key: string]: number // 예: { "Mon": 10, "Tue": 20, ... }
@@ -32,14 +36,19 @@ interface DashInfo {
 }
 
 export default function SecureStampDashboard() {
-    const { data: session } = useSession()
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const { data: session, status } = useSession()
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [dashInfo, setDashInfo] = useState<null | DashInfo>(null)
 
-    // fetch history
     useEffect(() => {
-      loadDashboardInfo()
-    }, [])
+      if (status === 'loading') {
+        setIsLoading(true);
+      } else if (status === 'unauthenticated') {
+        signIn();
+      } else if (status === 'authenticated') {
+        loadDashboardInfo();
+      }
+    }, [status])
 
     const loadDashboardInfo = async () => {
         try {
@@ -51,10 +60,9 @@ export default function SecureStampDashboard() {
                   'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
               }
           })
-          console.log(res)
+
           const data = (res as { data: DashInfo }).data
           if (!data) {
-              setIsLoading(false)
               toast({
                   title: "info",
                   description: "No Dashboard info found",
@@ -85,6 +93,7 @@ export default function SecureStampDashboard() {
 
     return(
         <div className="w-full h-4/5">
+          <LoadingOverlay isLoading={isLoading} />
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

@@ -41,6 +41,10 @@ export const Smile = Lucide.Smile
 export const Frown = Lucide.Frown
 export const Rocket = Lucide.Rocket
 export const BookOpen = Lucide.BookOpen
+export const BadgePlus = Lucide.BadgePlus
+export const BadgeCheck = Lucide.BadgeCheck
+export const BadgeMinus = Lucide.BadgeMinus
+export const Receipt = Lucide.Receipt
 
 export const System: Icon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useSession } from "next-auth/react"
+import { useSession, signIn } from "next-auth/react"
 import {
     Table,
     TableCaption,
@@ -18,6 +18,7 @@ import * as Icons from "@saasfly/ui/icons"
 import { toast } from "@saasfly/ui/use-toast"
 import axios from "axios"
 import { wmAPI } from "~/utils/watermark-api";
+import LoadingOverlay from "~/components/loading-overlay";
 
 interface History {
     _id: string
@@ -28,15 +29,21 @@ interface History {
 }
 
 export default function CreationHistory() {
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
     const [history, setHistory] = useState<History[]>([])
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     // fetch history
     useEffect(() => {
-        loadCreationHistory()
-    }, [])
+        if (status === 'loading') {
+            setIsLoading(true);
+        } else if (status === 'unauthenticated') {
+            signIn();
+        } else if (status === 'authenticated') {
+            loadCreationHistory();
+        }
+    }, [status])
 
     const loadCreationHistory = async () => {
         try {
@@ -118,6 +125,7 @@ export default function CreationHistory() {
 
     return (
         <div>
+            <LoadingOverlay isLoading={isLoading} />
             <div className="mt-4 mb-4 flex divide-y divide-border rounded-md border">
                 <Icons.ListFilter className="m-3 text-gray-400" />
                 <Input

@@ -7,8 +7,8 @@ import { toast } from "@saasfly/ui/use-toast"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import * as Icons from "@saasfly/ui/icons"
 import axios, { AxiosResponse } from "axios"
-import { useSession } from "next-auth/react"
-import { useState } from "react"
+import { useSession, signIn } from "next-auth/react"
+import { useState, useEffect } from "react"
 import {
     DragAndDropBox,
     DragAndDropBoxDescription,
@@ -42,7 +42,7 @@ export default function CreateWatermark(
         submit
     }: CreateWatermarkProps
 ) {
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const [watermarkType, setWatermarkType] = useState<typeof WM_TEXT | typeof WM_IMAGE>(WM_TEXT)
@@ -53,6 +53,20 @@ export default function CreateWatermark(
     const [createdWmText, setCreatedWmText] = useState("")
 
     const [isCustomWm, setIsCustomWm] = useState(false)
+
+    useEffect(() => {
+        if (status === 'loading') {
+            setIsLoading(true);
+        } else if (status === 'unauthenticated') {
+            signIn();
+        } else if (status === 'authenticated') {
+            pagInitialize();
+        }
+    }, [status])
+
+    const pagInitialize = async () => {
+        setIsLoading(false);
+    }
 
     const hOriginalImgChange = (file: File) => {
         setOriginalImg(file)

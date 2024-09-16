@@ -5,8 +5,8 @@ import { Input } from "@saasfly/ui/input"
 import { toast } from "@saasfly/ui/use-toast"
 import * as Icons from "@saasfly/ui/icons"
 import axios from "axios"
-import { useSession } from "next-auth/react"
-import { useState } from "react"
+import { useSession, signIn } from "next-auth/react"
+import { useState, useEffect } from "react"
 import {
     DragAndDropBox,
     DragAndDropBoxDescription,
@@ -46,7 +46,21 @@ export default function ValidateWatermark(
     const [isValidate, setIsValidate] = useState(false)
     const [showValid, setShowValid] = useState(false)
 
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
+
+    useEffect(() => {
+        if (status === 'loading') {
+            setIsLoading(true);
+        } else if (status === 'unauthenticated') {
+            signIn();
+        } else if (status === 'authenticated') {
+            pagInitialize();
+        }
+    }, [status])
+
+    const pagInitialize = async () => {
+        setIsLoading(false);
+    }
 
     const hWmImgChange = (file: File) => {
         setWmImg(file)
