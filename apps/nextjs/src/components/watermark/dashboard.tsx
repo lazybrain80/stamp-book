@@ -181,7 +181,7 @@ export default function SecureStampDashboard() {
                 enabled: false
               },
               xaxis: {
-                categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
                 labels: {
                   style: {
                     fontSize: '12px',
@@ -241,7 +241,7 @@ export default function SecureStampDashboard() {
                 enabled: false
               },
               xaxis: {
-                categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
                 labels: {
                   style: {
                     fontSize: '12px',
