@@ -60,7 +60,7 @@ export default function ValidationHistory() {
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await wmAPI.get("/v1/filigrana/corda/history",
+            const res = await wmAPI.get("/v1/filigrana/corda/storia",
             {
                 params: {
                     page: page,
@@ -103,7 +103,7 @@ export default function ValidationHistory() {
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await wmAPI.get("/v1/filigrana/corda/history",
+            const res = await wmAPI.get("/v1/filigrana/corda/storia",
             {
                 params: {
                     page: loadNextPage,

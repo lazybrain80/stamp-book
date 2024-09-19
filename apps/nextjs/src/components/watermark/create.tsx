@@ -80,9 +80,9 @@ export default function CreateWatermark(
 
             let url = '/v1/filigrana'
             if(watermarkType === WM_IMAGE) {
-                url += '/image'
+                url += '/immagine'
             } else {
-                url += '/text'
+                url += '/testo'
             }
             const formData = new FormData()
             formData.append("type", watermarkType)
