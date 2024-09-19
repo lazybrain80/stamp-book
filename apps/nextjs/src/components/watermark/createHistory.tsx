@@ -49,7 +49,7 @@ export default function CreationHistory() {
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await wmAPI.get("/v1/filigrana/history",
+            const res = await wmAPI.get("/v1/filigrana/storia",
             {
                 params: {
                     page: page,
@@ -92,7 +92,7 @@ export default function CreationHistory() {
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await axios.get("http://127.0.0.1:8000/v1/filigrana/history",
+            const res = await wmAPI.get("/v1/filigrana/storia",
             {
                 params: {
                     page: loadNextPage,
@@ -102,7 +102,7 @@ export default function CreationHistory() {
                     'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
                 }
             })
-            const data = res.data
+            const data: History[] = (res as { data: History[] }).data
             if (!data.length) {
                 setIsLoading(false)
                 toast({
