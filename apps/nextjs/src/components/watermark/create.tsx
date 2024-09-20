@@ -30,6 +30,11 @@ interface WmResult {
     filename: string
 }
 
+interface ImageDimensions {
+    width: number
+    height: number
+}
+
 const WM_TEXT = "wm_text"
 const WM_IMAGE = "wm_image"
 
@@ -46,7 +51,10 @@ export default function CreateWatermark(
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const [watermarkType, setWatermarkType] = useState<typeof WM_TEXT | typeof WM_IMAGE>(WM_TEXT)
-    const [originalImg, setOriginalImg] = useState<null | File>(null)
+    const [originalImg, setOriginalImg] = useState<File | null>(null)
+    const [imageDimensions, setImageDimensions] = useState<ImageDimensions | {width: 0, height:0}>({width: 0, height:0});
+    const [wmImageLimit, setWmImageLimit] = useState<ImageDimensions | {width: 0, height:0}>({width: 0, height:0});
+    const [watermarkImg, setWatermarkImg] = useState<File | null>(null)
     const [customWmText, setCustomWmText] = useState('')
 
     const [createdWmFile, setCreatedWmFile] = useState("")
@@ -67,11 +75,55 @@ export default function CreateWatermark(
     const pagInitialize = async () => {
         setIsLoading(false);
     }
-
-    const hOriginalImgChange = (file: File) => {
-        setOriginalImg(file)
+    const isImageFile = (file: File) => {
+        return file.type.startsWith('image/');
     }
-    const hOriginalImgSubmit = async (e: React.FormEvent) => {
+
+    const getImageDimensions = (file: File): Promise<{ width: number, height: number }> => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                resolve({ width: img.width, height: img.height });
+            }
+            img.onerror = reject;
+            img.src = URL.createObjectURL(file);
+        })
+    }
+
+    const hOriginalImgChange = async (file: File) => {
+        
+        if (isImageFile(file)) {
+            const dimensions = await getImageDimensions(file)
+            if (dimensions.width < 128 || dimensions.height < 128) {
+                alert('Please select an image file with dimensions more than 128 x 128.');
+                return false
+            }
+            setOriginalImg(file)
+            setWmImageLimit({
+                width: Math.floor(dimensions.width / 8),
+                height: Math.floor(dimensions.height / 8)
+            })
+            setImageDimensions(dimensions)
+        } else {
+            alert('Please select a valid image file.');
+        }
+        return true
+    }
+    const hWatermarkImgChange = async (file: File) => {
+        
+        if (isImageFile(file)) {
+            const dimensions = await getImageDimensions(file)
+            if (dimensions.width > wmImageLimit.width || dimensions.height > wmImageLimit.height) {
+                alert('Please select an smaller watermark image.');
+                return false
+            }
+            setWatermarkImg(file)
+        } else {
+            alert('Please select a valid image file.');
+        }
+        return true
+    }
+    const hWatermarkingSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (originalImg) {
             setIsLoading(true)
@@ -79,15 +131,30 @@ export default function CreateWatermark(
             setCreatedWmFile("")
 
             let url = '/v1/filigrana'
-            if(watermarkType === WM_IMAGE) {
-                url += '/immagine'
-            } else {
-                url += '/testo'
-            }
             const formData = new FormData()
-            formData.append("type", watermarkType)
             formData.append("file", originalImg)
-            formData.append("watermark", customWmText)
+
+            if(watermarkType === WM_IMAGE) {
+                
+                if (watermarkImg === null) {
+                    alert('Please select a watermark image.')
+                    setIsLoading(false)
+                    return
+                }
+
+                url += '/immagine'
+                formData.append("watermark", watermarkImg)
+            } else {
+                if (customWmText === '') {
+                    alert('Please enter a custom watermark text.')
+                    setIsLoading(false)
+                    return
+                }
+
+                url += '/testo'
+                formData.append("watermark", customWmText)
+            }
+                
             const account = session?.user.account
             try {
                 const res = await wmAPI.post(url, formData, {
@@ -161,12 +228,13 @@ export default function CreateWatermark(
         }
     }
 
-    const hTabChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setWatermarkType(e.target.value as typeof WM_TEXT | typeof WM_IMAGE)
+    const hTabChange = (value: string) => {
+        setWatermarkType(value as typeof WM_TEXT | typeof WM_IMAGE)
     }
     return(
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
             <DragAndDropBox
+                dropboxId="originalImg"
                 handleFileChange={hOriginalImgChange}
                 className="w-full"
             >
@@ -184,11 +252,11 @@ export default function CreateWatermark(
                     <Tabs
                         className="w-full"
                         defaultValue={WM_TEXT}
-                        onChange={hTabChange}
+                        onValueChange={hTabChange}
                     >
                         <TabsList className="w-full">
                             <TabsTrigger value={WM_TEXT}>Text Watermark</TabsTrigger>
-                            <TabsTrigger value={WM_IMAGE} disabled>Image Watermark</TabsTrigger>
+                            <TabsTrigger value={WM_IMAGE}>Image Watermark</TabsTrigger>
                         </TabsList>
                         <TabsContent value="wm_text">
                             <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
@@ -216,7 +284,7 @@ export default function CreateWatermark(
                             <Button
                                 variant="secondary"
                                 className="rounded-full w-full mt-4"
-                                onClick={hOriginalImgSubmit}
+                                onClick={hWatermarkingSubmit}
                                 disabled={isLoading}
                             >
                                 {isLoading && (
@@ -226,20 +294,48 @@ export default function CreateWatermark(
                             </Button>
                         </TabsContent>
                         <TabsContent value="wm_image">
-                            <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
-                                <span className="text-sm text-gray-500">
-                                    image watermark
-                                </span>
+                            <div className="container mx-auto p-4 flex flex-col items-center justify-center">
+                                <p className="underline decoration-pink-500">주의: 삽입할 이미지 워터마크는 {wmImageLimit.width} X {wmImageLimit.height} 이하 만 가능합니다.</p>
+                                <DragAndDropBox
+                                    dropboxId="watermarkImg"
+                                    handleFileChange={hWatermarkImgChange}
+                                    className="w-1/2"
+                                >
+                                    <DragAndDropBoxIcon name={"Add"}/>
+                                    <DragAndDropBoxTitle>
+                                        {dragndrop_title}
+                                    </DragAndDropBoxTitle>
+                                    <DragAndDropBoxDescription>
+                                        {dragndrop_desc}
+                                    </DragAndDropBoxDescription>
+                                </DragAndDropBox>
+                                <p className="underline hover:decoration-1 ...">{dragndrop_warn}</p>
                             </div>
+                            <Button
+                                variant="secondary"
+                                className="rounded-full w-full mt-4"
+                                onClick={hWatermarkingSubmit}
+                                disabled={isLoading}
+                            >
+                                {isLoading && (
+                                    <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+                                )}
+                                {submit}
+                            </Button>
                         </TabsContent>
                     </Tabs>
                 </div>)
             :<></>}
-            {createdWmText
+            {createdWmFile
                 ?<div className="flex items-center" >
-                    <h2 className="flex-initial mt-4 text-left  mr-4">
-                        Watermark: {createdWmText}
-                    </h2>
+                    {watermarkType === WM_TEXT
+                        ?<h2 className="flex-initial mt-4 text-left  mr-4">
+                            Watermark: {createdWmText}
+                        </h2>
+                        :<h2 className="flex-initial mt-4 text-left  mr-4">
+                            Image Watermark
+                        </h2>
+                    }
                     <Button
                         variant="default"
                         className="flex-auto rounded-full mt-4"

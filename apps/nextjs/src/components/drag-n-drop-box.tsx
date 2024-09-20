@@ -7,12 +7,14 @@ import Image from "next/image"
 import { useRef, useEffect, useState } from "react"
 
 type DragAndDropBoxProps = React.HTMLAttributes<HTMLDivElement> & {
-  handleFileChange?: (file: File) => void
+  dropboxId: string
+  handleFileChange?: (file: File) => Promise<boolean>
 }
 const allowedFileTypes = ["jpg", "jpeg", "png"]
 const fileAccepts = allowedFileTypes.map(t => "image/"+t).join(", ")
 
 export function DragAndDropBox({
+  dropboxId,
   className,
   children,
   handleFileChange,
@@ -48,7 +50,7 @@ export function DragAndDropBox({
     }
   }, [])
 
-  const handleDrop = (e: DragEvent) => {
+  const handleDrop = async (e: DragEvent) => {
       e.preventDefault()
       e.stopPropagation()
 
@@ -69,17 +71,19 @@ export function DragAndDropBox({
 
       if (handleFileChange && files[0]) {
         const file = files[0]
-        setImage(file)
-        handleFileChange(file)
+        if (await handleFileChange(file)) {
+          setImage(file)
+        }
       }
       setDragging(false)
   }
 
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0] && handleFileChange) {
       const file = e.target.files[0]
-      setImage(file)
-      handleFileChange(file)
+      if(await handleFileChange(file)) {
+        setImage(file)
+      }
     }
   }
 
@@ -96,7 +100,7 @@ export function DragAndDropBox({
       ref={dropContainer}
       {...props}
     >
-      <label htmlFor="fileInput" className="cursor-pointer flex flex-col items-center space-y-2">
+      <label htmlFor={dropboxId} className="cursor-pointer flex flex-col items-center space-y-2">
         {image?
           <Image
             className="preview-image"
@@ -112,7 +116,7 @@ export function DragAndDropBox({
       </label>
       <input
         type="file"
-        id="fileInput"
+        id={dropboxId}
         className="hidden"
         multiple
         accept={fileAccepts}

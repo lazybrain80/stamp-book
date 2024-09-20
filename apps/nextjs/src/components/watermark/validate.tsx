@@ -62,8 +62,9 @@ export default function ValidateWatermark(
         setIsLoading(false);
     }
 
-    const hWmImgChange = (file: File) => {
+    const hWmImgChange = async (file: File) => {
         setWmImg(file)
+        return true
     }
     const hWmImgSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -114,6 +115,7 @@ export default function ValidateWatermark(
     return(
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
             <DragAndDropBox
+                dropboxId="vaildImg"
                 handleFileChange={hWmImgChange}
                 className="w-full"
             >
