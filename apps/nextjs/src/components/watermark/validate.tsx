@@ -13,6 +13,7 @@ import {
     DragAndDropBoxIcon,
     DragAndDropBoxTitle
 } from "~/components/drag-n-drop-box"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import { wmAPI } from "~/utils/watermark-api"
 
 interface ValidateWatermarkProps {
@@ -25,9 +26,16 @@ interface ValidateWatermarkProps {
     incorrect_wm: string
 }
 
-interface ValidResult {
+interface ValidTextResult {
     wm_validation: boolean
 }
+
+interface ValidImageResult {
+    watermark: File
+}
+
+const WM_TEXT = "wm_text"
+const WM_IMAGE = "wm_image"
 
 export default function ValidateWatermark(
     {
@@ -41,10 +49,15 @@ export default function ValidateWatermark(
     }: ValidateWatermarkProps
 ) {
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [watermarkType, setWatermarkType] = useState<typeof WM_TEXT | typeof WM_IMAGE>(WM_TEXT)
+
     const [wmImg, setWmImg] = useState<null | File>(null)
     const [validWmText, setValidWmText] = useState('')
+    const [validWmImg, setValidWmImg] = useState<null | string>(null)
+
     const [isValidate, setIsValidate] = useState(false)
-    const [showValid, setShowValid] = useState(false)
+    const [showTextValid, setShowTextValid] = useState(false)
+    const [showImageValid, setShowImageValid] = useState(false)
 
     const { data: session, status } = useSession()
 
@@ -70,23 +83,55 @@ export default function ValidateWatermark(
         e.preventDefault()
         if (wmImg) {
             setIsLoading(true)
-            setShowValid(false)
+            setShowTextValid(false)
+            setShowImageValid(false)
             setIsValidate(false)
 
+            if (wmImg === null) {
+                toast({
+                    title: "error",
+                    description: "Please select a watermark image.",
+                })
+                setIsLoading(false)
+                return
+            }
+
+            let url = '/v1/filigrana/corda'
             const formData = new FormData()
             formData.append("file", wmImg)
-            formData.append("watermark", validWmText)
+
             const account = session?.user.account
+            const headers = {
+                'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
+                'Content-Type': 'multipart/form-data',
+            }
+
             try {
-                const res = await wmAPI.post('/v1/filigrana/corda', formData, {
-                    headers: {
-                        'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
-                        'Content-Type': 'multipart/form-data',
-                    },
-                })
-                const validResult: ValidResult = (res as { data: ValidResult }).data
-                setShowValid(true)
-                setIsValidate(validResult.wm_validation)
+                if (watermarkType === WM_TEXT) {
+                    url += '/testo'
+                    formData.append("watermark", validWmText)
+
+                    const res = await wmAPI.post(url, formData, {
+                        headers,
+                    })
+                    const validResult: ValidTextResult = (res as { data: ValidTextResult }).data
+                    setShowTextValid(true)
+                    setIsValidate(validResult.wm_validation)
+
+                } else {
+                    const response = await wmAPI.post(url + '/immagine', formData, {
+                        headers,
+                        responseType: 'blob',
+                    })
+                    
+                    const blob = (response as { data: Blob }).data
+                    const imageUrl = URL.createObjectURL(blob);
+
+                    setShowImageValid(true)
+                    console.log(imageUrl)
+                    setValidWmImg(imageUrl)
+                }
+                
             } catch (error: any) {
                 let error_message: string = ""
                 if (axios.isAxiosError(error) && error.response) {
@@ -112,6 +157,9 @@ export default function ValidateWatermark(
             setValidWmText(value)
         }
     }
+    const hTabChange = (value: string) => {
+        setWatermarkType(value as typeof WM_TEXT | typeof WM_IMAGE)
+    }
     return(
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
             <DragAndDropBox
@@ -129,35 +177,61 @@ export default function ValidateWatermark(
             </DragAndDropBox>
             <p className="underline hover:decoration-1 ...">{dragndrop_warn}</p>
             {wmImg
-                ?(<div className="flex flex-col w-full items-center">
-                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
-                        <Input
-                            className="w-6/12"
-                            placeholder="Please input your watermark Text"
-                            maxLength={100}
-                            value={validWmText}
-                            onChange={hInputChange}
-                        />
-                    </div>
-                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
-                        <span className="text-sm text-gray-500">
-                            {input_wm_warning}
-                        </span>
-                    </div>
-                    <Button
-                        variant="secondary"
-                        className="rounded-full w-11/12 mt-4"
-                        onClick={hWmImgSubmit}
-                        disabled={isLoading}
+                ?(<div className="flex flex-col w-full pt-4">
+                    <Tabs
+                        className="w-full"
+                        defaultValue={WM_TEXT}
+                        onValueChange={hTabChange}
                     >
-                        {isLoading && (
-                            <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
-                        )}
-                        {submit}
-                    </Button>
+                        <TabsList className="w-full">
+                            <TabsTrigger value={WM_TEXT}>Text Watermark</TabsTrigger>
+                            <TabsTrigger value={WM_IMAGE}>Image Watermark</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value={WM_TEXT}>
+                            <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                                <Input
+                                    className="w-6/12"
+                                    placeholder="Please input your watermark Text"
+                                    maxLength={100}
+                                    value={validWmText}
+                                    onChange={hInputChange}
+                                />
+                            </div>
+                            <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                                <span className="text-sm text-gray-500">
+                                    {input_wm_warning}
+                                </span>
+                            </div>
+                            <Button
+                                variant="secondary"
+                                className="rounded-full w-full mt-4"
+                                onClick={hWmImgSubmit}
+                                disabled={isLoading}
+                            >
+                                {isLoading && (
+                                    <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+                                )}
+                                {submit}
+                            </Button>
+                        </TabsContent>
+                        <TabsContent value={WM_IMAGE}>
+                            <Button
+                                variant="secondary"
+                                className="rounded-full w-full mt-4"
+                                onClick={hWmImgSubmit}
+                                disabled={isLoading}
+                            >
+                                {isLoading && (
+                                    <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+                                )}
+                                {submit}
+                            </Button>
+                        </TabsContent>
+                    </Tabs>
+                    
                 </div>)
             :<></>}
-            {showValid
+            {showTextValid
                 ?(<div className="mt-4">
                     {isValidate
                         ?(<div className="flex items-center space-x-2">
@@ -169,6 +243,12 @@ export default function ValidateWatermark(
                             <span>{incorrect_wm}</span>
                         </div>)
                     }
+                </div>)
+                :<></>
+            }
+            {showImageValid
+                ?(<div className="mt-4">
+                    {validWmImg && <img src={validWmImg} className="w-1/2"/>}
                 </div>)
                 :<></>
             }
