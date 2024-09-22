@@ -109,6 +109,7 @@ export default function ValidateWatermark(
             try {
                 if (watermarkType === WM_TEXT) {
                     url += '/testo'
+                    formData.append("version", "text-basic-000")
                     formData.append("watermark", validWmText)
 
                     const res = await wmAPI.post(url, formData, {
@@ -119,6 +120,8 @@ export default function ValidateWatermark(
                     setIsValidate(validResult.wm_validation)
 
                 } else {
+                    formData.append("version", "image-basic-000")
+                    formData.append("reference", "")
                     const response = await wmAPI.post(url + '/immagine', formData, {
                         headers,
                         responseType: 'blob',

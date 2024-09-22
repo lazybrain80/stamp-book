@@ -135,7 +135,6 @@ export default function CreateWatermark(
             formData.append("file", originalImg)
 
             if(watermarkType === WM_IMAGE) {
-                
                 if (watermarkImg === null) {
                     alert('Please select a watermark image.')
                     setIsLoading(false)
@@ -143,6 +142,7 @@ export default function CreateWatermark(
                 }
 
                 url += '/immagine'
+                formData.append("version", "image-basic-000")
                 formData.append("watermark", watermarkImg)
             } else {
                 if (customWmText === '') {
@@ -152,6 +152,7 @@ export default function CreateWatermark(
                 }
 
                 url += '/testo'
+                formData.append("version", "text-basic-000")
                 formData.append("watermark", customWmText)
             }
                 
@@ -295,21 +296,29 @@ export default function CreateWatermark(
                         </TabsContent>
                         <TabsContent value="wm_image">
                             <div className="container mx-auto p-4 flex flex-col items-center justify-center">
-                                <p className="underline decoration-pink-500">주의: 삽입할 이미지 워터마크는 {wmImageLimit.width} X {wmImageLimit.height} 이하 만 가능합니다.</p>
-                                <DragAndDropBox
-                                    dropboxId="watermarkImg"
-                                    handleFileChange={hWatermarkImgChange}
-                                    className="w-1/2"
-                                >
-                                    <DragAndDropBoxIcon name={"Add"}/>
-                                    <DragAndDropBoxTitle>
-                                        {dragndrop_title}
-                                    </DragAndDropBoxTitle>
-                                    <DragAndDropBoxDescription>
-                                        {dragndrop_desc}
-                                    </DragAndDropBoxDescription>
-                                </DragAndDropBox>
+                                <div className="w-full flex flex-row ">
+                                    {/* <Button className="w-1/4">
+                                        <Icons.Settings className="h-6 w-6 mr-2"/>
+                                        이미지 워터마크 불러오기
+                                    </Button> */}
+                                    <div className="w-full flex items-center justify-center">
+                                        <DragAndDropBox
+                                            dropboxId="watermarkImg"
+                                            handleFileChange={hWatermarkImgChange}
+                                            className="w-3/4"
+                                        >
+                                            <DragAndDropBoxIcon name={"Add"}/>
+                                            <DragAndDropBoxTitle>
+                                                {dragndrop_title}
+                                            </DragAndDropBoxTitle>
+                                            <DragAndDropBoxDescription>
+                                                {dragndrop_desc}
+                                            </DragAndDropBoxDescription>
+                                        </DragAndDropBox>
+                                    </div>
+                                </div>
                                 <p className="underline hover:decoration-1 ...">{dragndrop_warn}</p>
+                                <p className="underline decoration-pink-500">주의: 삽입할 이미지 워터마크는 {wmImageLimit.width} X {wmImageLimit.height} 이하 만 가능합니다.</p>
                             </div>
                             <Button
                                 variant="secondary"
