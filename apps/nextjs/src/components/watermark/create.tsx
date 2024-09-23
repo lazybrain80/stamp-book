@@ -145,12 +145,6 @@ export default function CreateWatermark(
                 formData.append("version", "image-basic-000")
                 formData.append("watermark", watermarkImg)
             } else {
-                if (customWmText === '') {
-                    alert('Please enter a custom watermark text.')
-                    setIsLoading(false)
-                    return
-                }
-
                 url += '/testo'
                 formData.append("version", "text-basic-000")
                 formData.append("watermark", customWmText)

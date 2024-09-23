@@ -29,12 +29,28 @@ interface TextHistory {
     createdAt: string
 }
 
+interface ImageHistory {
+    _id: string
+    email: string
+    type: string
+    original: {
+        filename: string
+        image: File
+    }
+    watermark: {
+        filename: string
+        image: File
+    }
+    createdAt: string
+}
+
 const WM_TEXT = "wm_text"
 const WM_IMAGE = "wm_image"
 
 export default function CreationHistory() {
     const { data: session, status } = useSession()
-    const [history, setHistory] = useState<TextHistory[]>([])
+    const [textHistory, setTextHistory] = useState<TextHistory[]>([])
+    const [imageHistory, setImageHistory] = useState<ImageHistory[]>([])
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -47,11 +63,12 @@ export default function CreationHistory() {
         } else if (status === 'unauthenticated') {
             signIn();
         } else if (status === 'authenticated') {
-            loadCreationHistory();
+            loadTextCreationHistory(1, filter)
+            loadImageCreationHistory(1, filter)
         }
     }, [status])
 
-    const loadCreationHistory = async () => {
+    const loadTextCreationHistory = async (page: number, filter: string) => {
         try {
             setIsLoading(true)
             const account = session?.user.account
@@ -74,7 +91,40 @@ export default function CreationHistory() {
                 })
                 return
             }
-            setHistory(data)
+            setTextHistory([...textHistory, ...data])
+        } catch (error) {
+            toast({
+                title: "error",
+                description: String(error),
+            })
+        }
+        setIsLoading(false)
+    }
+
+    const loadImageCreationHistory = async (page: number, filter: string) => {
+        try {
+            setIsLoading(true)
+            const account = session?.user.account
+            const res = await wmAPI.get("/v1/filigrana/storia/immagine",
+            {
+                params: {
+                    page: page,
+                    filter: filter
+                },
+                headers: {
+                    'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
+                }
+            })
+            const data: TextHistory[] = (res as { data: TextHistory[] }).data
+            if (!data.length) {
+                setIsLoading(false)
+                toast({
+                    title: "info",
+                    description: "No text history found",
+                })
+                return
+            }
+            setTextHistory([...textHistory, ...data])
         } catch (error) {
             toast({
                 title: "error",
@@ -90,49 +140,40 @@ export default function CreationHistory() {
 
     const filterHistory = async () => {
         setPage(1)
-        loadCreationHistory()
+        if (watermarkType === WM_IMAGE) {
+            await loadImageCreationHistory(1, filter)
+            return
+        }
+        await loadTextCreationHistory(1, filter)
     }
 
-    const loadMoreHistory = async () => {
+    const loadMoreTextHistory = async () => {
         const loadNextPage = page + 1
-        try {
-            setIsLoading(true)
-            const account = session?.user.account
-            const res = await wmAPI.get("/v1/filigrana/storia/testo",
-            {
-                params: {
-                    page: loadNextPage,
-                    filter: filter
-                },
-                headers: {
-                    'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
-                }
-            })
-            const data: TextHistory[] = (res as { data: TextHistory[] }).data
-            if (!data.length) {
-                setIsLoading(false)
-                toast({
-                    title: "info",
-                    description: "No more history found",
-                })
-                return
-            }
-            setPage(loadNextPage)
-            setHistory([...history, ...data])
-        } catch (error) {
-            toast({
-                title: "error",
-                description: String(error),
-            })
-        }
-        setIsLoading(false)
+        await loadTextCreationHistory(loadNextPage, filter)
+        setPage(loadNextPage)
     }
     const hTabChange = (value: string) => {
+        setFilter("")
         setWatermarkType(value as typeof WM_TEXT | typeof WM_IMAGE)
     }
     return (
         <div>
             <LoadingOverlay isLoading={isLoading} />
+            <div className="mt-4 mb-4 flex divide-y divide-border rounded-md border">
+                <Icons.ListFilter className="m-3 text-gray-400" />
+                <Input
+                    className="m-1"
+                    placeholder="Filter by filename or watermark"
+                    value={filter}
+                    onChange={filterChange}
+                />
+                <Button
+                    className="m-1"
+                    onClick={filterHistory}
+                >
+                    Filter
+                </Button>
+            </div>
             <Tabs
                 className="w-full"
                 defaultValue={WM_TEXT}
@@ -143,30 +184,14 @@ export default function CreationHistory() {
                     <TabsTrigger value={WM_IMAGE}>Image History</TabsTrigger>
                 </TabsList>
                 <TabsContent value={WM_TEXT}>
-                    <div className="mt-4 mb-4 flex divide-y divide-border rounded-md border">
-                        <Icons.ListFilter className="m-3 text-gray-400" />
-                        <Input
-                            className="m-1"
-                            placeholder="Filter by filename or watermark"
-                            value={filter}
-                            onChange={filterChange}
-                        />
-                        <Button
-                            className="m-1"
-                            onClick={filterHistory}
-                        >
-                            Filter
-                        </Button>
-                    </div>
-                    
-                    {history.length ? (
+                    {textHistory.length ? (
                         <div className="divide-y divide-border rounded-md border">
                             <div className="flex items-center justify-between p-4">
                                 <Table className="divide-y divide-gray-200">
                                     <TableCaption>
                                         <Button
                                             disabled={isLoading}
-                                            onClick={loadMoreHistory}
+                                            onClick={loadMoreTextHistory}
                                         >
                                             {isLoading
                                                 ?(<Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />)
@@ -182,7 +207,7 @@ export default function CreationHistory() {
                                             <TableHead>created at</TableHead>
                                         </TableRow>
                                     </TableHeader>
-                                    {history.map((h: TextHistory) => (
+                                    {textHistory.map((h: TextHistory) => (
                                         <TableRow key={h._id} className="hover:bg-gray-50">
                                             <TableCell>{h.filename}</TableCell>
                                             <TableCell>{h.watermark}</TableCell>
@@ -193,7 +218,7 @@ export default function CreationHistory() {
                                         <TableRow >
                                             <TableCell colSpan={3}>
                                                 <p className="text-sm text-gray-500">
-                                                    {history.length} items
+                                                    {textHistory.length} items
                                                 </p>
                                             </TableCell>
                                         </TableRow>
