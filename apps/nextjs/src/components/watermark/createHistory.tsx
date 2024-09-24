@@ -33,14 +33,7 @@ interface ImageHistory {
     _id: string
     email: string
     type: string
-    original: {
-        filename: string
-        image: File
-    }
-    watermark: {
-        filename: string
-        image: File
-    }
+    filename: string
     createdAt: string
 }
 
@@ -115,7 +108,7 @@ export default function CreationHistory() {
                     'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
                 }
             })
-            const data: TextHistory[] = (res as { data: TextHistory[] }).data
+            const data: ImageHistory[] = (res as { data: ImageHistory[] }).data
             if (!data.length) {
                 setIsLoading(false)
                 toast({
@@ -124,7 +117,8 @@ export default function CreationHistory() {
                 })
                 return
             }
-            setTextHistory([...textHistory, ...data])
+            console.log(data)
+            setImageHistory([...imageHistory, ...data])
         } catch (error) {
             toast({
                 title: "error",
@@ -152,10 +146,18 @@ export default function CreationHistory() {
         await loadTextCreationHistory(loadNextPage, filter)
         setPage(loadNextPage)
     }
+
+    const loadMoreImageHistory = async () => {
+        const loadNextPage = page + 1
+        await loadImageCreationHistory(loadNextPage, filter)
+        setPage(loadNextPage)
+    }
+
     const hTabChange = (value: string) => {
         setFilter("")
         setWatermarkType(value as typeof WM_TEXT | typeof WM_IMAGE)
     }
+
     return (
         <div>
             <LoadingOverlay isLoading={isLoading} />
@@ -208,7 +210,7 @@ export default function CreationHistory() {
                                         </TableRow>
                                     </TableHeader>
                                     {textHistory.map((h: TextHistory) => (
-                                        <TableRow key={h._id} className="hover:bg-gray-50">
+                                        <TableRow key={h._id} className="hover:bg-slate-700">
                                             <TableCell>{h.filename}</TableCell>
                                             <TableCell>{h.watermark}</TableCell>
                                             <TableCell>{h.createdAt}</TableCell>
@@ -240,6 +242,74 @@ export default function CreationHistory() {
                     )}
                 </TabsContent>
                 <TabsContent value={WM_IMAGE}>
+                    {imageHistory.length ? (
+                        <div className="divide-y divide-border rounded-md border">
+                            <div className="flex items-center justify-between p-4">
+                                <Table className="divide-y divide-gray-200">
+                                    <TableCaption>
+                                        <Button
+                                            disabled={isLoading}
+                                            onClick={loadMoreImageHistory}
+                                        >
+                                            {isLoading
+                                                ?(<Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />)
+                                                :<Icons.ArrowDownFromLine className="h-6 w-6 mr-2"/>
+                                            }
+                                            Load more history
+                                        </Button>
+                                    </TableCaption>
+                                    <TableHeader>
+                                        <TableRow className="hover:bg-gray-50">
+                                            <TableHead>filename</TableHead>
+                                            <TableHead className="text-center">
+                                                image
+                                            </TableHead>
+                                            <TableHead className="text-center">
+                                                watermark
+                                            </TableHead>
+                                            <TableHead>created at</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    {imageHistory.map((h: ImageHistory) => (
+                                        <TableRow key={h._id} className="hover:bg-slate-700">
+                                            <TableCell>{h.filename}</TableCell>
+                                            <TableCell className="text-center">
+                                                <Button>
+                                                    <Icons.Image />
+                                                </Button>
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                <Button>
+                                                    <Icons.Stamp />
+                                                </Button>
+                                            </TableCell>
+                                            <TableCell>{h.createdAt}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                    <TableFooter>
+                                        <TableRow >
+                                            <TableCell colSpan={4}>
+                                                <p className="text-sm text-gray-500">
+                                                    {textHistory.length} items
+                                                </p>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableFooter>
+                                </Table>
+                            </div>
+                        </div>
+                    ) : (
+                        <EmptyPlaceholder
+                            title="No history found"
+                        >
+                            <EmptyPlaceholder.Title>
+                                "No history found"
+                            </EmptyPlaceholder.Title>
+                            <EmptyPlaceholder.Description>
+                                "No history found. Please create a watermark first."
+                            </EmptyPlaceholder.Description>
+                        </EmptyPlaceholder>
+                    )}
                 </TabsContent>
             </Tabs>
             

@@ -45,6 +45,8 @@ export const BadgePlus = Lucide.BadgePlus
 export const BadgeCheck = Lucide.BadgeCheck
 export const BadgeMinus = Lucide.BadgeMinus
 export const Receipt = Lucide.Receipt
+export const Image = Lucide.Image
+export const Stamp = Lucide.Stamp
 
 export const System: Icon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>

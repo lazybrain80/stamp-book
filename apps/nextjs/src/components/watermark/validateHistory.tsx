@@ -177,10 +177,10 @@ export default function ValidationHistory() {
                                 </TableRow>
                             </TableHeader>
                             {history.map((h: History) => (
-                                <TableRow key={h._id} className="hover:bg-gray-50">
+                                <TableRow key={h._id} className="hover:bg-slate-700">
                                     <TableCell>{h.try_watermark}</TableCell>
                                     <TableCell>
-                                        {h.matched? 
+                                        {h.matched?
                                             <Icons.Smile className="h-6 w-6 text-green-500" />
                                             : <Icons.Frown className="h-6 w-6 text-red-500" />
                                         }
