@@ -26,8 +26,8 @@ interface CreateWatermarkProps {
 }
 
 interface WmResult {
-    wm: string
-    filename: string
+    watermark_text: string
+    image_url: string
 }
 
 interface ImageDimensions {
@@ -158,9 +158,12 @@ export default function CreateWatermark(
                         'Content-Type': 'multipart/form-data',
                     },
                 })
+                console.log(res)
                 const wmResult: WmResult = (res as { data: WmResult }).data
-                setCreatedWmText(wmResult.wm)
-                setCreatedWmFile(wmResult.filename)
+
+                console.log(wmResult)
+                setCreatedWmText(wmResult.watermark_text)
+                setCreatedWmFile(wmResult.image_url)
 
                 toast({
                     title: "success",
@@ -189,20 +192,9 @@ export default function CreateWatermark(
         e.preventDefault()
         try {
             setIsLoading(true)
-            const account = session?.user.account
-            const response = await wmAPI.get(`/v1/filigrana/file?filename=${createdWmFile}`, {
-                responseType: 'blob', // Important for handling binary data
-                headers: {
-                    'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
-                    'Cache-Control': 'no-cache', // Prevent caching
-                    'Pragma': 'no-cache',
-                    'Expires': '0',
-                },
-            })
-            const url = window.URL.createObjectURL(new Blob([(response as AxiosResponse<Blob>).data]))
             const link = document.createElement('a')
-            link.href = url
-            link.setAttribute('download', `${createdWmFile}`) // Set the file name
+            link.href = createdWmFile
+            link.setAttribute('download', "watermarked_image.png")
             document.body.appendChild(link)
             link.click()
             link.remove()

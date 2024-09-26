@@ -19,12 +19,13 @@ import { toast } from "@saasfly/ui/use-toast"
 import { wmAPI } from "~/utils/watermark-api";
 import LoadingOverlay from "~/components/loading-overlay";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
+import ImageDisplay from "./imageDisplay"
 
 interface TextHistory {
     _id: string
     email: string
     type: string
-    filename: string
+    url: string
     watermark: string
     createdAt: string
 }
@@ -117,7 +118,6 @@ export default function CreationHistory() {
                 })
                 return
             }
-            console.log(data)
             setImageHistory([...imageHistory, ...data])
         } catch (error) {
             toast({
@@ -204,15 +204,19 @@ export default function CreationHistory() {
                                     </TableCaption>
                                     <TableHeader>
                                         <TableRow className="hover:bg-gray-50">
-                                            <TableHead>filename</TableHead>
-                                            <TableHead>watermark</TableHead>
+                                            <TableHead>embedded text</TableHead>
+                                            <TableHead className="text-center">watermark image</TableHead>
                                             <TableHead>created at</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     {textHistory.map((h: TextHistory) => (
                                         <TableRow key={h._id} className="hover:bg-slate-700">
-                                            <TableCell>{h.filename}</TableCell>
                                             <TableCell>{h.watermark}</TableCell>
+                                            <TableCell className="text-center">
+                                                <ImageDisplay
+                                                    imageUrl={h.url}
+                                                />
+                                            </TableCell>
                                             <TableCell>{h.createdAt}</TableCell>
                                         </TableRow>
                                     ))}
