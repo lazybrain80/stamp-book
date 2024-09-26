@@ -34,7 +34,8 @@ interface ImageHistory {
     _id: string
     email: string
     type: string
-    filename: string
+    url: string
+    watermark_url: string
     createdAt: string
 }
 
@@ -276,16 +277,15 @@ export default function CreationHistory() {
                                     </TableHeader>
                                     {imageHistory.map((h: ImageHistory) => (
                                         <TableRow key={h._id} className="hover:bg-slate-700">
-                                            <TableCell>{h.filename}</TableCell>
                                             <TableCell className="text-center">
-                                                <Button>
-                                                    <Icons.Image />
-                                                </Button>
+                                                <ImageDisplay
+                                                    imageUrl={h.url}
+                                                />
                                             </TableCell>
                                             <TableCell className="text-center">
-                                                <Button>
-                                                    <Icons.Stamp />
-                                                </Button>
+                                                <ImageDisplay
+                                                    imageUrl={h.watermark_url}
+                                                />
                                             </TableCell>
                                             <TableCell>{h.createdAt}</TableCell>
                                         </TableRow>
