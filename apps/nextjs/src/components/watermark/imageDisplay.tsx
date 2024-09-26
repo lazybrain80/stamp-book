@@ -12,6 +12,7 @@ import {
 } from "@saasfly/ui/dialog"
 import { Button } from "@saasfly/ui/button"
 import * as Icons from "@saasfly/ui/icons"
+import { ImageDownload } from "./common";
 
 interface ImageDisplayProps {
     imageUrl: string
@@ -20,25 +21,6 @@ interface ImageDisplayProps {
 export default function ImageDisplay({
     imageUrl,
 }: ImageDisplayProps) {
-
-    const toDataURL = (url: string) => {
-        return fetch(url)
-        .then((response) => {
-            return response.blob()
-        })
-        .then((blob) => {
-            return URL.createObjectURL(blob)
-        })
-    }
-
-    const hImageDownload = async (imageUrl: string) => {
-        const link = document.createElement('a')
-        link.href = await toDataURL(imageUrl)
-        link.setAttribute('download', "watermarked_image.png")
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-    }
 
     return (
         <Dialog>
@@ -65,7 +47,7 @@ export default function ImageDisplay({
                 >
                     <Button
                         className="w-full"
-                        onClick={() => hImageDownload(imageUrl)}
+                        onClick={() => ImageDownload(imageUrl)}
                     >
                         <Icons.DownloadCloud
                             className="mr-2"

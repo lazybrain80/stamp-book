@@ -265,7 +265,6 @@ export default function CreationHistory() {
                                     </TableCaption>
                                     <TableHeader>
                                         <TableRow className="hover:bg-gray-50">
-                                            <TableHead>filename</TableHead>
                                             <TableHead className="text-center">
                                                 image
                                             </TableHead>

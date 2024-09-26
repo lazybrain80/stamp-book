@@ -16,6 +16,7 @@ import {
     DragAndDropBoxTitle
 } from "~/components/drag-n-drop-box"
 import { wmAPI } from "~/utils/watermark-api"
+import { ImageDownload } from "./common"
 
 interface CreateWatermarkProps {
     dragndrop_title: string
@@ -158,10 +159,9 @@ export default function CreateWatermark(
                         'Content-Type': 'multipart/form-data',
                     },
                 })
-                console.log(res)
+
                 const wmResult: WmResult = (res as { data: WmResult }).data
 
-                console.log(wmResult)
                 setCreatedWmText(wmResult.watermark_text)
                 setCreatedWmFile(wmResult.image_url)
 
@@ -334,14 +334,14 @@ export default function CreateWatermark(
                     <Button
                         variant="default"
                         className="flex-auto rounded-full mt-4"
-                        onClick={hWmImgDownload}
+                        onClick={() => ImageDownload(createdWmFile)}
                         disabled={isLoading}
                     >
                         {isLoading
                             ?(<Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />)
                             :<Icons.DownloadCloud className="h-6 w-6 mr-2"/>
                         }
-                        {createdWmFile}
+                        Download watermark image
                     </Button>
                 </div>
             :<></>}
