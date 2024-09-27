@@ -205,6 +205,7 @@ export default function CreationHistory() {
                                     </TableCaption>
                                     <TableHeader>
                                         <TableRow className="hover:bg-gray-50">
+                                            <TableHead>id</TableHead>
                                             <TableHead>embedded text</TableHead>
                                             <TableHead className="text-center">watermark image</TableHead>
                                             <TableHead>created at</TableHead>
@@ -212,6 +213,7 @@ export default function CreationHistory() {
                                     </TableHeader>
                                     {textHistory.map((h: TextHistory) => (
                                         <TableRow key={h._id} className="hover:bg-slate-700">
+                                            <TableCell>{h._id}</TableCell>
                                             <TableCell>{h.watermark}</TableCell>
                                             <TableCell className="text-center">
                                                 <ImageDisplay
@@ -265,6 +267,7 @@ export default function CreationHistory() {
                                     </TableCaption>
                                     <TableHeader>
                                         <TableRow className="hover:bg-gray-50">
+                                            <TableHead>id</TableHead>
                                             <TableHead className="text-center">
                                                 image
                                             </TableHead>
@@ -276,6 +279,7 @@ export default function CreationHistory() {
                                     </TableHeader>
                                     {imageHistory.map((h: ImageHistory) => (
                                         <TableRow key={h._id} className="hover:bg-slate-700">
+                                            <TableCell>{h._id}</TableCell>
                                             <TableCell className="text-center">
                                                 <ImageDisplay
                                                     imageUrl={h.url}

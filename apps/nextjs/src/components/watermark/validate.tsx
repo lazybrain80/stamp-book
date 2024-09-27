@@ -15,6 +15,7 @@ import {
 } from "~/components/drag-n-drop-box"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import { wmAPI } from "~/utils/watermark-api"
+import StampSelector from "./stampSelector"
 
 interface ValidateWatermarkProps {
     dragndrop_title: string
@@ -218,6 +219,7 @@ export default function ValidateWatermark(
                             </Button>
                         </TabsContent>
                         <TabsContent value={WM_IMAGE}>
+                            <StampSelector />
                             <Button
                                 variant="secondary"
                                 className="rounded-full w-full mt-4"

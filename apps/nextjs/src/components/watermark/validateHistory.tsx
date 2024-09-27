@@ -18,6 +18,7 @@ import * as Icons from "@saasfly/ui/icons"
 import { toast } from "@saasfly/ui/use-toast"
 import { wmAPI } from "~/utils/watermark-api"
 import LoadingOverlay from "~/components/loading-overlay";
+import { formatDate } from "./common";
 
 interface History {
     _id: string
@@ -27,17 +28,6 @@ interface History {
     createdAt: string
 }
 
-const formatDate = (date: Date) => {
-    return date.toLocaleString('ko-KR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        timeZoneName: 'short'
-    });
-};
 
 export default function ValidationHistory() {
     const { data: session, status } = useSession()
