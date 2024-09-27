@@ -26,6 +26,8 @@ import { Button } from "@saasfly/ui/button"
 import * as Icons from "@saasfly/ui/icons"
 import { wmAPI } from "~/utils/watermark-api"
 import { formatDate } from "./common";
+import { Checkbox } from "@saasfly/ui/checkbox"
+import { on } from "events";
 
 
 interface StampInfo{
@@ -34,12 +36,19 @@ interface StampInfo{
     createdAt: string
 }
 
+interface StampSelectorProps {
+    onSelect: (stampid: string, url: string) => void
+}
 
-export default function StampSelector() {
+export default function StampSelector({
+    onSelect
+}: StampSelectorProps) {
     const { data: session, status } = useSession()
+    const [isOpen, setIsOpen] = useState(false);
     const [stamps, setStamps] = useState<StampInfo[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [page, setPage] = useState(1)
+    const [selectedStamp, setSelectedStamp] = useState(0)
 
     useEffect(() => {
         if (status === 'loading') {
@@ -50,6 +59,9 @@ export default function StampSelector() {
             loadStamps(1);
         }
     }, [status])
+
+    const openDialog = () => setIsOpen(true);
+    const closeDialog = () => setIsOpen(false);
 
     const loadStamps = async (page: number) => {
         try {
@@ -82,13 +94,50 @@ export default function StampSelector() {
         }
         setIsLoading(false)
     }
+
+    const loadMoreStamps = () => {
+        const newPage = page + 1
+        loadStamps(newPage)
+        setPage(newPage)
+    }
+
+    const selectRow = (event: React.MouseEvent<HTMLTableRowElement>) => {
+        const selectedRow = event.currentTarget
+        const rowIndex = selectedRow.getAttribute('data-index')
+        setSelectedStamp(rowIndex ? parseInt(rowIndex) : 0)
+    }
+
+    const selectStamp = () => {
+        if (selectedStamp > 0 && selectedStamp <= stamps.length) {
+            const selected = stamps[selectedStamp - 1];
+            if (selected) {
+                onSelect(selected._id, selected.watermark_url)
+                closeDialog()
+            } else {
+                toast({
+                    title: "error",
+                    description: "Invalid stamp selection",
+                })
+            }
+        } else {
+            toast({
+                title: "error",
+                description: "Invalid stamp selection",
+            })
+        }
+    }
     
     return (
-        <Dialog>
+        <Dialog
+            open={isOpen}
+            onOpenChange={setIsOpen}
+        >
             <DialogTrigger
                 className="w-full"
             >
-                <Button>
+                <Button
+                    onClick={openDialog}
+                >
                     <Icons.Stamp
                         className="mr-2"
                     />
@@ -99,7 +148,11 @@ export default function StampSelector() {
                 className="w-full md:max-w-max"
             >
                 <DialogHeader>
-                    <DialogClose />
+                    <DialogClose>
+                        <Button
+                            onClick={closeDialog}
+                        />
+                    </DialogClose>
                 </DialogHeader>
                 <DialogTitle>
                     Select Stamp
@@ -112,7 +165,7 @@ export default function StampSelector() {
                         <TableCaption>
                             <Button
                                 disabled={isLoading}
-                                onClick={() => loadStamps(page + 1)}
+                                onClick={loadMoreStamps}
                             >
                                 {isLoading
                                     ?(<Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />)
@@ -123,13 +176,25 @@ export default function StampSelector() {
                         </TableCaption>
                         <TableHeader>
                             <TableRow className="hover:bg-gray-50">
+                                <TableHead></TableHead>
                                 <TableHead>id</TableHead>
                                 <TableHead>stamp</TableHead>
                                 <TableHead>created at</TableHead>
                             </TableRow>
                         </TableHeader>
-                        {stamps.map((s: StampInfo) => (
-                            <TableRow key={s._id} className="hover:bg-slate-700">
+                        {stamps.map((s: StampInfo, index: number) => (
+                            <TableRow
+                                data-index={index + 1}
+                                key={s._id}
+                                className="hover:bg-slate-700"
+                                onClick={selectRow}
+                                data-state={index + 1 === selectedStamp ? "selected" : ""}
+                            >
+                                <TableCell>
+                                    <Checkbox
+                                        checked={index + 1 === selectedStamp}
+                                    />
+                                </TableCell>
                                 <TableCell>{s._id}</TableCell>
                                 <TableCell>
                                     <img
@@ -143,15 +208,6 @@ export default function StampSelector() {
                                 </TableCell>
                             </TableRow>
                         ))}
-                        <TableFooter>
-                            <TableRow >
-                                <TableCell colSpan={3}>
-                                    <p className="text-sm text-gray-500">
-                                        {stamps.length} items
-                                    </p>
-                                </TableCell>
-                            </TableRow>
-                        </TableFooter>
                     </Table>
                 </div>
                 <DialogFooter
@@ -159,6 +215,7 @@ export default function StampSelector() {
                 >
                     <Button
                         className="w-full"
+                        onClick={selectStamp}
                     >
                         <Icons.Stamp
                             className="mr-2"

@@ -16,6 +16,7 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import { wmAPI } from "~/utils/watermark-api"
 import StampSelector from "./stampSelector"
+import { set } from "zod"
 
 interface ValidateWatermarkProps {
     dragndrop_title: string
@@ -59,6 +60,8 @@ export default function ValidateWatermark(
     const [isValidate, setIsValidate] = useState(false)
     const [showTextValid, setShowTextValid] = useState(false)
     const [showImageValid, setShowImageValid] = useState(false)
+    const [stampId, setStampId] = useState<string>('')
+    const [stampUrl, setStampUrl] = useState<string>('')
 
     const { data: session, status } = useSession()
 
@@ -163,6 +166,12 @@ export default function ValidateWatermark(
     }
     const hTabChange = (value: string) => {
         setWatermarkType(value as typeof WM_TEXT | typeof WM_IMAGE)
+        setStampId('')
+        setStampUrl('')
+    }
+    const stampSelect = (stampid: string, url: string) => {
+        setStampId(stampid)
+        setStampUrl(url)
     }
     return(
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
@@ -219,7 +228,20 @@ export default function ValidateWatermark(
                             </Button>
                         </TabsContent>
                         <TabsContent value={WM_IMAGE}>
-                            <StampSelector />
+                            {stampId == ""
+                                ?<StampSelector onSelect={stampSelect}/>
+                                :(
+                                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                                        <span className="text-sm text-white-500">
+                                            Selected Stamp:
+                                        </span>
+                                        <span className="text-sm text-gray-500">
+                                            {stampId}
+                                        </span>
+                                        <img src={stampUrl} className="w-8 h-8 object-cover"/>
+                                    </div>
+                                )
+                            }
                             <Button
                                 variant="secondary"
                                 className="rounded-full w-full mt-4"
