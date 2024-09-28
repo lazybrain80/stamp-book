@@ -20,6 +20,7 @@ import { wmAPI } from "~/utils/watermark-api";
 import LoadingOverlay from "~/components/loading-overlay";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import ImageDisplay from "./imageDisplay"
+import { WM_TEXT, WM_IMAGE } from "./common";
 
 interface TextHistory {
     _id: string
@@ -39,8 +40,6 @@ interface ImageHistory {
     createdAt: string
 }
 
-const WM_TEXT = "wm_text"
-const WM_IMAGE = "wm_image"
 
 export default function CreationHistory() {
     const { data: session, status } = useSession()
@@ -225,7 +224,7 @@ export default function CreationHistory() {
                                     ))}
                                     <TableFooter>
                                         <TableRow >
-                                            <TableCell colSpan={3}>
+                                            <TableCell colSpan={4}>
                                                 <p className="text-sm text-gray-500">
                                                     {textHistory.length} items
                                                 </p>

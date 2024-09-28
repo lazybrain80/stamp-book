@@ -16,7 +16,7 @@ import {
     DragAndDropBoxTitle
 } from "~/components/drag-n-drop-box"
 import { wmAPI } from "~/utils/watermark-api"
-import { ImageDownload } from "./common"
+import { ImageDownload, WM_IMAGE, WM_TEXT } from "./common"
 
 interface CreateWatermarkProps {
     dragndrop_title: string
@@ -36,8 +36,6 @@ interface ImageDimensions {
     height: number
 }
 
-const WM_TEXT = "wm_text"
-const WM_IMAGE = "wm_image"
 
 export default function CreateWatermark(
     {

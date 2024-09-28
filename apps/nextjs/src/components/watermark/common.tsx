@@ -33,3 +33,6 @@ export const formatDate = (date: Date) => {
         timeZoneName: 'short'
     });
 };
+
+export const WM_TEXT = "wm_text"
+export const WM_IMAGE = "wm_image"

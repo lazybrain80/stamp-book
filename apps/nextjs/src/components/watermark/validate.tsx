@@ -16,7 +16,7 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import { wmAPI } from "~/utils/watermark-api"
 import StampSelector from "./stampSelector"
-import { set } from "zod"
+import { WM_IMAGE, WM_TEXT } from "./common"
 
 interface ValidateWatermarkProps {
     dragndrop_title: string
@@ -36,8 +36,6 @@ interface ValidImageResult {
     watermark: File
 }
 
-const WM_TEXT = "wm_text"
-const WM_IMAGE = "wm_image"
 
 export default function ValidateWatermark(
     {
@@ -112,6 +110,16 @@ export default function ValidateWatermark(
 
             try {
                 if (watermarkType === WM_TEXT) {
+
+                    if (validWmText === '') {
+                        toast({
+                            title: "error",
+                            description: "Please input your watermark text.",
+                        })
+                        setIsLoading(false)
+                        return
+                    }
+
                     formData.append("version", "text-basic-000")
                     formData.append("watermark", validWmText)
 

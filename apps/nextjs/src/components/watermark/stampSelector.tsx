@@ -18,7 +18,6 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-    TableFooter,
     TableCell,
 } from "@saasfly/ui/table";
 import { toast } from "@saasfly/ui/use-toast"
@@ -27,8 +26,6 @@ import * as Icons from "@saasfly/ui/icons"
 import { wmAPI } from "~/utils/watermark-api"
 import { formatDate } from "./common";
 import { Checkbox } from "@saasfly/ui/checkbox"
-import { on } from "events";
-
 
 interface StampInfo{
     _id: string
