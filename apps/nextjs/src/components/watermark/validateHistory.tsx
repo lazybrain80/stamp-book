@@ -21,19 +21,27 @@ import LoadingOverlay from "~/components/loading-overlay";
 import { formatDate, WM_TEXT, WM_IMAGE } from "./common";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 
-interface History {
+interface TextHistory {
     _id: string
-    email: string
     try_watermark: string
     matched: boolean
+    createdAt: string
+}
+
+interface ImageHistory {
+    _id: string
+    target: string
+    watermark: string
     createdAt: string
 }
 
 
 export default function ValidationHistory() {
     const { data: session, status } = useSession()
-    const [history, setHistory] = useState<History[]>([])
-    const [page, setPage] = useState(1)
+    const [textHistory, setTextHistory] = useState<TextHistory[]>([])
+    const [imageHistory, setImageHistory] = useState<ImageHistory[]>([])
+    const [textPage, setTextPage] = useState(1)
+    const [imagePage, setImagePage] = useState(1)
     const [filter, setFilter] = useState("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [watermarkType, setWatermarkType] = useState<typeof WM_TEXT | typeof WM_IMAGE>(WM_TEXT)
@@ -44,15 +52,16 @@ export default function ValidationHistory() {
         } else if (status === 'unauthenticated') {
             signIn();
         } else if (status === 'authenticated') {
-            loadHistory(1, filter);
+            loadTextHistory(1, filter);
+            loadImageHistory(1, filter);
         }
     }, [status])
 
-    const loadHistory = async (page: number, filter: string) => {
+    const loadTextHistory = async (page: number, filter: string) => {
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await wmAPI.get("/v1/filigrana/corda/storia",
+            const res = await wmAPI.get("/v1/filigrana/corda/testo/storia",
             {
                 params: {
                     page: page,
@@ -62,16 +71,49 @@ export default function ValidationHistory() {
                     'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
                 }
             })
-            const data: History[] = (res as { data: History[] }).data
+            const data: TextHistory[] = (res as { data: TextHistory[] }).data
             if (!data.length) {
                 setIsLoading(false)
                 toast({
                     title: "info",
-                    description: "No history found",
+                    description: "No text history found",
                 })
                 return
             }
-            setHistory(data)
+            setTextHistory(data)
+        } catch (error) {
+            toast({
+                title: "error",
+                description: String(error),
+            })
+        }
+        setIsLoading(false)
+    }
+
+    const loadImageHistory = async (page: number, filter: string) => {
+        try {
+            setIsLoading(true)
+            const account = session?.user.account
+            const res = await wmAPI.get("/v1/filigrana/corda/immagine/storia",
+            {
+                params: {
+                    page: page,
+                    filter: filter
+                },
+                headers: {
+                    'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
+                }
+            })
+            const data: ImageHistory[] = (res as { data: ImageHistory[] }).data
+            if (!data.length) {
+                setIsLoading(false)
+                toast({
+                    title: "info",
+                    description: "No image history found",
+                })
+                return
+            }
+            setImageHistory(data)
         } catch (error) {
             toast({
                 title: "error",
@@ -86,14 +128,25 @@ export default function ValidationHistory() {
     }
 
     const filterHistory = async () => {
-        setPage(1)
-        loadHistory(1, filter)
+        if (watermarkType === WM_TEXT) {
+            setTextPage(1)
+            loadTextHistory(1, filter)
+        } else {
+            setImagePage(1)
+            loadImageHistory(1, filter)
+        }
     }
 
-    const loadMoreHistory = async () => {
-        const loadNextPage = page + 1
-        await loadHistory(loadNextPage, filter)
-        setPage(loadNextPage)
+    const loadMoreTextHistory = async () => {
+        const loadNextPage = textPage + 1
+        await loadTextHistory(loadNextPage, filter)
+        setTextPage(loadNextPage)
+    }
+
+    const loadMoreImageHistory = async () => {
+        const loadNextPage = imagePage + 1
+        await loadImageHistory(loadNextPage, filter)
+        setImagePage(loadNextPage)
     }
 
     const hTabChange = (value: string) => {
@@ -129,14 +182,14 @@ export default function ValidationHistory() {
                     <TabsTrigger value={WM_IMAGE}>Image History</TabsTrigger>
                 </TabsList>
                 <TabsContent value={WM_TEXT}>
-                    {history.length ? (
+                    {textHistory.length ? (
                         <div className="divide-y divide-border rounded-md border">
                             <div className="flex items-center justify-between p-4">
                                 <Table className="divide-y divide-gray-200">
                                     <TableCaption>
                                         <Button
                                             disabled={isLoading}
-                                            onClick={loadMoreHistory}
+                                            onClick={loadMoreTextHistory}
                                         >
                                             {isLoading
                                                 ?(<Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />)
@@ -152,7 +205,7 @@ export default function ValidationHistory() {
                                             <TableHead>created at</TableHead>
                                         </TableRow>
                                     </TableHeader>
-                                    {history.map((h: History) => (
+                                    {textHistory.map((h: TextHistory) => (
                                         <TableRow key={h._id} className="hover:bg-slate-700">
                                             <TableCell>{h.try_watermark}</TableCell>
                                             <TableCell>
@@ -170,7 +223,7 @@ export default function ValidationHistory() {
                                         <TableRow >
                                             <TableCell colSpan={3}>
                                                 <p className="text-sm text-gray-500">
-                                                    {history.length} items
+                                                    {textHistory.length} items
                                                 </p>
                                             </TableCell>
                                         </TableRow>
@@ -192,6 +245,66 @@ export default function ValidationHistory() {
                     )}
                     </TabsContent>
                     <TabsContent value={WM_IMAGE}>
+                        {imageHistory.length ? (
+                            <div className="divide-y divide-border rounded-md border">
+                                <div className="flex items-center justify-between p-4">
+                                    <Table className="divide-y divide-gray-200">
+                                        <TableCaption>
+                                            <Button
+                                                disabled={isLoading}
+                                                onClick={loadMoreImageHistory}
+                                            >
+                                                {isLoading
+                                                    ?(<Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />)
+                                                    :<Icons.ArrowDownFromLine className="h-6 w-6 mr-2"/>
+                                                }
+                                                Load more history
+                                            </Button>
+                                        </TableCaption>
+                                        <TableHeader>
+                                            <TableRow className="hover:bg-gray-50">
+                                                <TableHead>from</TableHead>
+                                                <TableHead>extracted</TableHead>
+                                                <TableHead>at</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        {imageHistory.map((h: ImageHistory) => (
+                                            <TableRow key={h._id} className="hover:bg-slate-700">
+                                                <TableCell>
+                                                    <img src={h.target} className="w-16 h-16" />
+                                                </TableCell>
+                                                <TableCell>
+                                                    <img src={h.watermark} className="w-16 h-16" />
+                                                </TableCell>
+                                                <TableCell>
+                                                    {formatDate(new Date(h.createdAt))}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                        <TableFooter>
+                                            <TableRow >
+                                                <TableCell colSpan={3}>
+                                                    <p className="text-sm text-gray-500">
+                                                        {imageHistory.length} items
+                                                    </p>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableFooter>
+                                    </Table>
+                                </div>
+                            </div>
+                        ) : (
+                            <EmptyPlaceholder
+                                title="No history found"
+                            >
+                                <EmptyPlaceholder.Title>
+                                    "No history found"
+                                </EmptyPlaceholder.Title>
+                                <EmptyPlaceholder.Description>
+                                    "No history found, Please validate a watermark first."
+                                </EmptyPlaceholder.Description>
+                            </EmptyPlaceholder>
+                        )}
                     </TabsContent>
                 </Tabs>
         </div>
