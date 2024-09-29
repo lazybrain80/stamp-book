@@ -296,7 +296,7 @@ export default function CreationHistory() {
                                         <TableRow >
                                             <TableCell colSpan={4}>
                                                 <p className="text-sm text-gray-500">
-                                                    {textHistory.length} items
+                                                    {imageHistory.length} items
                                                 </p>
                                             </TableCell>
                                         </TableRow>
