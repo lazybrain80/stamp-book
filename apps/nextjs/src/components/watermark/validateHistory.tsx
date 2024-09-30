@@ -76,7 +76,7 @@ export default function ValidationHistory() {
                 setIsLoading(false)
                 toast({
                     title: "info",
-                    description: "No text history found",
+                    description: "No text-watermark validation history found",
                 })
                 return
             }
@@ -109,7 +109,7 @@ export default function ValidationHistory() {
                 setIsLoading(false)
                 toast({
                     title: "info",
-                    description: "No image history found",
+                    description: "No image-watermark validation history found",
                 })
                 return
             }

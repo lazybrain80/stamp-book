@@ -81,7 +81,7 @@ export default function CreationHistory() {
                 setIsLoading(false)
                 toast({
                     title: "info",
-                    description: "No text history found",
+                    description: "No text-watermark creation history found",
                 })
                 return
             }
@@ -114,7 +114,7 @@ export default function CreationHistory() {
                 setIsLoading(false)
                 toast({
                     title: "info",
-                    description: "No text history found",
+                    description: "No image-watermark creation history found",
                 })
                 return
             }
