@@ -17,6 +17,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import { wmAPI } from "~/utils/watermark-api"
 import StampSelector from "./stampSelector"
 import { WM_IMAGE, WM_TEXT } from "./common"
+import ImageDisplay from "./imageDisplay"
 
 interface ValidateWatermarkProps {
     dragndrop_title: string
@@ -142,7 +143,6 @@ export default function ValidateWatermark(
                     const imageUrl = URL.createObjectURL(blob);
 
                     setShowImageValid(true)
-                    console.log(imageUrl)
                     setValidWmImg(imageUrl)
                 }
                 
@@ -265,7 +265,7 @@ export default function ValidateWatermark(
                     
                 </div>)
             :<></>}
-            {showTextValid
+            {showTextValid && (watermarkType === WM_TEXT)
                 ?(<div className="mt-4">
                     {isValidate
                         ?(<div className="flex items-center space-x-2">
@@ -280,9 +280,16 @@ export default function ValidateWatermark(
                 </div>)
                 :<></>
             }
-            {showImageValid
+            {showImageValid && (watermarkType === WM_IMAGE)
                 ?(<div className="mt-4">
-                    {validWmImg && <img src={validWmImg} className="w-1/2"/>}
+                    {validWmImg &&(
+                        <div className="flex items-center space-x-2">
+                            <p>추출이 완료 되었습니다.</p>
+                            <ImageDisplay
+                                imageUrl={validWmImg}
+                            />
+                        </div>
+                    )}
                 </div>)
                 :<></>
             }

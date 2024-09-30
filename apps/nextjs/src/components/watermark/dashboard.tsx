@@ -69,7 +69,6 @@ export default function SecureStampDashboard() {
               })
               return
           }
-          console.log(data)
           setDashInfo(data)
       } catch (error) {
           toast({
