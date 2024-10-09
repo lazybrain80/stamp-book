@@ -77,7 +77,8 @@
     },
     "watermark": {
       "input_wm_warning": "허용된 문자: 영어 대소문자, 숫자, 특수 문자(!@#$%^&*()+=._-)"
-    }
+    },
+    "weekdays": ["일", "월", "화", "수", "목", "금", "토"]
   },
   "business": {
     "billing": {
@@ -101,7 +102,13 @@
   "watermark": {
     "dashboard": {
       "title": "대시보드",
-      "desc": "워터마크 대시보드"
+      "desc": "워터마크 대시보드",
+      "today_watermark_usage": "오늘의 워터마크 사용량",
+      "total_watermark_usage": "총 워터마크 사용량",
+      "today_validate_usage": "오늘의 검증 사용량",
+      "total_validate_usage": "총 누적 검증 사용량",
+      "weekly_watermark_usage": "주간 워터마크 사용량",
+      "weekly_validate_usage": "주간 워터마크 검증량"
     },
     "createHistory": {
       "title": "워터마크 생성 이력",

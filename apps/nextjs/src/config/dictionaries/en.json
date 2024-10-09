@@ -77,7 +77,8 @@
     },
     "watermark": {
       "input_wm_warning": "Allowed characters: English letters, numbers, special characters (!@#$%^&*()+=._-)"
-    }
+    },
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "business": {
     "billing": {
@@ -100,7 +101,13 @@
   "watermark": {
     "dashboard": {
       "title": "Dashboard",
-      "desc": "Watermark dashboard"
+      "desc": "Watermark dashboard",
+      "today_watermark_usage": "Today's Watermark Usage",
+      "total_watermark_usage": "Total Watermark Usage",
+      "today_validate_usage": "Today's Validate Usage",
+      "total_validate_usage": "Total Validate Usage",
+      "weekly_watermark_usage": "Weekly Watermark Usage",
+      "weekly_validate_usage": "Weekly Validate Usage"
     },
     "createHistory": {
       "title": "Watermark Creation History",

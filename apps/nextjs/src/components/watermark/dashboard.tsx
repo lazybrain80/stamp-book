@@ -35,7 +35,27 @@ interface DashInfo {
     weekly_validation_count: WeeklyCount
 }
 
-export default function SecureStampDashboard() {
+interface SecureStampDashboardProps {
+  today_wm_usage_title: string
+  total_wm_usage_title: string
+  today_valid_usage_title: string
+  total_valid_usage_title: string
+  weekly_wm_usage_title: string
+  weekly_valid_usage_title: string
+  weekdays: string[]
+}
+
+export default function SecureStampDashboard(
+  {
+    today_wm_usage_title,
+    total_wm_usage_title,
+    today_valid_usage_title,
+    total_valid_usage_title,
+    weekly_wm_usage_title,
+    weekly_valid_usage_title,
+    weekdays
+  }: SecureStampDashboardProps
+) {
     const { data: session, status } = useSession()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [dashInfo, setDashInfo] = useState<null | DashInfo>(null)
@@ -97,7 +117,7 @@ export default function SecureStampDashboard() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  오늘의 워터마크 사용량
+                  {today_wm_usage_title}
                 </CardTitle>
                 <BadgePlus className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -108,7 +128,7 @@ export default function SecureStampDashboard() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  총 누적 사용량
+                  {total_wm_usage_title}
                 </CardTitle>
                 <Receipt className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -119,7 +139,7 @@ export default function SecureStampDashboard() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  오늘의 검증 사용량
+                  {today_valid_usage_title}
                 </CardTitle>
                 <BadgeCheck className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -130,7 +150,7 @@ export default function SecureStampDashboard() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  총 누적 검증량
+                  {total_valid_usage_title}
                 </CardTitle>
                 <Receipt className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -147,7 +167,7 @@ export default function SecureStampDashboard() {
             series={[{ name: "Weekly stamp count", data: weeklyStampValues }]}
             options={{
               title: {
-                text: '주간 워터마크 사용량',
+                text: weekly_wm_usage_title,
                 floating: true,
                 offsetY: -5,
                 align: 'center',
@@ -180,7 +200,7 @@ export default function SecureStampDashboard() {
                 enabled: false
               },
               xaxis: {
-                categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                categories: weekdays,
                 labels: {
                   style: {
                     fontSize: '12px',
@@ -206,7 +226,7 @@ export default function SecureStampDashboard() {
             series={[{ name: "Weeklu Validation", data: weeklyValidationValues }]}
             options={{
               title: {
-                text: '주간 워터마크 검증량',
+                text: weekly_valid_usage_title,
                 floating: true,
                 offsetY: -5,
                 align: 'center',
@@ -240,7 +260,7 @@ export default function SecureStampDashboard() {
                 enabled: false
               },
               xaxis: {
-                categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                categories: weekdays,
                 labels: {
                   style: {
                     fontSize: '12px',
