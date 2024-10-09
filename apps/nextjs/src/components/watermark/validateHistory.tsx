@@ -35,8 +35,16 @@ interface ImageHistory {
     createdAt: string
 }
 
+interface ValidationHistoryProps {
+    lang: string
+}
 
-export default function ValidationHistory() {
+
+export default function ValidationHistory(
+    {
+        lang
+    }: ValidationHistoryProps
+) {
     const { data: session, status } = useSession()
     const [textHistory, setTextHistory] = useState<TextHistory[]>([])
     const [imageHistory, setImageHistory] = useState<ImageHistory[]>([])
@@ -215,7 +223,7 @@ export default function ValidationHistory() {
                                                 }
                                             </TableCell>
                                             <TableCell>
-                                                {formatDate(new Date(h.createdAt))}
+                                                {formatDate(lang ,new Date(h.createdAt))}
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -277,7 +285,7 @@ export default function ValidationHistory() {
                                                     <img src={h.watermark} className="w-16 h-16" />
                                                 </TableCell>
                                                 <TableCell>
-                                                    {formatDate(new Date(h.createdAt))}
+                                                    {formatDate(lang, new Date(h.createdAt))}
                                                 </TableCell>
                                             </TableRow>
                                         ))}

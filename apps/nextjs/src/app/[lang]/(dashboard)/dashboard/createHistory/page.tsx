@@ -28,7 +28,9 @@ export default async function CreationHistoryPage({
         text={dict.watermark.createHistory.desc}
       />
       <div className="grid gap-10">
-        <CreationHistory />
+        <CreationHistory
+          lang={lang}
+        />
       </div>
     </DashboardShell>
   );

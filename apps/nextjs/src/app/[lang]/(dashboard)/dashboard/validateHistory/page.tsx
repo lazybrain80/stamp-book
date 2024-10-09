@@ -27,7 +27,9 @@ export default async function ValidationHistoryPage({
         text={dict.watermark.validateHistory.desc}
       />
       <div className="grid gap-10">
-        <ValidationHistory />
+        <ValidationHistory
+          lang={lang}
+        />
       </div>
     </DashboardShell>
   );

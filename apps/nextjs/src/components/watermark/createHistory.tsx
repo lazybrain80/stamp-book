@@ -20,7 +20,7 @@ import { wmAPI } from "~/utils/watermark-api";
 import LoadingOverlay from "~/components/loading-overlay";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import ImageDisplay from "./imageDisplay"
-import { WM_TEXT, WM_IMAGE } from "./common";
+import { formatDate, WM_TEXT, WM_IMAGE } from "./common";
 
 interface TextHistory {
     _id: string
@@ -40,8 +40,13 @@ interface ImageHistory {
     createdAt: string
 }
 
+interface CreationHistoryProps {
+    lang: string
+}
 
-export default function CreationHistory() {
+export default function CreationHistory(
+    { lang }: CreationHistoryProps
+) {
     const { data: session, status } = useSession()
     const [textHistory, setTextHistory] = useState<TextHistory[]>([])
     const [imageHistory, setImageHistory] = useState<ImageHistory[]>([])
@@ -219,7 +224,7 @@ export default function CreationHistory() {
                                                     imageUrl={h.url}
                                                 />
                                             </TableCell>
-                                            <TableCell>{h.createdAt}</TableCell>
+                                            <TableCell>{formatDate(lang, new Date(h.createdAt))}</TableCell>
                                         </TableRow>
                                     ))}
                                     <TableFooter>
@@ -289,7 +294,7 @@ export default function CreationHistory() {
                                                     imageUrl={h.watermark_url}
                                                 />
                                             </TableCell>
-                                            <TableCell>{h.createdAt}</TableCell>
+                                            <TableCell>{formatDate(lang, new Date(h.createdAt))}</TableCell>
                                         </TableRow>
                                     ))}
                                     <TableFooter>
