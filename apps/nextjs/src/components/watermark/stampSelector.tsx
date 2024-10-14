@@ -29,15 +29,20 @@ import { Checkbox } from "@saasfly/ui/checkbox"
 
 interface StampInfo{
     _id: string
+    watermark: string
     watermark_url: string
     createdAt: string
 }
 
 interface StampSelectorProps {
+    lang: string
+    type: string
     onSelect: (stampid: string, url: string) => void
 }
 
 export default function StampSelector({
+    lang,
+    type,
     onSelect
 }: StampSelectorProps) {
     const { data: session, status } = useSession()
@@ -53,12 +58,18 @@ export default function StampSelector({
         } else if (status === 'unauthenticated') {
             signIn();
         } else if (status === 'authenticated') {
-            loadStamps(1);
+            
         }
     }, [status])
 
-    const openDialog = () => setIsOpen(true);
-    const closeDialog = () => setIsOpen(false);
+    const openDialog = () => {
+        setIsOpen(true)
+        loadStamps(1)
+    }
+    const closeDialog = () => {
+        setIsOpen(false)
+        setStamps([])
+    }
 
     const loadStamps = async (page: number) => {
         try {
@@ -68,6 +79,7 @@ export default function StampSelector({
             {
                 params: {
                     page: page,
+                    tipo: type,
                 },
                 headers: {
                     'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,
@@ -194,14 +206,20 @@ export default function StampSelector({
                                 </TableCell>
                                 <TableCell>{s._id}</TableCell>
                                 <TableCell>
-                                    <img
+                                    {type === "image"
+                                    ?(<img
                                         className="w-16 h-16 object-cover"
                                         src={s.watermark_url}
                                         alt="Image"
-                                    />
+                                    />)
+                                    :(<>
+                                        {s.watermark}
+                                    </>)
+                                    }
+                                    
                                 </TableCell>
                                 <TableCell>
-                                    {formatDate(new Date(s.createdAt))}
+                                    {formatDate(lang, new Date(s.createdAt))}
                                 </TableCell>
                             </TableRow>
                         ))}

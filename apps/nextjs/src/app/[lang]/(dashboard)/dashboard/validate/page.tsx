@@ -34,6 +34,7 @@ export default async function DashboardPage({
         </DashboardHeader>
         <div className="flex justify-center mt-5">
           <ValidateWatermark
+            lang={lang}
             dragndrop_title={dict.common.dragndrop.title}
             dragndrop_desc={dict.common.dragndrop.desc}
             dragndrop_warn={dict.common.dragndrop.waring}

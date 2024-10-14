@@ -20,6 +20,7 @@ import { WM_IMAGE, WM_TEXT } from "./common"
 import ImageDisplay from "./imageDisplay"
 
 interface ValidateWatermarkProps {
+    lang: string
     dragndrop_title: string
     dragndrop_desc: string
     dragndrop_warn: string
@@ -40,6 +41,7 @@ interface ValidImageResult {
 
 export default function ValidateWatermark(
     {
+        lang,
         dragndrop_title,
         dragndrop_desc,
         dragndrop_warn,
@@ -121,7 +123,7 @@ export default function ValidateWatermark(
                         return
                     }
 
-                    formData.append("version", "text-basic-000")
+                    formData.append("version", "text-basic-001")
                     formData.append("watermark", validWmText)
 
                     const res = await wmAPI.post(url + '/testo', formData, {
@@ -216,6 +218,24 @@ export default function ValidateWatermark(
                                     value={validWmText}
                                     onChange={hInputChange}
                                 />
+                                {stampId == ""
+                                    ?<StampSelector
+                                        lang={lang}
+                                        type="text"
+                                        onSelect={stampSelect}
+                                        />
+                                    :(
+                                        <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                                            <span className="text-sm text-white-500">
+                                                Selected Stamp:
+                                            </span>
+                                            <span className="text-sm text-gray-500">
+                                                {stampId}
+                                            </span>
+                                            <img src={stampUrl} className="w-8 h-8 object-cover"/>
+                                        </div>
+                                    )
+                                }
                             </div>
                             <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                                 <span className="text-sm text-gray-500">
@@ -236,7 +256,11 @@ export default function ValidateWatermark(
                         </TabsContent>
                         <TabsContent value={WM_IMAGE}>
                             {stampId == ""
-                                ?<StampSelector onSelect={stampSelect}/>
+                                ?<StampSelector
+                                    lang={lang}
+                                    type="image"
+                                    onSelect={stampSelect}
+                                    />
                                 :(
                                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                                         <span className="text-sm text-white-500">
