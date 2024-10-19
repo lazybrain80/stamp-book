@@ -114,7 +114,7 @@ export default function ValidateWatermark(
             try {
                 if (watermarkType === WM_TEXT) {
 
-                    if (validWmText === '') {
+                    if (validWmText === '' || stampId === '') {
                         toast({
                             title: "error",
                             description: "Please input your watermark text.",
@@ -124,7 +124,8 @@ export default function ValidateWatermark(
                     }
 
                     formData.append("version", "text-basic-001")
-                    formData.append("watermark", validWmText)
+                    formData.append("watermark", stampId)
+                    formData.append("userinput", validWmText)
 
                     const res = await wmAPI.post(url + '/testo', formData, {
                         headers,
@@ -218,25 +219,24 @@ export default function ValidateWatermark(
                                     value={validWmText}
                                     onChange={hInputChange}
                                 />
-                                {stampId == ""
-                                    ?<StampSelector
-                                        lang={lang}
-                                        type="text"
-                                        onSelect={stampSelect}
-                                        />
-                                    :(
-                                        <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
-                                            <span className="text-sm text-white-500">
-                                                Selected Stamp:
-                                            </span>
-                                            <span className="text-sm text-gray-500">
-                                                {stampId}
-                                            </span>
-                                            <img src={stampUrl} className="w-8 h-8 object-cover"/>
-                                        </div>
-                                    )
-                                }
                             </div>
+                            {stampId == ""
+                                ?<StampSelector
+                                    lang={lang}
+                                    type="text"
+                                    onSelect={stampSelect}
+                                    />
+                                :(
+                                    <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
+                                        <span className="text-sm text-white-500">
+                                            Selected Stamp:
+                                        </span>
+                                        <span className="text-sm text-gray-500">
+                                            {stampId}
+                                        </span>
+                                    </div>
+                                )
+                            }
                             <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                                 <span className="text-sm text-gray-500">
                                     {input_wm_warning}

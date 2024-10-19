@@ -25,9 +25,16 @@ export default function ImageDisplay({
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>
-                    <Icons.Image />
-                </Button>
+                <div className="relative inline-block cursor-pointer">
+                    <Button>
+                        <Icons.Image />
+                    </Button>
+                    <img
+                        src={imageUrl}
+                        alt="Preview"
+                        className="absolute top-0 left-0 w-16 h-10 object-cover rounded-full border-2 border-white shadow-lg"
+                    />
+                </div>
             </DialogTrigger>
             <DialogContent
                 className="w-full max-w-4xl max-h-screen p-4"
