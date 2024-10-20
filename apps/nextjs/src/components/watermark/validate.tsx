@@ -311,6 +311,7 @@ export default function ValidateWatermark(
                             <p>추출이 완료 되었습니다.</p>
                             <ImageDisplay
                                 imageUrl={validWmImg}
+                                previewUrl={validWmImg}
                             />
                         </div>
                     )}

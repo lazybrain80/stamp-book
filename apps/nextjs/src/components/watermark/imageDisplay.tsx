@@ -16,10 +16,12 @@ import { ImageDownload } from "./common";
 
 interface ImageDisplayProps {
     imageUrl: string
+    previewUrl: string
 }
 
 export default function ImageDisplay({
     imageUrl,
+    previewUrl
 }: ImageDisplayProps) {
 
     return (
@@ -30,7 +32,7 @@ export default function ImageDisplay({
                         <Icons.Image />
                     </Button>
                     <img
-                        src={imageUrl}
+                        src={previewUrl}
                         alt="Preview"
                         className="absolute top-0 left-0 w-16 h-10 object-cover rounded-full border-2 border-white shadow-lg"
                     />

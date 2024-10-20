@@ -27,6 +27,7 @@ interface TextHistory {
     email: string
     type: string
     url: string
+    preview_url: string
     watermark: string
     createdAt: string
 }
@@ -36,7 +37,9 @@ interface ImageHistory {
     email: string
     type: string
     url: string
+    preview_url: string
     watermark_url: string
+    watermark_preview_url: string
     createdAt: string
 }
 
@@ -222,6 +225,7 @@ export default function CreationHistory(
                                             <TableCell className="text-center">
                                                 <ImageDisplay
                                                     imageUrl={h.url}
+                                                    previewUrl={h.preview_url}
                                                 />
                                             </TableCell>
                                             <TableCell>{formatDate(lang, new Date(h.createdAt))}</TableCell>
@@ -287,11 +291,13 @@ export default function CreationHistory(
                                             <TableCell className="text-center">
                                                 <ImageDisplay
                                                     imageUrl={h.url}
+                                                    previewUrl={h.preview_url}
                                                 />
                                             </TableCell>
                                             <TableCell className="text-center">
                                                 <ImageDisplay
                                                     imageUrl={h.watermark_url}
+                                                    previewUrl={h.watermark_preview_url}
                                                 />
                                             </TableCell>
                                             <TableCell>{formatDate(lang, new Date(h.createdAt))}</TableCell>
