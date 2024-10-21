@@ -31,7 +31,8 @@ interface ValidateWatermarkProps {
 }
 
 interface ValidTextResult {
-    wm_validation: boolean
+    wm_validation: boolean,
+    extracted_watermark: string
 }
 
 interface ValidImageResult {
@@ -59,6 +60,7 @@ export default function ValidateWatermark(
     const [validWmImg, setValidWmImg] = useState<null | string>(null)
 
     const [isValidate, setIsValidate] = useState(false)
+    const [extractedWatermark, setExtractedWatermark] = useState<string>('')
     const [showTextValid, setShowTextValid] = useState(false)
     const [showImageValid, setShowImageValid] = useState(false)
     const [stampId, setStampId] = useState<string>('')
@@ -91,6 +93,7 @@ export default function ValidateWatermark(
             setShowTextValid(false)
             setShowImageValid(false)
             setIsValidate(false)
+            setExtractedWatermark('')
 
             if (wmImg === null) {
                 toast({
@@ -133,6 +136,7 @@ export default function ValidateWatermark(
                     const validResult: ValidTextResult = (res as { data: ValidTextResult }).data
                     setShowTextValid(true)
                     setIsValidate(validResult.wm_validation)
+                    setExtractedWatermark(validResult.extracted_watermark)
 
                 } else {
                     formData.append("version", "image-basic-000")
@@ -295,10 +299,12 @@ export default function ValidateWatermark(
                         ?(<div className="flex items-center space-x-2">
                             <Icons.Smile className="w-6 h-6 text-green-500"/>
                             <span>{correct_wm}</span>
+                            <span>({extractedWatermark})</span>
                         </div>)
                         :(<div className="flex items-center space-x-2">
                             <Icons.Frown className="w-6 h-6 text-red-500"/>
                             <span>{incorrect_wm}</span>
+                            <span>({extractedWatermark})</span>
                         </div>)
                     }
                 </div>)
