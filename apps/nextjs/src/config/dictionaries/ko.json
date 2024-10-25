@@ -103,7 +103,6 @@
     "dashboard": {
       "title": "대시보드",
       "desc": "워터마크 대시보드",
-      "today_watermark_usage": "오늘의 워터마크 사용량",
       "total_watermark_usage": "총 워터마크 사용량",
       "today_validate_usage": "오늘의 검증 사용량",
       "total_validate_usage": "총 누적 검증 사용량",

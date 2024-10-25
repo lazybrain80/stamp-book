@@ -102,7 +102,6 @@
     "dashboard": {
       "title": "Dashboard",
       "desc": "Watermark dashboard",
-      "today_watermark_usage": "Today's Watermark Usage",
       "total_watermark_usage": "Total Watermark Usage",
       "today_validate_usage": "Today's Validate Usage",
       "total_validate_usage": "Total Validate Usage",

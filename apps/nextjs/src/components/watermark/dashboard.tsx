@@ -5,7 +5,6 @@ import { useSession, signIn } from "next-auth/react"
 import { useState, useEffect } from "react"
 import { toast } from "@saasfly/ui/use-toast"
 import {
-  BadgePlus,
   BadgeCheck,
   Receipt,
 } from "lucide-react";
@@ -27,7 +26,6 @@ interface WeeklyCount {
 }
 
 interface DashInfo {
-    daily_stamp_count: number
     daily_validation_count: number
     total_stamp_count: number
     total_validation_count: number
@@ -36,7 +34,6 @@ interface DashInfo {
 }
 
 interface SecureStampDashboardProps {
-  today_wm_usage_title: string
   total_wm_usage_title: string
   today_valid_usage_title: string
   total_valid_usage_title: string
@@ -47,7 +44,6 @@ interface SecureStampDashboardProps {
 
 export default function SecureStampDashboard(
   {
-    today_wm_usage_title,
     total_wm_usage_title,
     today_valid_usage_title,
     total_valid_usage_title,
@@ -99,7 +95,7 @@ export default function SecureStampDashboard(
       setIsLoading(false)
     }
 
-    const { daily_stamp_count,
+    const {
       daily_validation_count,
       total_stamp_count,
       total_validation_count,
@@ -113,18 +109,7 @@ export default function SecureStampDashboard(
     return(
         <div className="w-full h-4/5">
           <LoadingOverlay isLoading={isLoading} />
-          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {today_wm_usage_title}
-                </CardTitle>
-                <BadgePlus className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{daily_stamp_count} / 10</div>
-              </CardContent>
-            </Card>
+          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">

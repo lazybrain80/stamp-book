@@ -34,7 +34,6 @@ export default async function DashboardPage({
         </DashboardHeader>
         <div className="flex justify-center mt-5">
           <SecureStampDashboard
-            today_wm_usage_title={dict.watermark.dashboard.today_watermark_usage}
             total_wm_usage_title={dict.watermark.dashboard.total_watermark_usage}
             today_valid_usage_title={dict.watermark.dashboard.today_validate_usage}
             total_valid_usage_title={dict.watermark.dashboard.total_validate_usage}
