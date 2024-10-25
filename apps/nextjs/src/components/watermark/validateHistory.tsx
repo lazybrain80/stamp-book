@@ -7,6 +7,7 @@ import {
     TableCaption,
     TableHead,
     TableHeader,
+    TableBody,
     TableRow,
     TableFooter,
     TableCell,
@@ -208,14 +209,13 @@ export default function ValidationHistory(
                                     </TableCaption>
                                     <TableHeader>
                                         <TableRow className="hover:bg-gray-50">
-                                            <TableHead>validation</TableHead>
                                             <TableHead>matched</TableHead>
                                             <TableHead>created at</TableHead>
                                         </TableRow>
                                     </TableHeader>
+                                    <TableBody>
                                     {textHistory.map((h: TextHistory) => (
                                         <TableRow key={h._id} className="hover:bg-slate-700">
-                                            <TableCell>{h.try_watermark}</TableCell>
                                             <TableCell>
                                                 {h.matched?
                                                     <Icons.Smile className="h-6 w-6 text-green-500" />
@@ -227,6 +227,7 @@ export default function ValidationHistory(
                                             </TableCell>
                                         </TableRow>
                                     ))}
+                                    </TableBody>
                                     <TableFooter>
                                         <TableRow >
                                             <TableCell colSpan={3}>
@@ -271,24 +272,18 @@ export default function ValidationHistory(
                                         </TableCaption>
                                         <TableHeader>
                                             <TableRow className="hover:bg-gray-50">
-                                                <TableHead>from</TableHead>
-                                                <TableHead>extracted</TableHead>
                                                 <TableHead>at</TableHead>
                                             </TableRow>
                                         </TableHeader>
+                                        <TableBody>
                                         {imageHistory.map((h: ImageHistory) => (
                                             <TableRow key={h._id} className="hover:bg-slate-700">
-                                                <TableCell>
-                                                    <img src={h.target} className="w-16 h-16" />
-                                                </TableCell>
-                                                <TableCell>
-                                                    <img src={h.watermark} className="w-16 h-16" />
-                                                </TableCell>
                                                 <TableCell>
                                                     {formatDate(lang, new Date(h.createdAt))}
                                                 </TableCell>
                                             </TableRow>
                                         ))}
+                                        </TableBody>
                                         <TableFooter>
                                             <TableRow >
                                                 <TableCell colSpan={3}>

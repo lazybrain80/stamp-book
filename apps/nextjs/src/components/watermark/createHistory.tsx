@@ -7,6 +7,7 @@ import {
     TableCaption,
     TableHead,
     TableHeader,
+    TableBody,
     TableRow,
     TableFooter,
     TableCell,
@@ -218,6 +219,7 @@ export default function CreationHistory(
                                             <TableHead>created at</TableHead>
                                         </TableRow>
                                     </TableHeader>
+                                    <TableBody>
                                     {textHistory.map((h: TextHistory) => (
                                         <TableRow key={h._id} className="hover:bg-slate-700">
                                             <TableCell>{h._id}</TableCell>
@@ -231,9 +233,10 @@ export default function CreationHistory(
                                             <TableCell>{formatDate(lang, new Date(h.createdAt))}</TableCell>
                                         </TableRow>
                                     ))}
+                                    </TableBody>
                                     <TableFooter>
                                         <TableRow >
-                                            <TableCell colSpan={4}>
+                                            <TableCell colSpan={2}>
                                                 <p className="text-sm text-gray-500">
                                                     {textHistory.length} items
                                                 </p>
@@ -285,6 +288,7 @@ export default function CreationHistory(
                                             <TableHead>created at</TableHead>
                                         </TableRow>
                                     </TableHeader>
+                                    <TableBody>
                                     {imageHistory.map((h: ImageHistory) => (
                                         <TableRow key={h._id} className="hover:bg-slate-700">
                                             <TableCell>{h._id}</TableCell>
@@ -303,6 +307,7 @@ export default function CreationHistory(
                                             <TableCell>{formatDate(lang, new Date(h.createdAt))}</TableCell>
                                         </TableRow>
                                     ))}
+                                    </TableBody>
                                     <TableFooter>
                                         <TableRow >
                                             <TableCell colSpan={4}>

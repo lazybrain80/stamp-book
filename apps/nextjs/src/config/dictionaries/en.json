@@ -76,6 +76,7 @@
       "sidebar_nav_wm_v_history": "Validating History"
     },
     "watermark": {
+      "select_stamp": "Select Stamp",
       "input_wm_warning": "Allowed characters: English letters, numbers, special characters (!@#$%^&*()+=._-)"
     },
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]

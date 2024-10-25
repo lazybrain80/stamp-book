@@ -76,6 +76,7 @@
       "sidebar_nav_wm_v_history": "워터마크 검증이력"
     },
     "watermark": {
+      "select_stamp": "스탬프 선택",
       "input_wm_warning": "허용된 문자: 영어 대소문자, 숫자, 특수 문자(!@#$%^&*()+=._-)"
     },
     "weekdays": ["일", "월", "화", "수", "목", "금", "토"]

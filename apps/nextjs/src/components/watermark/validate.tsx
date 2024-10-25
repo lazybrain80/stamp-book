@@ -21,6 +21,7 @@ import ImageDisplay from "./imageDisplay"
 
 interface ValidateWatermarkProps {
     lang: string
+    select_stamp: string
     dragndrop_title: string
     dragndrop_desc: string
     dragndrop_warn: string
@@ -35,14 +36,10 @@ interface ValidTextResult {
     extracted_watermark: string
 }
 
-interface ValidImageResult {
-    watermark: File
-}
-
-
 export default function ValidateWatermark(
     {
         lang,
+        select_stamp,
         dragndrop_title,
         dragndrop_desc,
         dragndrop_warn,
@@ -225,11 +222,7 @@ export default function ValidateWatermark(
                                 />
                             </div>
                             {stampId == ""
-                                ?<StampSelector
-                                    lang={lang}
-                                    type="text"
-                                    onSelect={stampSelect}
-                                    />
+                                ?(<></>)
                                 :(
                                     <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                                         <span className="text-sm text-white-500">
@@ -241,6 +234,12 @@ export default function ValidateWatermark(
                                     </div>
                                 )
                             }
+                            <StampSelector
+                                lang={lang}
+                                btn_text={select_stamp}
+                                type="text"
+                                onSelect={stampSelect}
+                            />
                             <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
                                 <span className="text-sm text-gray-500">
                                     {input_wm_warning}
@@ -262,6 +261,7 @@ export default function ValidateWatermark(
                             {stampId == ""
                                 ?<StampSelector
                                     lang={lang}
+                                    btn_text={select_stamp}
                                     type="image"
                                     onSelect={stampSelect}
                                     />

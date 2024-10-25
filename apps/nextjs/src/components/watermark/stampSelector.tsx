@@ -17,6 +17,7 @@ import {
     TableCaption,
     TableHead,
     TableHeader,
+    TableBody,
     TableRow,
     TableCell,
 } from "@saasfly/ui/table";
@@ -31,17 +32,20 @@ interface StampInfo{
     _id: string
     watermark: string
     watermark_url: string
+    preview_url: string
     createdAt: string
 }
 
 interface StampSelectorProps {
     lang: string
+    btn_text: string
     type: string
     onSelect: (stampid: string, url: string) => void
 }
 
 export default function StampSelector({
     lang,
+    btn_text,
     type,
     onSelect
 }: StampSelectorProps) {
@@ -150,18 +154,13 @@ export default function StampSelector({
                     <Icons.Stamp
                         className="mr-2"
                     />
-                    Please select a stamp
+                    {btn_text}
                 </Button>
             </DialogTrigger>
             <DialogContent
                 className="w-full md:max-w-max"
             >
                 <DialogHeader>
-                    <DialogClose>
-                        <Button
-                            onClick={closeDialog}
-                        />
-                    </DialogClose>
                 </DialogHeader>
                 <DialogTitle>
                     Select Stamp
@@ -188,9 +187,11 @@ export default function StampSelector({
                                 <TableHead></TableHead>
                                 <TableHead>id</TableHead>
                                 <TableHead>stamp</TableHead>
+                                <TableHead>image</TableHead>
                                 <TableHead>created at</TableHead>
                             </TableRow>
                         </TableHeader>
+                        <TableBody>
                         {stamps.map((s: StampInfo, index: number) => (
                             <TableRow
                                 data-index={index + 1}
@@ -219,10 +220,18 @@ export default function StampSelector({
                                     
                                 </TableCell>
                                 <TableCell>
+                                    <img
+                                        className="w-16 h-16 object-cover"
+                                        src={s.preview_url}
+                                        alt="Image"
+                                    />
+                                </TableCell>
+                                <TableCell>
                                     {formatDate(lang, new Date(s.createdAt))}
                                 </TableCell>
                             </TableRow>
                         ))}
+                        </TableBody>
                     </Table>
                 </div>
                 <DialogFooter
