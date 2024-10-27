@@ -1,11 +1,8 @@
-const toDataURL = (url: string) => {
-    return fetch(url)
-    .then((response) => {
-        return response.blob()
-    })
-    .then((blob) => {
-        return URL.createObjectURL(blob)
-    })
+import axios from 'axios';
+
+const toDataURL = async (url: string) => {
+    const response = await axios.get(url, { responseType: 'blob' })
+    return URL.createObjectURL(response.data)
 }
 
 const extractFilename = (url: string) => {
@@ -13,10 +10,17 @@ const extractFilename = (url: string) => {
     return filename
 }
 
+const getFormatFromUrl = (url: string) => {
+    const urlObj = new URL(url);
+    return urlObj.searchParams.get('format');
+}
+
 export const ImageDownload = async (imageUrl: string) => {
     const link = document.createElement('a')
-    link.href = await toDataURL(imageUrl)
-    link.download = extractFilename(imageUrl) || ''
+    const download_url = await toDataURL(imageUrl)
+    const fileName = `${extractFilename(download_url)}.${getFormatFromUrl(imageUrl)}`
+    link.href = download_url
+    link.download = fileName
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)

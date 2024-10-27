@@ -20,14 +20,13 @@ import { toast } from "@saasfly/ui/use-toast"
 import { wmAPI } from "~/utils/watermark-api";
 import LoadingOverlay from "~/components/loading-overlay";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
-import ImageDisplay from "./imageDisplay"
+import StampImagePopUp from "./stampImagePopUp";
 import { formatDate, WM_TEXT, WM_IMAGE } from "./common";
 
 interface TextHistory {
     _id: string
     email: string
     type: string
-    url: string
     preview_url: string
     watermark: string
     createdAt: string
@@ -37,7 +36,6 @@ interface ImageHistory {
     _id: string
     email: string
     type: string
-    url: string
     preview_url: string
     watermark_url: string
     watermark_preview_url: string
@@ -225,8 +223,8 @@ export default function CreationHistory(
                                             <TableCell>{h._id}</TableCell>
                                             <TableCell>{h.watermark}</TableCell>
                                             <TableCell className="text-center">
-                                                <ImageDisplay
-                                                    imageUrl={h.url}
+                                                <StampImagePopUp
+                                                    imageId={h._id}
                                                     previewUrl={h.preview_url}
                                                 />
                                             </TableCell>
@@ -236,7 +234,7 @@ export default function CreationHistory(
                                     </TableBody>
                                     <TableFooter>
                                         <TableRow >
-                                            <TableCell colSpan={2}>
+                                            <TableCell colSpan={4}>
                                                 <p className="text-sm text-gray-500">
                                                     {textHistory.length} items
                                                 </p>
@@ -293,15 +291,16 @@ export default function CreationHistory(
                                         <TableRow key={h._id} className="hover:bg-slate-700">
                                             <TableCell>{h._id}</TableCell>
                                             <TableCell className="text-center">
-                                                <ImageDisplay
-                                                    imageUrl={h.url}
+                                                <StampImagePopUp
+                                                    imageId={h._id}
                                                     previewUrl={h.preview_url}
                                                 />
                                             </TableCell>
                                             <TableCell className="text-center">
-                                                <ImageDisplay
-                                                    imageUrl={h.watermark_url}
-                                                    previewUrl={h.watermark_preview_url}
+                                                <img
+                                                    src={h.watermark_preview_url}
+                                                    alt="Preview"
+                                                    className="absolute top-0 left-0 w-16 h-10 object-cover rounded-full border-2 border-white shadow-lg"
                                                 />
                                             </TableCell>
                                             <TableCell>{formatDate(lang, new Date(h.createdAt))}</TableCell>
