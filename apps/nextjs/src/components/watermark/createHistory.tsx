@@ -15,6 +15,7 @@ import {
 import { EmptyPlaceholder } from "~/components/empty-placeholder";
 import { Button } from "@saasfly/ui/button"
 import { Input } from "@saasfly/ui/input"
+import { Checkbox } from "@saasfly/ui/checkbox"
 import * as Icons from "@saasfly/ui/icons"
 import { toast } from "@saasfly/ui/use-toast"
 import { wmAPI } from "~/utils/watermark-api";
@@ -56,6 +57,7 @@ export default function CreationHistory(
     const [filter, setFilter] = useState("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [watermarkType, setWatermarkType] = useState<typeof WM_TEXT | typeof WM_IMAGE>(WM_TEXT)
+    const [selectedTxtRow, setSelectedTxtRow] = useState<boolean[]>([])
 
     // fetch history
     useEffect(() => {
@@ -93,6 +95,7 @@ export default function CreationHistory(
                 return
             }
             setTextHistory([...textHistory, ...data])
+            setSelectedTxtRow([...selectedTxtRow, ...Array(data.length).fill(false) ])
         } catch (error) {
             toast({
                 title: "error",
@@ -165,6 +168,16 @@ export default function CreationHistory(
         setWatermarkType(value as typeof WM_TEXT | typeof WM_IMAGE)
     }
 
+    const selectRow = (event: React.MouseEvent<HTMLTableRowElement>) => {
+        const selectedRow = event.currentTarget
+        const rowIndex = selectedRow.getAttribute('data-index')
+        if (rowIndex !== null) {
+            const index = parseInt(rowIndex, 10)
+            selectedTxtRow[index] = !selectedTxtRow[index]
+            setSelectedTxtRow([...selectedTxtRow])
+        }
+    }
+
     return (
         <div>
             <LoadingOverlay isLoading={isLoading} />
@@ -211,6 +224,7 @@ export default function CreationHistory(
                                     </TableCaption>
                                     <TableHeader>
                                         <TableRow className="hover:bg-gray-50">
+                                            <TableHead></TableHead>
                                             <TableHead>id</TableHead>
                                             <TableHead>embedded text</TableHead>
                                             <TableHead className="text-center">watermark image</TableHead>
@@ -218,8 +232,19 @@ export default function CreationHistory(
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                    {textHistory.map((h: TextHistory) => (
-                                        <TableRow key={h._id} className="hover:bg-slate-700">
+                                    {textHistory.map((h: TextHistory, index: number) => (
+                                        <TableRow
+                                            data-index={index}
+                                            key={h._id}
+                                            className="hover:bg-slate-700"
+                                            onClick={selectRow}
+                                            data-state={selectedTxtRow[index] === true ? "selected" : ""}
+                                        >
+                                            <TableCell>
+                                                <Checkbox
+                                                    checked={selectedTxtRow[index] === true}
+                                                />
+                                            </TableCell>
                                             <TableCell>{h._id}</TableCell>
                                             <TableCell>{h.watermark}</TableCell>
                                             <TableCell className="text-center">
