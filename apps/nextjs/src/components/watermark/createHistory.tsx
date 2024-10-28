@@ -22,6 +22,7 @@ import LoadingOverlay from "~/components/loading-overlay";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@saasfly/ui/tabs"
 import StampImagePopUp from "./stampImagePopUp";
 import { formatDate, WM_TEXT, WM_IMAGE } from "./common";
+import RemoveStampedImage from "./removeStampedImage";
 
 interface TextHistory {
     _id: string
@@ -165,6 +166,26 @@ export default function CreationHistory(
         setWatermarkType(value as typeof WM_TEXT | typeof WM_IMAGE)
     }
 
+    const reloadTxtHistory = async (removed_id: string) => {
+        const updatedTextHistory = textHistory.reduce((acc: TextHistory[], h: TextHistory) => {
+            if (h._id !== removed_id) {
+                acc.push(h)
+            }
+            return acc
+        }, []);
+        setTextHistory(updatedTextHistory);
+    }
+
+    const reloadImgHistory = async (removed_id: string) => {
+        const updatedImgHistory = imageHistory.reduce((acc: ImageHistory[], h: ImageHistory) => {
+            if (h._id !== removed_id) {
+                acc.push(h)
+            }
+            return acc
+        }, []);
+        setImageHistory(updatedImgHistory);
+    }
+
     return (
         <div>
             <LoadingOverlay isLoading={isLoading} />
@@ -215,6 +236,7 @@ export default function CreationHistory(
                                             <TableHead>embedded text</TableHead>
                                             <TableHead className="text-center">watermark image</TableHead>
                                             <TableHead>created at</TableHead>
+                                            <TableHead/>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -229,12 +251,19 @@ export default function CreationHistory(
                                                 />
                                             </TableCell>
                                             <TableCell>{formatDate(lang, new Date(h.createdAt))}</TableCell>
+                                            <TableCell>
+                                                <RemoveStampedImage
+                                                    imageType="text"
+                                                    imageId={h._id}
+                                                    reload={reloadTxtHistory}
+                                                />
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                     </TableBody>
                                     <TableFooter>
                                         <TableRow >
-                                            <TableCell colSpan={4}>
+                                            <TableCell colSpan={5}>
                                                 <p className="text-sm text-gray-500">
                                                     {textHistory.length} items
                                                 </p>
@@ -284,6 +313,7 @@ export default function CreationHistory(
                                                 watermark
                                             </TableHead>
                                             <TableHead>created at</TableHead>
+                                            <TableHead/>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -304,12 +334,19 @@ export default function CreationHistory(
                                                 />
                                             </TableCell>
                                             <TableCell>{formatDate(lang, new Date(h.createdAt))}</TableCell>
+                                            <TableCell>
+                                                <RemoveStampedImage
+                                                    imageType="image"
+                                                    imageId={h._id}
+                                                    reload={reloadImgHistory}
+                                                />
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                     </TableBody>
                                     <TableFooter>
                                         <TableRow >
-                                            <TableCell colSpan={4}>
+                                            <TableCell colSpan={5}>
                                                 <p className="text-sm text-gray-500">
                                                     {imageHistory.length} items
                                                 </p>
