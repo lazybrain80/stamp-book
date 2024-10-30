@@ -26,6 +26,7 @@ interface WeeklyCount {
 }
 
 interface DashInfo {
+    max_creation: number
     daily_validation_count: number
     total_stamp_count: number
     total_validation_count: number
@@ -96,6 +97,7 @@ export default function SecureStampDashboard(
     }
 
     const {
+      max_creation,
       daily_validation_count,
       total_stamp_count,
       total_validation_count,
@@ -118,7 +120,7 @@ export default function SecureStampDashboard(
                 <Receipt className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{total_stamp_count}</div>
+                <div className="text-2xl font-bold">{total_stamp_count} / {max_creation}</div>
               </CardContent>
             </Card>
             <Card>
