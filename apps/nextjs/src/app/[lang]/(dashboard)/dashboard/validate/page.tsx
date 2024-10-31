@@ -40,7 +40,6 @@ export default async function DashboardPage({
             dragndrop_desc={dict.common.dragndrop.desc}
             dragndrop_warn={dict.common.dragndrop.waring}
             submit={dict.watermark.validating.submit}
-            input_wm_warning={dict.common.watermark.input_wm_warning}
             correct_wm={dict.watermark.validating.correct_wm}
             incorrect_wm={dict.watermark.validating.incorrect_wm}
           />

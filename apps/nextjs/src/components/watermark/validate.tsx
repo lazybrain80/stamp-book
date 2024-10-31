@@ -26,13 +26,11 @@ interface ValidateWatermarkProps {
     dragndrop_desc: string
     dragndrop_warn: string
     submit: string
-    input_wm_warning: string
     correct_wm: string
     incorrect_wm: string
 }
 
 interface ValidTextResult {
-    wm_validation: boolean,
     extracted_watermark: string
 }
 
@@ -44,7 +42,6 @@ export default function ValidateWatermark(
         dragndrop_desc,
         dragndrop_warn,
         submit,
-        input_wm_warning,
         correct_wm,
         incorrect_wm
     }: ValidateWatermarkProps
@@ -53,7 +50,6 @@ export default function ValidateWatermark(
     const [watermarkType, setWatermarkType] = useState<typeof WM_TEXT | typeof WM_IMAGE>(WM_TEXT)
 
     const [wmImg, setWmImg] = useState<null | File>(null)
-    const [validWmText, setValidWmText] = useState('')
     const [validWmImg, setValidWmImg] = useState<null | string>(null)
 
     const [isValidate, setIsValidate] = useState(false)
@@ -114,10 +110,10 @@ export default function ValidateWatermark(
             try {
                 if (watermarkType === WM_TEXT) {
 
-                    if (validWmText === '' || stampId === '') {
+                    if (stampId === '') {
                         toast({
                             title: "error",
-                            description: "Please input your watermark text.",
+                            description: "Please select your watermark stamp.",
                         })
                         setIsLoading(false)
                         return
@@ -125,14 +121,12 @@ export default function ValidateWatermark(
 
                     formData.append("version", "text-basic-001")
                     formData.append("watermark", stampId)
-                    formData.append("userinput", validWmText)
 
                     const res = await wmAPI.post(url + '/testo', formData, {
                         headers,
                     })
                     const validResult: ValidTextResult = (res as { data: ValidTextResult }).data
                     setShowTextValid(true)
-                    setIsValidate(validResult.wm_validation)
                     setExtractedWatermark(validResult.extracted_watermark)
 
                 } else {
@@ -168,13 +162,7 @@ export default function ValidateWatermark(
         }
         setIsLoading(false)
     }
-    const hInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-        const regex = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]*$/ // 허용할 문자들
-        if (regex.test(value) || value === '') {
-            setValidWmText(value)
-        }
-    }
+    
     const hTabChange = (value: string) => {
         setWatermarkType(value as typeof WM_TEXT | typeof WM_IMAGE)
         setStampId('')
@@ -212,15 +200,6 @@ export default function ValidateWatermark(
                             <TabsTrigger value={WM_IMAGE}>Image Watermark</TabsTrigger>
                         </TabsList>
                         <TabsContent value={WM_TEXT}>
-                            <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
-                                <Input
-                                    className="w-6/12"
-                                    placeholder="Please input your watermark Text"
-                                    maxLength={100}
-                                    value={validWmText}
-                                    onChange={hInputChange}
-                                />
-                            </div>
                             {stampId == ""
                                 ?(<></>)
                                 :(
@@ -240,11 +219,6 @@ export default function ValidateWatermark(
                                 type="text"
                                 onSelect={stampSelect}
                             />
-                            <div className="flex flex-row items-center w-11/12 space-x-4 mt-5">
-                                <span className="text-sm text-gray-500">
-                                    {input_wm_warning}
-                                </span>
-                            </div>
                             <Button
                                 variant="secondary"
                                 className="rounded-full w-full mt-4"
@@ -295,18 +269,7 @@ export default function ValidateWatermark(
             :<></>}
             {showTextValid && (watermarkType === WM_TEXT)
                 ?(<div className="mt-4">
-                    {isValidate
-                        ?(<div className="flex items-center space-x-2">
-                            <Icons.Smile className="w-6 h-6 text-green-500"/>
-                            <span>{correct_wm}</span>
-                            <span>({extractedWatermark})</span>
-                        </div>)
-                        :(<div className="flex items-center space-x-2">
-                            <Icons.Frown className="w-6 h-6 text-red-500"/>
-                            <span>{incorrect_wm}</span>
-                            <span>({extractedWatermark})</span>
-                        </div>)
-                    }
+                    <span>Extracted : {extractedWatermark}</span>
                 </div>)
                 :<></>
             }
