@@ -79,7 +79,7 @@ export default function StampSelector({
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await wmAPI.get("/v1/filigrana/corda/timbro",
+            const res = await wmAPI.get("/filigrana/corda/timbro",
             {
                 params: {
                     page: page,

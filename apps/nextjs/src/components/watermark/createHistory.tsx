@@ -74,7 +74,7 @@ export default function CreationHistory(
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await wmAPI.get("/v1/filigrana/storia/testo",
+            const res = await wmAPI.get("/filigrana/storia/testo",
             {
                 params: {
                     page: page,
@@ -107,7 +107,7 @@ export default function CreationHistory(
         try {
             setIsLoading(true)
             const account = session?.user.account
-            const res = await wmAPI.get("/v1/filigrana/storia/immagine",
+            const res = await wmAPI.get("/filigrana/storia/immagine",
             {
                 params: {
                     page: page,

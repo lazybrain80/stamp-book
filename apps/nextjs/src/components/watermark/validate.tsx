@@ -97,7 +97,7 @@ export default function ValidateWatermark(
                 return
             }
 
-            let url = '/v1/filigrana/corda'
+            let url = '/filigrana/corda'
             const formData = new FormData()
             formData.append("file", wmImg)
 

@@ -35,7 +35,7 @@ export default function StampImagePopUp({
 
     const createDownloadUrl = async () => {
         const account = session?.user.account
-        const res = await wmAPI.get("/v1/filigrana/corda/scaricare_url",
+        const res = await wmAPI.get("/filigrana/corda/scaricare_url",
         {
             params: {
                 image_id: imageId,

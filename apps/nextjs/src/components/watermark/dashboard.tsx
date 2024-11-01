@@ -71,7 +71,7 @@ export default function SecureStampDashboard(
         try {
           setIsLoading(true)
           const account = session?.user.account
-          const res = await wmAPI.get("/v1/filigrana/cruscotto",
+          const res = await wmAPI.get("/filigrana/cruscotto",
           {
               headers: {
                   'Authorization': `${account?.provider}:Bearer:${account?.id_token}`,

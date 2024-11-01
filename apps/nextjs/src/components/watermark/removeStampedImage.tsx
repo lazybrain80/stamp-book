@@ -41,7 +41,7 @@ export default function RemoveStampedImage({
     const requestRemoveImage = async () => {
         try {
             const account = session?.user.account
-            await wmAPI.delete("/v1/filigrana",
+            await wmAPI.delete("/filigrana",
             {
                 params: {
                     image_type: imageType,
