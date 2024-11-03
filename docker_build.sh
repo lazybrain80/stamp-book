@@ -1,0 +1,1 @@
+docker build -t stamp-book:1.0 .

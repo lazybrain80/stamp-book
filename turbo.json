@@ -27,6 +27,10 @@
     },
     "clean": {
       "cache": false
+    },
+    "start": {
+      "cache": true,
+      "persistent": true
     }
   }
 }
