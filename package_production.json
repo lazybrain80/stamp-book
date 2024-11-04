@@ -1,0 +1,13 @@
+{
+  "name": "stamp-production",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "bun with-env next start",
+    "with-env": "dotenv -e .env.${NODE_ENV} --"
+  },
+  "dependencies": {
+    "dotenv-cli": "7.3.0",
+    "next": "14.2.5"
+  }
+}
