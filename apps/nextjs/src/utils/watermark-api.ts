@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // 기본 DNS 설정
-const defaultDNS = 'http://127.0.0.1:8888/stamp-api/v1';
+const defaultDNS = 'https://seal.secure-stamp.club/stamp-api/v1';
 
 // axios 인스턴스 생성
 const axiosInstance = axios.create({
