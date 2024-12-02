@@ -33,14 +33,6 @@ declare module "next-auth" {
   }
 }
 
-const GOOGLE_AUTHORIZATION_URL =
-  'https://accounts.google.com/o/oauth2/v2/auth?' +
-  new URLSearchParams({
-    prompt: 'consent',
-    access_type: 'offline',
-    response_type: 'code'
-  })
-
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -54,8 +46,7 @@ export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-      authorization: GOOGLE_AUTHORIZATION_URL
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? ""
     })
   ],
   callbacks: {
